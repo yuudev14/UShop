@@ -3,7 +3,8 @@ import React from 'react'
 const Nav1 = () => {
     const socialMedia = [
         'facebook',
-        'twitter'
+        'twitter',
+        'instagram'
     ]
 
     const nav = [
@@ -18,9 +19,9 @@ const Nav1 = () => {
     return (
         <div className='nav1'>
             <ul>
-                <p>follow us on</p>
+                <p>follow us on:</p>
                 {socialMedia.map(social => (
-                    <li>{social}</li>
+                    <li><i className={ `fa fa-${social}`}></i></li>
                 ))}
                 
             </ul>

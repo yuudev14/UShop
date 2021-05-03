@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../styles/nav.scss'
+import '../../styles/nav/nav.scss'
 import Nav1 from './nav1'
 import Nav2 from './nav2'
 

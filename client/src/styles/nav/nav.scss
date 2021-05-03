@@ -1,5 +1,6 @@
 @import 'nav1';
 @import 'nav2';
+@import '../variables.scss';
 
 header{
     width: 100%;
@@ -7,7 +8,7 @@ header{
     position: fixed;
     top: 0;
     left: 0;
-    background-color: red;
+    background-color: $primary;
     nav{
         width: 100%;
         max-width: 1080px;

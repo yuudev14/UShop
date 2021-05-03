@@ -8,6 +8,7 @@ const Nav2 = () => {
             <form>
                 <label>
                     <input type='search' />
+                    <i className='fa fa-search'></i>
                 </label>
             </form>
             <i class="fa fa-shopping-cart"></i>

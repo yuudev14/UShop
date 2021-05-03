@@ -1,0 +1,28 @@
+@import '../variables.scss';
+@mixin nav1{
+    .nav1{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        color: $quarternary;
+        ul{
+            display: flex;
+            list-style-type: none;
+            li{
+                margin: 0 5px;
+                &:hover{
+                    color: $tertiary;
+                    cursor: pointer;
+                }
+            }
+            p{
+                margin-right: 10px;
+            }
+            p, li{
+                font-family: $secondaryFont;
+                font-size: 0.8em;
+            }
+        }
+    }
+
+}
