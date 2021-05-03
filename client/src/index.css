@@ -11,12 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+*{
+  box-sizing: border-box;
+  padding: 0;
+  text-decoration: none;
+  margin: 0;
+}
 .App{
   max-width: 1080px;
   width: 100vw;
   height: 100vh;
   margin: auto;
-  background-color: aqua;
   position: relative;
 }
