@@ -8,6 +8,10 @@
         ul{
             display: flex;
             list-style-type: none;
+            a{
+                color: $quarternary;
+
+            }
             li{
                 margin: 0 5px;
                 &:hover{

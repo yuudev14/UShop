@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Nav1 = () => {
     const socialMedia = [
@@ -7,10 +8,6 @@ const Nav1 = () => {
         'instagram'
     ]
 
-    const nav = [
-        'Sell on UShop',
-        'Categories',
-    ]
 
     const nav_offline = [
         'Register',
@@ -26,9 +23,8 @@ const Nav1 = () => {
                 
             </ul>
             <ul>
-                {nav.map(nav => (
-                    <li>{nav}</li>
-                ))}
+                <Link to='/sell-UShop'><li>Sell on UShop</li></Link>
+                <li>Categories</li>
                 {nav_offline.map(nav => (
                     <li>{nav}</li>
                 ))}

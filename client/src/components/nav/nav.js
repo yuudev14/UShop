@@ -7,7 +7,7 @@ const Nav = () => {
     
     return (
         <header>
-            <nav>
+            <nav className='main_nav'>
                 <Nav1 />
                 <Nav2 />
                 
