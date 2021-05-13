@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Nav1 = () => {
+const MainNav1 = () => {
     const socialMedia = [
         'facebook',
         'twitter',
@@ -35,4 +35,4 @@ const Nav1 = () => {
     )
 }
 
-export default Nav1
+export default MainNav1

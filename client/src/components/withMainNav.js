@@ -1,15 +1,15 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from '../../pages/home';
-import Nav from './nav';
+import Home from '../pages/home';
+import MainNav from './nav/main_nav';
 
-const WithNav = () => {
+const WithMainNav = () => {
     return (
         <Router>
-          <Nav />
+          <MainNav />
           <Route exact path='/' component={Home}/>
         </Router>
     )
 }
 
-export default WithNav
+export default WithMainNav

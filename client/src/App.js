@@ -1,5 +1,6 @@
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import WithNav from './components/nav/withNav';
+import WithMainNav from './components/withMainNav';
+import WithSellerNav from './components/withSellerNav';
 import SellUshopAuth from './pages/sellUshopAuth';
 
 const App = () =>{
@@ -8,8 +9,9 @@ const App = () =>{
     <div className="App">
         <Router>
           <Switch>
-            <Route exact path='/' component={WithNav}/>
-            <Route path='/sell-UShop' component={SellUshopAuth}/>
+            <Route path='/sell-UShop' component={WithSellerNav}/>
+            <Route path='/' component={WithMainNav}/>
+            
           </Switch>
         </Router>
 

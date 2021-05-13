@@ -1,15 +1,15 @@
 import React from 'react'
 import '../../styles/nav/nav.scss'
-import Nav1 from './nav1'
-import Nav2 from './nav2'
+import MainNav1 from './main_nav1'
+import MainNav2 from './main_nav2'
 
-const Nav = () => {
+const MainNav = () => {
     
     return (
         <header>
             <nav className='main_nav'>
-                <Nav1 />
-                <Nav2 />
+                <MainNav1 />
+                <MainNav2 />
                 
 
             </nav>
@@ -17,4 +17,4 @@ const Nav = () => {
     )
 }
 
-export default Nav
+export default MainNav

@@ -1,22 +1,139 @@
 @import '../variables.scss';
 .sellUShopAuth{
-    header{
-        .nav_sellUShopAuth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    
+    
+    .sellAuthContainer{
+        position: relative;
+        width: 800px;
+        box-shadow: 1px 1px 5px $primary;
+        min-height: 480px;
+        
+        form{
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 20px;
-            h1{
-                font-size: 2.5em;
+            position: absolute;
+            width: 50%;
+            transition: all 0.6s ease-in-out;
+            top: 0;
+            height: 100%;
+            input{
+                outline: none;
+                border-radius: 13px;
+                border: 1px solid $primary;
+                padding: 5px;
+                width: 70%;
+                margin: 5px 0;
             }
-            h1, h3{
+            h1{
                 font-family: $primaryFont;
-                cursor: pointer;
-                color: $tertiary;
-                &:hover{
-                    color: white;
-                }
+                color: $primary;
             }
         }
+        .seller_login_form{
+            left: 0;
+            z-index: 2;
+        }
+        .seller_signup_form{
+            left: 0;
+            z-index: 1;
+            opacity: 0;
+        }
+        .overlay_container{
+            position: absolute;
+            right: 0;
+            z-index: 100;
+            width: 50%;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+            overflow: hidden;
+            .overlay{
+                display: flex;
+                width: 200%;
+                height: 100%;
+                position: absolute;
+                transform: translateX(-50%);
+                background: linear-gradient(30deg, $tertiary, #fac97f);
+                transition: all 0.6s ease-in-out;
+                .overlay_div{
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 20px;
+                    text-align: center;
+                    transition: all 0.6s ease-in-out;
+                    p{
+                        font-family: $secondaryFont;
+                        color: $secondary
+
+                    }
+
+                    h1{
+                        font-family: $primaryFont;
+                        color: $secondary
+
+                    }
+
+                    button{
+                        padding: 5px 10px;
+                        margin: 10px;
+                        outline: 0;
+                        background-color: transparent;
+                        border: 2px solid $secondary;
+                        border-radius: 20px;
+                        font-family: $secondaryFont;
+                        font-size: 1em;
+                        color: $secondary;
+
+                    }
+                }
+                .login_overlay{
+                    transform: translateX(-20%);
+                }
+                .signup_overlay{
+                    transform: translateX(0);
+
+                }
+            }
+
+        }
+        
+        
+    }
+    .sellAuthContainerActive{
+        form{
+            transform: translate(100%);
+        }
+        .seller_login_form{
+            z-index: 1;
+            opacity: 0;
+        }
+        .seller_signup_form{
+            z-index: 2;
+            opacity: 1;
+        }
+
+        .overlay_container{
+            transform: translateX(-100%);
+            .overlay{
+                transform: translateX(0);
+                .login_overlay{
+                    transform: translateX(0);
+                }
+                .signup_overlay{
+                    transform: translateX(20%);
+
+                }
+            }
+            
+        }
+        
     }
 }

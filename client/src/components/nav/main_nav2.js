@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Nav2 = () => {
+const MainNav2 = () => {
     
     return (
         <div className='nav2'>
@@ -17,4 +17,4 @@ const Nav2 = () => {
     )
 }
 
-export default Nav2
+export default MainNav2
