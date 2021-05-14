@@ -10,6 +10,7 @@ const App = () =>{
         <Router>
           <Switch>
             <Route path='/sell-UShop' component={WithSellerNav}/>
+            <Router path='/sell-UShop/auth' component={WithSellerNav}/>
             <Route path='/' component={WithMainNav}/>
             
           </Switch>

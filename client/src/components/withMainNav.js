@@ -1,13 +1,17 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from '../pages/home';
+import SellUshopAuth from '../pages/sellUshopAuth';
 import MainNav from './nav/main_nav';
 
 const WithMainNav = () => {
     return (
         <Router>
           <MainNav />
-          <Route exact path='/' component={Home}/>
+          <Switch>
+            <Route exact path='/' component={Home}/>
+            
+          </Switch>
         </Router>
     )
 }
