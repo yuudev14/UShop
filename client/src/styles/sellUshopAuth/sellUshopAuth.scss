@@ -22,17 +22,40 @@
             transition: all 0.6s ease-in-out;
             top: 0;
             height: 100%;
+            .nameForm{
+                display: flex;
+                justify-content: space-between;
+                width: 70%;
+                input{
+                    width: 45%;
+                }
+            }
             input{
                 outline: none;
                 border-radius: 13px;
-                border: 1px solid $primary;
-                padding: 5px;
+                border: 1px solid $secondary;
+                padding: 10px;
                 width: 70%;
                 margin: 5px 0;
             }
+            input[type=submit]{
+                padding: 5px 10px;
+                margin: 10px;
+                outline: 0;
+                background-color: $secondary;
+                border-radius: 20px;
+                font-family: $secondaryFont;
+                font-size: 1em;
+                color: $quarternary;
+                transition: .5s;
+                &:active{
+                    padding: 5px 20px;
+                }
+                
+            }
             h1{
                 font-family: $primaryFont;
-                color: $primary;
+                color: $secondary;
             }
         }
         .seller_login_form{
@@ -71,13 +94,13 @@
                     transition: all 0.6s ease-in-out;
                     p{
                         font-family: $secondaryFont;
-                        color: $secondary
+                        color: $quarternary
 
                     }
 
                     h1{
                         font-family: $primaryFont;
-                        color: $secondary
+                        color: $quarternary
 
                     }
 
@@ -86,11 +109,15 @@
                         margin: 10px;
                         outline: 0;
                         background-color: transparent;
-                        border: 2px solid $secondary;
+                        border: 2px solid $quarternary;
                         border-radius: 20px;
                         font-family: $secondaryFont;
                         font-size: 1em;
-                        color: $secondary;
+                        color: $quarternary;
+                        transition: .5s;
+                        &:active{
+                            padding: 5px 20px;
+                        }
 
                     }
                 }
