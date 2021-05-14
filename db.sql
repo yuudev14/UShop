@@ -3,7 +3,7 @@ CREATE DATABASE UShop;
 
 CREATE EXTENSION "uuid-ossp";
 
-CREATE TABLE sellers_accounts
+CREATE TABLE seller_account
 (
     seller_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -14,6 +14,7 @@ CREATE TABLE sellers_accounts
     date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     password VARCHAR(100) NOT NULL,
     shop_category VARCHAR(100)[],
-    UNIQUE (shop_name, email),
-    CHECK (length(password) > 7)
+    CONSTRAINT unique_shopname UNIQUE (shop_name),
+    CONSTRAINT unique_email UNIQUE (email),
+    CONSTRAINT password_length CHECK (length(password) > 7)
 );

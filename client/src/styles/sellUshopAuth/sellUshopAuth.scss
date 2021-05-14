@@ -53,6 +53,9 @@
                 }
                 
             }
+            .errorInput{
+                border: 1px solid rgb(238, 100, 100);
+            }
             h1{
                 font-family: $primaryFont;
                 color: $secondary;

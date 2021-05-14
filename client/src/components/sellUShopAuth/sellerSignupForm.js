@@ -1,6 +1,13 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
+import { connect } from 'react-redux';
+import { registerSellerAction } from '../../reduxStore/actions/authAction';
 
-const SellerSignupForm = () => {
+const SellerSignupForm = (props) => {
+
+    const {
+        registerSellerDispatch
+
+    } = props;
     const [signupForm, setSignupForm] = useState({
         firstName : '',
         lastName : '',
@@ -9,6 +16,7 @@ const SellerSignupForm = () => {
         email : '',
         password : '',
         retryPassword : '',
+        shopCategory : [],
     })
 
     const setSignupFormMethod = (e) => {
@@ -18,8 +26,72 @@ const SellerSignupForm = () => {
         })
     }
 
+    const putErrorBorder = (list) => {
+        document.querySelectorAll('.seller_signup_form input').forEach(input => {
+            if(list.includes(input.name)){
+                input.classList.add('errorInput');
+            }else{
+                input.classList.remove('errorInput');
+
+            }
+        })
+    }
+
+    const checkFormErrors = () => {
+        let errors = []
+        const inputs = Object.values(signupForm).every(val => val !== '');
+        if(!inputs){
+            const errorInputs = Object.keys(signupForm).filter(key => signupForm[key] === '');
+            errors = [...errors, ...errorInputs];
+        }
+        if(signupForm.password !== signupForm.retryPassword){
+            errors = [...errors, ...['password', 'retryPassword']];
+        }
+        return errors;
+    }
+
+
+    const registerSeller = async(e) => {
+        e.preventDefault();
+        putErrorBorder(checkFormErrors());
+        if(checkFormErrors().length === 0){
+            try {
+                await registerSellerDispatch(signupForm);
+                setSignupForm({
+                    firstName : '',
+                    lastName : '',
+                    shopName : '',
+                    phoneNumber : '',
+                    email : '',
+                    password : '',
+                    retryPassword : '',
+                    shopCategory : [],
+                })
+
+                
+            } catch (error) {
+                if(error === 'unique_shopname'){
+                    putErrorBorder(['shopName']);
+
+                }else if(error === 'unique_email'){
+                    putErrorBorder(['email']);
+
+                }else if(error === 'password_length'){
+                    putErrorBorder(['password', 'retryPassword']);
+
+                };
+                
+            }
+            
+        }
+    }
+
+    useEffect(() => {
+        console.log(signupForm)
+    }, [signupForm])
+
     return (
-        <form className='seller_signup_form'>
+        <form onSubmit={registerSeller} className='seller_signup_form'>
             <h1>Sign up</h1>
             <div className='nameForm'>
                 <input 
@@ -31,7 +103,7 @@ const SellerSignupForm = () => {
                     />
                 <input 
                     type='text' 
-                    name='lasttName'
+                    name='lastName'
                     placeholder='Last Name' 
                     value={signupForm.lasttName}
                     onChange={setSignupFormMethod}/>
@@ -75,4 +147,11 @@ const SellerSignupForm = () => {
     )
 }
 
-export default SellerSignupForm
+const mapDispatchToProps = dispatch => {
+    return {
+        registerSellerDispatch : (data) => dispatch(registerSellerAction(data))
+
+    }
+}
+export default connect(null, mapDispatchToProps)
+                (SellerSignupForm)
