@@ -1,3 +1,5 @@
+import { SET_AUTH } from "../actions/types";
+
 const initState = {
     isAuth : null,
     type : null
@@ -5,6 +7,8 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
     switch(action.type){
+        case SET_AUTH:
+            return action.data
         default:
             return state;
     }

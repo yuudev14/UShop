@@ -57,16 +57,16 @@ const SellerSignupForm = (props) => {
         if(checkFormErrors().length === 0){
             try {
                 await registerSellerDispatch(signupForm);
-                setSignupForm({
-                    firstName : '',
-                    lastName : '',
-                    shopName : '',
-                    phoneNumber : '',
-                    email : '',
-                    password : '',
-                    retryPassword : '',
-                    shopCategory : [],
-                })
+                // setSignupForm({
+                //     firstName : '',
+                //     lastName : '',
+                //     shopName : '',
+                //     phoneNumber : '',
+                //     email : '',
+                //     password : '',
+                //     retryPassword : '',
+                //     shopCategory : [],
+                // })
 
                 
             } catch (error) {
@@ -85,10 +85,6 @@ const SellerSignupForm = (props) => {
             
         }
     }
-
-    useEffect(() => {
-        console.log(signupForm)
-    }, [signupForm])
 
     return (
         <form onSubmit={registerSeller} className='seller_signup_form'>

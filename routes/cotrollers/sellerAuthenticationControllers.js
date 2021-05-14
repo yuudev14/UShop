@@ -2,6 +2,10 @@ const db = require('../../db');
 const bcrypt = require('bcrypt');
 const generateToken = require('../../utils/generateToken');
 
+const verifySeller = (req, res) => {
+    res.send(true);
+}
+
 const register = async(req, res) => {
     
         const {
@@ -62,5 +66,6 @@ const register = async(req, res) => {
 }
 
 module.exports = {
-    register
+    register,
+    verifySeller
 }
