@@ -18,7 +18,7 @@ const VerifiedSellUShop = (props) => {
     }, )
     return (
         <div className='sellUShop'>
-            {auth.isAuth === false && (
+            {(auth.isAuth === false && auth.type === 'seller') && (
                 <Redirect to ='/sell-UShop/auth' />
             )}
             <Router>

@@ -20,6 +20,24 @@ export const registerSellerAction = (data) => {
     }
 }
 
+export const loginSellerAction = (data) => {
+    return async(dispatch) => {
+        try {
+            const loginRequest = await axios.post('/sellerAuth/login', data);
+            localStorage.setItem('UShop', JSON.stringify(loginRequest.data))
+            dispatch({
+                type : SET_AUTH,
+                data : {
+                    isAuth : true,
+                    type : 'seller'
+                }
+            });
+        } catch (error) {
+            throw error.response.data
+        }
+    }
+}
+
 export const verifySellerToken = () => {
     return async(dispatch) => {
         try {

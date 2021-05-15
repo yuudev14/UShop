@@ -1,12 +1,85 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../../styles/nav/sellerNav.scss';
+import { connect } from 'react-redux';
+import { loginSellerAction } from '../../reduxStore/actions/authAction';
+import { useHistory } from 'react-router-dom';
 
-const SellerLoginForm = () => {
+const SellerLoginForm = (props) => {
+
+    const {
+        loginSellerDispatch,
+
+    } = props;
+
+    const history = useHistory();
+
+    const [loginForm, setLoginForm] = useState({
+        email : '',
+        password : '',
+    })
+
+    const setLoginFormMethod = (e) => {
+        setLoginForm({
+            ...loginForm,
+            [e.target.name] : e.target.value,
+        })
+    }
+    const putErrorBorder = (list) => {
+        document.querySelectorAll('.seller_login_form input').forEach(input => {
+            if(list.includes(input.name)){
+                input.classList.add('errorInput');
+            }else{
+                input.classList.remove('errorInput');
+
+            }
+        })
+    }
+
+    const checkFormErrors = () => {
+        let errors = []
+        const inputs = Object.values(loginForm).every(val => val !== '');
+        if(!inputs){
+            const errorInputs = Object.keys(loginForm).filter(key => loginForm[key] === '');
+            errors = [...errors, ...errorInputs];
+        }
+        return errors;
+    }
+
+    const loginSeller = async(e) => {
+        e.preventDefault();
+        putErrorBorder(checkFormErrors());
+        if(!checkFormErrors.length){
+            try {
+                await loginSellerDispatch(loginForm);
+                setLoginForm({
+                    email : '',
+                    password : '',
+                });
+                history.push('/sell-UShop');
+
+                
+            } catch (error) {
+                console.log(error)
+                
+            }
+
+        }
+    }
     return (
-        <form className='seller_login_form'>
+        <form className='seller_login_form' onSubmit={loginSeller}>
             <h1>Log in</h1>
-            <input type='text' placeholder='username/email'/>
-            <input type='password' placeholder='password'/>
+            <input 
+                type='email' 
+                name='email'
+                placeholder='Email'
+                value={loginForm.email}
+                onChange={setLoginFormMethod}/>
+            <input 
+                type='password' 
+                name='password'
+                placeholder='Password'
+                value={loginForm.password}
+                onChange={setLoginFormMethod}/>
             <input type='submit' />
             or
             <div className='socials'>
@@ -17,4 +90,10 @@ const SellerLoginForm = () => {
     )
 }
 
-export default SellerLoginForm
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loginSellerDispatch : (data) => dispatch(loginSellerAction(data))
+    }
+}
+export default connect(null, mapDispatchToProps)
+                (SellerLoginForm)

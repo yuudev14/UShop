@@ -6,6 +6,46 @@ const verifySeller = (req, res) => {
     res.send(true);
 }
 
+const login = async(req, res) => {
+    const {
+        email,
+        password
+    } = req.body;
+
+    try {
+        const account = await db.query(`
+                SELECT * FROM seller_account
+                WHERE email = $1
+            `, [
+                email
+            ]
+        )
+        if(account.rowCount){
+            bcrypt.compare(password, account.rows[0].password, (err, isMatch) => {
+                if(err) throw err;
+                if(isMatch){
+                    const token = generateToken(account.rows[0].seller_id);
+                    res.send({
+                        token,
+                        account_type : 'seller'
+                    })
+                }else{
+                    res.status(404).send('Password is incorrect');
+                }
+            })
+
+        }else{
+            res.status(402).send('email does not exist');
+        }
+
+        
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 const register = async(req, res) => {
     
         const {
@@ -67,5 +107,6 @@ const register = async(req, res) => {
 
 module.exports = {
     register,
-    verifySeller
+    verifySeller,
+    login
 }

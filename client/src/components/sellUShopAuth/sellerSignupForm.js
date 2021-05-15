@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { registerSellerAction } from '../../reduxStore/actions/authAction';
+import { useHistory } from 'react-router-dom';
 
 const SellerSignupForm = (props) => {
 
@@ -8,6 +9,8 @@ const SellerSignupForm = (props) => {
         registerSellerDispatch
 
     } = props;
+    const history = useHistory();
+
     const [signupForm, setSignupForm] = useState({
         firstName : '',
         lastName : '',
@@ -57,16 +60,17 @@ const SellerSignupForm = (props) => {
         if(checkFormErrors().length === 0){
             try {
                 await registerSellerDispatch(signupForm);
-                // setSignupForm({
-                //     firstName : '',
-                //     lastName : '',
-                //     shopName : '',
-                //     phoneNumber : '',
-                //     email : '',
-                //     password : '',
-                //     retryPassword : '',
-                //     shopCategory : [],
-                // })
+                setSignupForm({
+                    firstName : '',
+                    lastName : '',
+                    shopName : '',
+                    phoneNumber : '',
+                    email : '',
+                    password : '',
+                    retryPassword : '',
+                    shopCategory : [],
+                });
+                history.push('/sell-UShop');
 
                 
             } catch (error) {
