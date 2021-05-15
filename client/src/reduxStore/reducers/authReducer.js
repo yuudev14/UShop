@@ -2,7 +2,6 @@ import { SET_AUTH } from "../actions/types";
 
 const initState = {
     isAuth : null,
-    type : null
 }
 
 const authReducer = (state = initState, action) => {

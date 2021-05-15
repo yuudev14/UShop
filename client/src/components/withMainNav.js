@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from '../pages/home';
-import SellUshopAuth from '../pages/sellUshopAuth';
+import UshopAuth from '../pages/ushopAuth';
 import MainNav from './nav/main_nav';
 
 const WithMainNav = () => {
@@ -9,7 +9,9 @@ const WithMainNav = () => {
         <Router>
           <MainNav />
           <Switch>
+            <Route path='/auth' component={UshopAuth}/>
             <Route path='/' component={Home}/>
+            
             
           </Switch>
         </Router>

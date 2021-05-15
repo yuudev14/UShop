@@ -2,7 +2,7 @@ const db = require('../../db');
 const bcrypt = require('bcrypt');
 const generateToken = require('../../utils/generateToken');
 
-const verifySeller = (req, res) => {
+const verifyAccount = (req, res) => {
     res.send(true);
 }
 
@@ -51,11 +51,9 @@ const register = async(req, res) => {
         const {
             firstName,
             lastName,
-            shopName,
             phoneNumber,
             email,
             password,
-            shop_category
         } = req.body;
 
         bcrypt.genSalt(10, (err, salt) => {
@@ -67,24 +65,20 @@ const register = async(req, res) => {
                             INSERT INTO seller_account (
                                 first_name,
                                 last_name,
-                                shop_name,
                                 phone_number,
                                 email,
-                                password,
-                                shop_category
+                                password
                             ) VALUES (
-                                $1, $2, $3, $4, $5, $6, $7
+                                $1, $2, $3, $4, $5
 
                             ) RETURNING seller_id
                     
                     `, [
                         firstName,
                         lastName,
-                        shopName,
                         phoneNumber,
                         email,
                         encrypted,
-                        shop_category
                     ]);
                     const token = generateToken(registerQuery.rows[0].seller_id);
                     res.send({
@@ -107,6 +101,6 @@ const register = async(req, res) => {
 
 module.exports = {
     register,
-    verifySeller,
+    verifyAccount,
     login
 }

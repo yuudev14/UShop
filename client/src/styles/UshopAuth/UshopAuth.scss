@@ -1,12 +1,12 @@
 @import '../variables.scss';
-.sellUShopAuth{
+.UShopAuth{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     
     
-    .sellAuthContainer{
+    .AuthContainer{
         position: relative;
         width: 800px;
         box-shadow: 1px 1px 5px $primary;
@@ -19,7 +19,7 @@
             align-items: center;
             position: absolute;
             width: 50%;
-            transition: all 0.6s ease-in-out;
+            transition: all 0.3s ease-in-out;
             top: 0;
             height: 100%;
             .nameForm{
@@ -61,11 +61,11 @@
                 color: $secondary;
             }
         }
-        .seller_login_form{
+        .login_form{
             left: 0;
             z-index: 2;
         }
-        .seller_signup_form{
+        .signup_form{
             left: 0;
             z-index: 1;
             opacity: 0;
@@ -76,7 +76,7 @@
             z-index: 100;
             width: 50%;
             height: 100%;
-            transition: all 0.6s ease-in-out;
+            transition: all 0.3s ease-in-out;
             overflow: hidden;
             .overlay{
                 display: flex;
@@ -85,7 +85,7 @@
                 position: absolute;
                 transform: translateX(-50%);
                 background: linear-gradient(30deg, $tertiary, #fac97f);
-                transition: all 0.6s ease-in-out;
+                transition: all 0.3s ease-in-out;
                 .overlay_div{
                     width: 50%;
                     display: flex;
@@ -94,7 +94,7 @@
                     align-items: center;
                     padding: 20px;
                     text-align: center;
-                    transition: all 0.6s ease-in-out;
+                    transition: all 0.3s ease-in-out;
                     p{
                         font-family: $secondaryFont;
                         color: $quarternary
@@ -137,15 +137,15 @@
         
         
     }
-    .sellAuthContainerActive{
+    .AuthContainerActive{
         form{
             transform: translate(100%);
         }
-        .seller_login_form{
+        .login_form{
             z-index: 1;
             opacity: 0;
         }
-        .seller_signup_form{
+        .signup_form{
             z-index: 2;
             opacity: 1;
         }

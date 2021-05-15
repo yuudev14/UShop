@@ -1,29 +1,29 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import SellerLoginForm from '../components/sellUShopAuth/sellerLoginForm';
-import SellerSignupForm from '../components/sellUShopAuth/sellerSignupForm';
-import '../styles/sellUshopAuth/sellUshopAuth.scss';
+import LoginForm from '../components/UShopAuth/LoginForm';
+import SignupForm from '../components/UShopAuth/SignupForm';
+import '../styles/UshopAuth/UshopAuth.scss';
 
-const SellUshopAuth = () => {
-    const sellAuthContainer = useRef();
+const UshopAuth = () => {
+    const AuthContainer = useRef();
 
 
     return (
-        <div className='sellUShopAuth'>
+        <div className='UShopAuth'>
             
-            <div ref={sellAuthContainer} className='sellAuthContainer '>
-                <SellerLoginForm />
-                <SellerSignupForm />
+            <div ref={AuthContainer} className='AuthContainer '>
+                <LoginForm />
+                <SignupForm />
                 <div className='overlay_container'>
                     <div className='overlay'>
                         <div 
-                            onClick={() => sellAuthContainer.current.classList.remove('sellAuthContainerActive')}
+                            onClick={() => AuthContainer.current.classList.remove('AuthContainerActive')}
                             className='overlay_div login_overlay'>
                             <h1>Welcome Back</h1>
                             <p>To be connected with us log in with your personal info</p>
                             <button>login</button>
                         </div>
-                        <div onClick={() => sellAuthContainer.current.classList.add('sellAuthContainerActive')} 
+                        <div onClick={() => AuthContainer.current.classList.add('AuthContainerActive')} 
                             className='overlay_div signup_overlay'>
                             <h1>Hello Friend</h1>
                             <p>Enter your personal details and start selling with us</p>
@@ -37,4 +37,4 @@ const SellUshopAuth = () => {
     )
 }
 
-export default SellUshopAuth
+export default UshopAuth

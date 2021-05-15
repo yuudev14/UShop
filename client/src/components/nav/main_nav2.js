@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MainNav2 = () => {
     
     return (
         <div className='nav2'>
-            <h1>UShop</h1>
+            <Link to='/'><h1>UShop</h1></Link>
             <form>
                 <label>
                     <input type='search' />

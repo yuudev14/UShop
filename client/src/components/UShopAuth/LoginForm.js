@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import '../../styles/nav/sellerNav.scss';
 import { connect } from 'react-redux';
-import { loginSellerAction } from '../../reduxStore/actions/authAction';
+import { loginAction } from '../../reduxStore/actions/authAction';
 import { useHistory } from 'react-router-dom';
 
-const SellerLoginForm = (props) => {
+const LoginForm = (props) => {
 
     const {
-        loginSellerDispatch,
+        loginDispatch,
 
     } = props;
 
@@ -25,7 +25,7 @@ const SellerLoginForm = (props) => {
         })
     }
     const putErrorBorder = (list) => {
-        document.querySelectorAll('.seller_login_form input').forEach(input => {
+        document.querySelectorAll('.login_form input').forEach(input => {
             if(list.includes(input.name)){
                 input.classList.add('errorInput');
             }else{
@@ -50,12 +50,12 @@ const SellerLoginForm = (props) => {
         putErrorBorder(checkFormErrors());
         if(!checkFormErrors.length){
             try {
-                await loginSellerDispatch(loginForm);
+                await loginDispatch(loginForm);
                 setLoginForm({
                     email : '',
                     password : '',
                 });
-                history.push('/sell-UShop');
+                history.push('/');
 
                 
             } catch (error) {
@@ -66,7 +66,7 @@ const SellerLoginForm = (props) => {
         }
     }
     return (
-        <form className='seller_login_form' onSubmit={loginSeller}>
+        <form className='login_form' onSubmit={loginSeller}>
             <h1>Log in</h1>
             <input 
                 type='email' 
@@ -92,8 +92,8 @@ const SellerLoginForm = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginSellerDispatch : (data) => dispatch(loginSellerAction(data))
+        loginDispatch : (data) => dispatch(loginAction(data))
     }
 }
 export default connect(null, mapDispatchToProps)
-                (SellerLoginForm)
+                (LoginForm)

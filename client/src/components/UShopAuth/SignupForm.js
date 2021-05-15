@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
-import { registerSellerAction } from '../../reduxStore/actions/authAction';
+import { registerAction } from '../../reduxStore/actions/authAction';
 import { useHistory } from 'react-router-dom';
 
-const SellerSignupForm = (props) => {
+const SignupForm = (props) => {
 
     const {
-        registerSellerDispatch
+        registerDispatch
 
     } = props;
     const history = useHistory();
@@ -14,12 +14,10 @@ const SellerSignupForm = (props) => {
     const [signupForm, setSignupForm] = useState({
         firstName : '',
         lastName : '',
-        shopName : '',
         phoneNumber : '',
         email : '',
         password : '',
         retryPassword : '',
-        shopCategory : [],
     })
 
     const setSignupFormMethod = (e) => {
@@ -30,7 +28,7 @@ const SellerSignupForm = (props) => {
     }
 
     const putErrorBorder = (list) => {
-        document.querySelectorAll('.seller_signup_form input').forEach(input => {
+        document.querySelectorAll('.signup_form input').forEach(input => {
             if(list.includes(input.name)){
                 input.classList.add('errorInput');
             }else{
@@ -59,7 +57,7 @@ const SellerSignupForm = (props) => {
         putErrorBorder(checkFormErrors());
         if(checkFormErrors().length === 0){
             try {
-                await registerSellerDispatch(signupForm);
+                await registerDispatch(signupForm);
                 setSignupForm({
                     firstName : '',
                     lastName : '',
@@ -70,7 +68,7 @@ const SellerSignupForm = (props) => {
                     retryPassword : '',
                     shopCategory : [],
                 });
-                history.push('/sell-UShop');
+                history.push('/');
 
                 
             } catch (error) {
@@ -91,7 +89,7 @@ const SellerSignupForm = (props) => {
     }
 
     return (
-        <form onSubmit={registerSeller} className='seller_signup_form'>
+        <form onSubmit={registerSeller} className='signup_form'>
             <h1>Sign up</h1>
             <div className='nameForm'>
                 <input 
@@ -108,12 +106,6 @@ const SellerSignupForm = (props) => {
                     value={signupForm.lasttName}
                     onChange={setSignupFormMethod}/>
             </div>
-            <input 
-                type='text' 
-                name='shopName'
-                placeholder='shop Name' 
-                value={signupForm.shopName}
-                onChange={setSignupFormMethod}/>
             <input 
                 type='text' 
                 name='phoneNumber'
@@ -149,9 +141,9 @@ const SellerSignupForm = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        registerSellerDispatch : (data) => dispatch(registerSellerAction(data))
+        registerDispatch : (data) => dispatch(registerAction(data))
 
     }
 }
 export default connect(null, mapDispatchToProps)
-                (SellerSignupForm)
+                (SignupForm)

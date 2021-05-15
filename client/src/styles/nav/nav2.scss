@@ -5,6 +5,9 @@
         justify-content: space-between;
         align-items: center;
         color: $tertiary;
+        a{
+            color: $tertiary;
+        }
         form{
             width: 80%;
             height: 2.5em;

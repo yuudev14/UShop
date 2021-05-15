@@ -2,16 +2,15 @@ import axios from 'axios';
 import { SET_AUTH } from './types';
 
 
-export const registerSellerAction = (data) => {
+export const registerAction = (data) => {
     return async(dispatch) => {
         try {
-            const registerRequest = await axios.post('/sellerAuth/register', data);
+            const registerRequest = await axios.post('/auth/register', data);
             localStorage.setItem('UShop', JSON.stringify(registerRequest.data))
             dispatch({
                 type : SET_AUTH,
                 data : {
                     isAuth : true,
-                    type : 'seller'
                 }
             });
         } catch (error) {
@@ -20,16 +19,15 @@ export const registerSellerAction = (data) => {
     }
 }
 
-export const loginSellerAction = (data) => {
+export const loginAction = (data) => {
     return async(dispatch) => {
         try {
-            const loginRequest = await axios.post('/sellerAuth/login', data);
+            const loginRequest = await axios.post('/auth/login', data);
             localStorage.setItem('UShop', JSON.stringify(loginRequest.data))
             dispatch({
                 type : SET_AUTH,
                 data : {
                     isAuth : true,
-                    type : 'seller'
                 }
             });
         } catch (error) {
@@ -38,13 +36,13 @@ export const loginSellerAction = (data) => {
     }
 }
 
-export const verifySellerToken = () => {
+export const verifyToken = () => {
     return async(dispatch) => {
         try {
             const uShoptoken = JSON.parse(localStorage.getItem('UShop'));
             let auth;
             if(uShoptoken){
-                const verifySellerRequest = await axios.post('/sellerAuth/verify-seller',
+                const verifySellerRequest = await axios.post('/auth/verify-token',
                                                     {}, 
                                                     {headers : {
                                                         token : uShoptoken.token
@@ -58,7 +56,6 @@ export const verifySellerToken = () => {
                 type : SET_AUTH,
                 data : {
                     isAuth : auth,
-                    type : 'seller'
                 }
             });
             
@@ -70,7 +67,6 @@ export const verifySellerToken = () => {
                 type : SET_AUTH,
                 data : {
                     isAuth : false,
-                    type : 'seller'
                 }
             });
             

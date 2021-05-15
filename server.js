@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 //sellerAuthenticationRoute
-app.use('/sellerAuth', require('./routes/sellerAuthentication'));
+app.use('/auth', require('./routes/authentication'));
 
 app.listen(port, () => {
     console.log(`listen to ${port}`)
