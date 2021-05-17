@@ -1,0 +1,70 @@
+@import '../variables.scss';
+@mixin addProducts{
+    .addProducts{
+        margin-top: 10px;
+        .addProductsForm{
+            width: 80%;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            // box-shadow: 1px 2px 3px 1px $primary;
+            h1{
+                font-family: $primaryFont;
+                color: $secondary;
+            }
+            
+            .inputContainer{
+                display: flex;
+                margin: 20px 0;
+                
+                input{
+                    width: 50%;
+                    padding: 5px;
+                    font-family: $secondaryFont;
+                    outline: none;
+
+                }
+                input[type=file]{
+                    display: none;
+                }
+                input[type=submit]{
+                    background-color: $secondary;
+                    border: none;
+                    color: $quarternary;
+                    width: 30%;
+                }
+                p{
+                    width: 30%;
+                    font-family: $secondaryFont;
+                    color: $secondary;
+                }
+                label{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    border: 1px solid rgb(107, 107, 107);
+                    padding: 10px;
+                    i{
+                        font-size: 1.5em;
+                        color: rgb(53, 53, 53);
+                    }
+                }
+
+                textarea{
+                    min-height: 200px;
+                    width: 60%;
+                    padding: 10px;
+                    font-family: $secondaryFont;
+                    outline: none;
+
+
+                }
+
+            }
+        }
+    
+    }
+
+}
+

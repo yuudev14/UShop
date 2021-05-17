@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logoutAction } from '../../reduxStore/actions/authAction';
 
-const MainNav1 = () => {
+const MainNav1 = (props) => {
+
+    const {
+        auth,
+        logoutDispatch
+
+    } = props;
     const socialMedia = [
         'facebook',
         'twitter',
@@ -9,10 +17,9 @@ const MainNav1 = () => {
     ]
 
 
-    const nav_offline = [
-        'Register',
-        'Log in',
-    ]
+    const logout = () => {
+        logoutDispatch();
+    }
     return (
         <div className='nav1'>
             <ul>
@@ -25,14 +32,31 @@ const MainNav1 = () => {
             <ul>
                 <Link to='/sell-UShop'><li>Sell on UShop</li></Link>
                 <li>Categories</li>
-                {nav_offline.map(nav => (
-                    <li>{nav}</li>
-                ))}
-                
+
+                {auth.isAuth ? (
+                    <li onClick={logout}>log out</li>
+
+                ) : (
+                    <Link to='/auth'><li className='account_nav'>log-in | sign-up</li></Link>
+
+                )}
             </ul>
 
         </div>
     )
 }
 
-export default MainNav1
+const mapStateToProps = (state) => {
+    return {
+        auth : state.auth
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logoutDispatch : () => dispatch(logoutAction())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)
+                    (MainNav1)

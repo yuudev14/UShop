@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import SellerAddProduct from '../pages/sellerAddProduct';
+import '../styles/sellerPage/sellerPage.scss';
 
 
 const VerifiedSellUShop = (props) => {
@@ -18,6 +20,7 @@ const VerifiedSellUShop = (props) => {
             <Router>
                 <Switch>
                     <Route exact path='/sell-UShop' render = {() => <div>home</div>}/>    
+                    <Route exact path='/sell-UShop/add-product' component={SellerAddProduct}/>    
                 </Switch>
             </Router>
             

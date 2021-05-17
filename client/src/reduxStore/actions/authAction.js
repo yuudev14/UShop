@@ -36,6 +36,18 @@ export const loginAction = (data) => {
     }
 }
 
+export const logoutAction = () => {
+    return async(dispatch) => {
+        localStorage.removeItem('UShop');
+        dispatch({
+            type : SET_AUTH,
+            data : {
+                isAuth : false
+            }
+        })
+    }
+}
+
 export const verifyToken = () => {
     return async(dispatch) => {
         try {

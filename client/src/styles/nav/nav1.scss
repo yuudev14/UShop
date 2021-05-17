@@ -8,8 +8,21 @@
         ul{
             display: flex;
             list-style-type: none;
+            .account_nav{
+                border: 1px solid rgb(95, 95, 95);
+                padding: 0 5px;
+                &:hover{
+                    border: 1px solid $tertiary;
+                }
+            }
             a{
                 color: $quarternary;
+                display: flex;
+                &:hover{
+                    color: $tertiary;
+                    cursor: pointer;
+                }
+                
 
             }
             li{
@@ -25,6 +38,7 @@
             p, li{
                 font-family: $secondaryFont;
                 font-size: 0.8em;
+                font-weight: 100;
             }
         }
     }

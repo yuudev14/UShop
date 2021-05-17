@@ -10,12 +10,46 @@ header{
         h1{
             font-size: 2.5em;
         }
+        ul{
+            list-style-type: none;
+            margin-right: auto;
+            margin-left: 20px;
+            display: flex;
+            li{
+                font-family: $secondaryFont;
+                color: $quarternary;
+                margin: 0 20px;
+                position: relative;
+                &:hover{
+                    color: $tertiary;
+                    .seller_dropdown{
+                        margin-left: auto;
+                        display: flex;
+                        flex-direction: column;
+                        position: absolute;
+                        background-color: $tertiary;
+                        padding: 10px 20px;
+                        border-radius: 20px;
+                        width: max-content;
+                        li{
+                            margin-bottom: 10px;
+                            &:hover{
+                                color: $primary;
+                            }
+                        }
+                    }
+                }
+                .seller_dropdown{
+                    display: none;
+                }
+            }
+        }
         h1, h3{
             font-family: $primaryFont;
             cursor: pointer;
             color: $tertiary;
             &:hover{
-                color: white;
+                color: $quarternary;
             }
         }
     }

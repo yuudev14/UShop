@@ -3,9 +3,9 @@ CREATE DATABASE UShop;
 
 CREATE EXTENSION "uuid-ossp";
 
-CREATE TABLE seller_account
+CREATE TABLE account
 (
-    seller_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    user_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     shop_name VARCHAR(100),

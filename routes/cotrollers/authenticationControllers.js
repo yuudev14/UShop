@@ -14,7 +14,7 @@ const login = async(req, res) => {
 
     try {
         const account = await db.query(`
-                SELECT * FROM seller_account
+                SELECT * FROM account
                 WHERE email = $1
             `, [
                 email
@@ -24,10 +24,9 @@ const login = async(req, res) => {
             bcrypt.compare(password, account.rows[0].password, (err, isMatch) => {
                 if(err) throw err;
                 if(isMatch){
-                    const token = generateToken(account.rows[0].seller_id);
+                    const token = generateToken(account.rows[0].user_id);
                     res.send({
                         token,
-                        account_type : 'seller'
                     })
                 }else{
                     res.status(404).send('Password is incorrect');
@@ -62,7 +61,7 @@ const register = async(req, res) => {
                 if(err) throw err;
                 try {
                     const registerQuery = await db.query(`
-                            INSERT INTO seller_account (
+                            INSERT INTO account (
                                 first_name,
                                 last_name,
                                 phone_number,
@@ -71,7 +70,7 @@ const register = async(req, res) => {
                             ) VALUES (
                                 $1, $2, $3, $4, $5
 
-                            ) RETURNING seller_id
+                            ) RETURNING user_id
                     
                     `, [
                         firstName,
@@ -80,10 +79,9 @@ const register = async(req, res) => {
                         email,
                         encrypted,
                     ]);
-                    const token = generateToken(registerQuery.rows[0].seller_id);
+                    const token = generateToken(registerQuery.rows[0].user_id);
                     res.send({
                         token,
-                        account_type : 'seller'
                     })
                     
                 } catch (error) {
