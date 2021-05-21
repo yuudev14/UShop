@@ -23,7 +23,7 @@ CREATE TABLE products (
     product_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES account(user_id),
     product_name VARCHAR(200) NOT NULL,
-    category VARCHAR(50)[],
+    category VARCHAR(50),
     price INTEGER NOT NULL,
     status VARCHAR(50) NOT NULL,
     images VARCHAR(200)[] NOT NULL,

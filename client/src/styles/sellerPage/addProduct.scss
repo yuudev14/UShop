@@ -2,20 +2,51 @@
 @mixin addProducts{
     .addProducts{
         margin-top: 10px;
+        .isLoading{
+            opacity: 0.7;
+            pointer-events: none;
+            .isLoadingTag{
+                display: block !important;
+            }
+        }
         .addProductsForm{
+            .isLoadingTag{
+                display: none;
+                font-family: $primaryFont;
+                color: $secondary;
+                text-align: center;
+            }
             width: 80%;
             margin: auto;
             background-color: white;
             padding: 20px;
-            // box-shadow: 1px 2px 3px 1px $primary;
             h1{
                 font-family: $primaryFont;
                 color: $secondary;
             }
             
+            .sampleImages{
+                display: flex;
+                // max-height: 100px;
+                max-width: 50%;
+                // overflow-x: auto;
+                img{
+                    max-height: 100px;
+                    margin: 5px;
+                }
+            }
+            
             .inputContainer{
                 display: flex;
                 margin: 20px 0;
+                align-items: center;
+                .error{
+                    border: 1px solid red !important;
+                    color: red !important;
+                    i{
+                        color: red !important;
+                    }
+                }
                 
                 input{
                     width: 50%;
@@ -23,6 +54,12 @@
                     font-family: $secondaryFont;
                     outline: none;
 
+                }
+                select{
+                    background-color: white;
+                    outline: none;
+                    padding: 5px;
+                    font-family: $secondaryFont;
                 }
                 input[type=file]{
                     display: none;
@@ -48,6 +85,7 @@
                     i{
                         font-size: 1.5em;
                         color: rgb(53, 53, 53);
+                        
                     }
                 }
 
