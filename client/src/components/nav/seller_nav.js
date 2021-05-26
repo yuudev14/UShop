@@ -21,7 +21,7 @@ const Seller_nav = () => {
                 {
                     dropdown_li : 'View Product',
                     func : null,
-                    link : 'add-product'
+                    link : 'view-product'
                 },
 
             ]
@@ -37,18 +37,17 @@ const Seller_nav = () => {
         <header>
             <nav className='nav_sellUShopAuth'>
                 <Link to='/sell-UShop'><h1>UShop Sell</h1></Link>
-                <ul>
+                <ul className='sellerNavMainList'>
                     {nav.map(li => (
-                        <li>
+                        <li className='main-li'>
                             {li.li}  <i className='fa fa-angle-down'></i>
                             {li.dropdown.length > 0 && (
                                 <ul className='seller_dropdown'>
                                     {li.dropdown.map( option => (
-                                        <Link to={`/sell-UShop/${option.link}`}><li onClick={option.func}>{option.dropdown_li}</li></Link>
+                                        <Link to={`/sell-UShop/${option.link}`}><li className='secondary-li' onClick={option.func}>{option.dropdown_li}</li></Link>
                                     ))}
                                 </ul>
                             )}
-
                         </li>
                     ))}
                 </ul>

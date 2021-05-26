@@ -5,6 +5,7 @@ const MainNav2 = () => {
     
     return (
         <div className='nav2'>
+            <i className='menu-icon'>☰</i>
             <Link to='/'><h1>UShop</h1></Link>
             <form>
                 <label>

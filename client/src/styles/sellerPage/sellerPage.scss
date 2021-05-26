@@ -1,7 +1,9 @@
 @import '../variables.scss';
 @import './addProduct.scss';
+@import './viewProduct.scss';
 
 .sellUShop{
     padding-top: 90px;
     @include addProducts;
+    @include viewProduct;
 }

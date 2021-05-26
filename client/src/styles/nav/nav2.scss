@@ -1,16 +1,25 @@
 @import '../variables.scss';
 @mixin nav2{
     .nav2{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+
+        
         color: $tertiary;
+        position: relative;
+        width: 100%;
+        padding: 0 10px;
         a{
             color: $tertiary;
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
         }
         form{
-            width: 80%;
+            width: 100%;
             height: 2.5em;
+            grid-column: 1 / 11;
+            grid-row: 2 / 3;
             label{
                 display: flex;
                 height: 100%;
@@ -49,6 +58,34 @@
         }
         h1{
             font-family: $primaryFont;
+        }
+        .fa-shopping-cart{
+            grid-column: 10 / 11;
+            grid-row: 1 / 2;
+            text-align: center;
+        }
+        .menu-icon{
+            width: 1.5em;
+            // text-align: center;
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+
+        }
+    }
+
+    @media only screen and (min-width : 500px){
+        .nav2{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            form{
+                width: 80%;
+            }
+            .menu-icon{
+                display: none;
+    
+            }
+
         }
     }
 

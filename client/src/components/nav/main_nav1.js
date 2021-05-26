@@ -29,7 +29,7 @@ const MainNav1 = (props) => {
                 ))}
                 
             </ul>
-            <ul>
+            <ul className='nav1-list-options'>
                 <Link to='/sell-UShop'><li>Sell on UShop</li></Link>
                 <li>Categories</li>
 
@@ -41,6 +41,7 @@ const MainNav1 = (props) => {
 
                 )}
             </ul>
+            <i className='fa fa-close'></i>
 
         </div>
     )

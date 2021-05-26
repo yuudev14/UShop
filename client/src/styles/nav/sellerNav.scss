@@ -7,43 +7,44 @@ header{
         padding: 20px;
         max-width: 1080px;
         margin: auto;
+        position: relative;
+
+
+        
         h1{
             font-size: 2.5em;
         }
-        ul{
+
+        .sellerNavMainList{   
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            background-color: $quarternary;
+            width: 80%;
+            height: 100vh;
+            border: 1px solid $primary;
+            top: 0;
+            left: 0;
             list-style-type: none;
             margin-right: auto;
-            margin-left: 20px;
-            display: flex;
             li{
-                font-family: $secondaryFont;
-                color: $quarternary;
-                margin: 0 20px;
-                position: relative;
-                &:hover{
-                    color: $tertiary;
-                    .seller_dropdown{
-                        margin-left: auto;
-                        display: flex;
-                        flex-direction: column;
-                        position: absolute;
-                        background-color: $tertiary;
-                        padding: 10px 20px;
-                        border-radius: 20px;
-                        width: max-content;
-                        li{
-                            margin-bottom: 10px;
-                            &:hover{
-                                color: $primary;
-                            }
-                        }
+                font-size: 2em;
+            }
+            .seller_dropdown{
+                list-style-type: none;
+                a{
+                    color: $primary;
+                    li{
+                        font-size: 0.6em;
+                        margin: auto;
+                        width: 50%;
+
                     }
-                }
-                .seller_dropdown{
-                    display: none;
+                    
                 }
             }
         }
+
         h1, h3{
             font-family: $primaryFont;
             cursor: pointer;
@@ -52,6 +53,58 @@ header{
                 color: $quarternary;
             }
         }
+    }
+    
+}
+
+@media only screen and (min-width : 600px) {
+    header{
+        .nav_sellUShopAuth{
+            .sellerNavMainList{
+                list-style-type: none;
+                margin-right: auto;
+                margin-left: 20px;
+                display: flex;
+                flex-direction: row;
+                width: max-content;
+                position: static;
+                height: max-content;
+                background-color: transparent;
+                
+                li{
+                    font-family: $secondaryFont;
+                    color: $quarternary;
+                    margin: 0 20px;
+                    font-size: 1.3em;
+                    position: relative;
+                    &:hover{
+                        color: $tertiary;
+                        .seller_dropdown{
+                            margin-left: auto;
+                            display: flex;
+                            flex-direction: column;
+                            position: absolute;
+                            background-color: $tertiary;
+                            padding: 10px 20px;
+                            border-radius: 20px;
+                            width: max-content;
+                            li{
+                                margin-bottom: 10px;
+                                margin-left: 0;
+                                width: 100%;
+                                &:hover{
+                                    color: $primary;
+                                }
+                            }
+                        }
+                    }
+                    .seller_dropdown{
+                        display: none;
+                    }
+                }
+            }
+        }
+
     }
     
 }

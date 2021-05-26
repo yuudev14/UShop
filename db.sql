@@ -27,5 +27,6 @@ CREATE TABLE products (
     price INTEGER NOT NULL,
     status VARCHAR(50) NOT NULL,
     images VARCHAR(200)[] NOT NULL,
-    description TEXT
+    description TEXT,
+    price INTEGER DEFAULT 0,
 );

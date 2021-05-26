@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import SellerAddProduct from '../pages/sellerAddProduct';
 import '../styles/sellerPage/sellerPage.scss';
+import ViewProducts from '../pages/viewProducts';
 
 
 const VerifiedSellUShop = (props) => {
@@ -20,7 +21,8 @@ const VerifiedSellUShop = (props) => {
             <Router>
                 <Switch>
                     <Route exact path='/sell-UShop' render = {() => <div>home</div>}/>    
-                    <Route exact path='/sell-UShop/add-product' component={SellerAddProduct}/>    
+                    <Route exact path='/sell-UShop/add-product' component={SellerAddProduct}/>
+                    <Route exact path='/sell-UShop/view-product' component={ViewProducts}/>    
                 </Switch>
             </Router>
             
