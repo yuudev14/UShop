@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import SellerAddProduct from '../pages/sellerAddProduct';
 import '../styles/sellerPage/sellerPage.scss';
-import ViewProducts from '../pages/viewProducts';
+import ViewProducts from '../pages/sellerViewProducts';
 
 
 const VerifiedSellUShop = (props) => {

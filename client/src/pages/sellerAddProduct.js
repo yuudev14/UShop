@@ -12,6 +12,7 @@ const SellerAddProduct = () => {
         images : [],
         status : '',
         description : '',
+        stock : null,
         sampleImages : [],
     });
 
@@ -138,6 +139,10 @@ const SellerAddProduct = () => {
                     <input name ='price' id='price' type='number' onChange={setAddProductsFormMethod} />
                 </div>
                 <div className='inputContainer'>
+                    <p>Stock</p>
+                    <input name ='stock' id='price' type='number' onChange={setAddProductsFormMethod} />
+                </div>
+                <div className='inputContainer'>
                     <p>Status</p>
                     <select id='status' name='status' onChange={setAddProductsFormMethod}>
                         <option disabled selected value> -- select status-- </option>
@@ -159,7 +164,7 @@ const SellerAddProduct = () => {
                     </div>
                 </div>
                 <div className='inputContainer'>
-                    <p >Product name</p>
+                    <p>Description</p>
                     <textarea name='description' id='productDescription' onChange={setAddProductsFormMethod}>
                     </textarea>
                 </div>

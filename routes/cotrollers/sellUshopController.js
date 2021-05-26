@@ -8,7 +8,8 @@ const addProducts = (req, res) => {
             price,
             images,
             status,
-            description
+            description,
+            stock
         } = req.body;
         if(images.length > 0){
             images.forEach(async(img, i) => {
@@ -28,9 +29,10 @@ const addProducts = (req, res) => {
                                 price,
                                 images,
                                 status,
-                                description
+                                description,
+                                stock
                             )
-                            VALUES ($1, $2, $3, $4, $5, $6, $7) `,
+                            VALUES ($1, $2, $3, $4, $5, $6, $7, $8) `,
                             [
                                 req.user,
                                 productName,
@@ -38,8 +40,8 @@ const addProducts = (req, res) => {
                                 Number(price),
                                 images,
                                 status,
-                                description
-                
+                                description,
+                                stock
                             ]
                         )
                         res.send(true);
