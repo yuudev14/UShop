@@ -1,5 +1,74 @@
+@import '../variables.scss';
 @mixin viewProduct{
     .viewSellerProducts{
         margin-top: 10px;
+        background-color: white;
+        height: 100vh;
+        width: 100%;
+        
+        .filter{
+            padding: 10px 0;
+            border-bottom: 1px solid $quarternary;
+            width: 90%;
+            margin: auto;
+            .filterInputContainer{
+                
+                label{
+                    font-size: 1em;
+                    font-family: $primaryFont;
+                    color: $secondary;
+                }
+                input{
+                    font-size: 0.8em;
+                    padding: 2px;
+                    font-family: $secondaryFont;
+                    border: 1px solid rgb(190, 189, 189);
+
+                }
+                .filterSearchProduct{
+                    input{
+                        width: 100%;
+                    }
+                    
+                }
+                select{
+                    width: 100%;
+                    font-size: 0.8em;
+                    padding: 2px;
+                    font-family: $secondaryFont;
+                    border: 1px solid rgb(190, 189, 189);
+                }
+                .filterSearchStock, .filterSearchPrice{
+                    label{
+                        display: block;
+                    }
+                    input{
+                        width: 40%;
+                    }
+                }
+            }
+            .filterButtonContainer{
+                margin-top: 10px;
+                input, button{
+                    outline: none;
+                    padding: 5px;
+                    font-size: 1em;
+                    width: 20%;
+                    color: $quarternary;
+                    border: none;
+                }
+                input{
+                    background-color: $secondary;
+                    margin-right: 10px;
+                }
+                button{
+                    background-color: rgb(231, 88, 69);
+                    
+                    
+
+                }
+            }
+
+        }
     }
 }

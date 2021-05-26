@@ -4,6 +4,8 @@
 
 .sellUShop{
     padding-top: 90px;
+    width: 100%;
     @include addProducts;
     @include viewProduct;
+    
 }
