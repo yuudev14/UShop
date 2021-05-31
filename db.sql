@@ -30,5 +30,5 @@ CREATE TABLE products (
     description TEXT,
     stock INTEGER DEFAULT 0,
     heart INTEGER DEFAULT 0, 
-    seen INTEGER DEFAULT 0,
+    seen INTEGER DEFAULT 0
 );
