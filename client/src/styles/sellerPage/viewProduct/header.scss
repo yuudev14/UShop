@@ -1,0 +1,68 @@
+@import '../../variables.scss';
+
+@mixin header{
+    .productListHeader{
+        .viewProductsHeader1{
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            .viewTotalProductList{
+                display: flex;
+                align-items: center;
+                h3, h4{
+                    font-family: $secondaryFont;
+                }
+                h1{
+                    color: $primary;
+                }
+                h4{
+                    margin: 0 10px;
+                    border: 2px solid $secondary;
+                    padding: 2px 5px;
+                    border-radius: 10px;
+                    color: $secondary;
+
+                }
+
+            }
+            .viewTotalProductools{
+                margin: 10px 0;
+                button{
+                    background-color: $tertiary;
+                    color: $quarternary;
+                    font-family: $secondaryFont;
+                }
+
+            }
+        }
+        .viewProductsHeader2{
+            ul{
+                list-style-type: none;
+                display: flex;
+                li{
+                    margin-right: 20px;
+                }
+            }
+
+        }
+    }
+    @media only screen and (min-width : 400px){
+        .productListHeader{
+            .viewProductsHeader1{
+                flex-direction: row;
+
+            }
+            .viewProductsHeader2{
+                ul{
+                    justify-content: flex-end;
+                    li{
+                        margin: 0;
+                        margin-left: 20px;
+                    }
+                }
+
+            }
+        }
+
+    }
+}

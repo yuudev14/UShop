@@ -1,0 +1,89 @@
+@import '../../variables.scss';
+
+@mixin filter{
+    .filter{
+        padding: 10px 0;
+        border-bottom: 1px solid $quarternary;
+        width: 90%;
+        margin: auto;
+        .filterInputContainer{
+            
+            label{
+                font-size: 1em;
+                font-family: $primaryFont;
+                color: $secondary;
+            }
+            input{
+                font-size: 0.8em;
+                padding: 2px;
+                font-family: $secondaryFont;
+                border: 1px solid rgb(190, 189, 189);
+
+            }
+            .filterSearchProduct{
+                input{
+                    width: 100%;
+                }
+                
+            }
+            select{
+                width: 100%;
+                font-size: 0.8em;
+                padding: 2px;
+                font-family: $secondaryFont;
+                border: 1px solid rgb(190, 189, 189);
+            }
+            .filterSearchStock, .filterSearchPrice{
+                label{
+                    display: block;
+                }
+                input{
+                    width: 40%;
+                }
+            }
+        }
+        .filterButtonContainer{
+            margin-top: 10px;
+            input, button{
+                outline: none;
+                padding: 5px;
+                font-size: 1em;
+                width: 20%;
+                color: $quarternary;
+                border: none;
+            }
+            input{
+                background-color: $secondary;
+                margin-right: 10px;
+            }
+            button{
+                background-color: rgb(231, 88, 69);
+            }
+        }
+
+    }
+    @media only screen and (min-width : 400px){
+        .filter{
+            .filterInputContainer{
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+                .filterSearchProduct{
+                    grid-column: 1/5;
+                    input{
+                        padding: 10px;
+                    }
+                }
+                .filterProductCategory{
+                    grid-column: 1/3;
+                }
+                .filterSearchStock, .filterSearchPrice{
+                    width: 100%;
+                    input{
+                        width: 45%;
+                    }
+                }
+            }
+        }
+    }
+}

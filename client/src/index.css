@@ -18,6 +18,15 @@ code {
   text-decoration: none;
   margin: 0;
 }
+button{
+  outline: none;
+  border: none;
+  padding: 10px;
+}
+
+button:hover{
+  cursor: pointer;
+}
 
 .App{
   max-width: 1080px;

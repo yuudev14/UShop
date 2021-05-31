@@ -1,0 +1,70 @@
+@import '../../variables.scss';
+
+@mixin productList{
+    .ProductListContainer{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        .productContainer{
+            border: 1px solid $quarternary;
+            width: 40%;
+            max-width: 170px;
+            margin: 5px;
+            .prev-img{
+                width: 100%;
+                height: 170px;
+                background-color: $quarternary;
+
+            }
+            .productInfo{
+                padding: 10px;
+                h3{
+                    margin-bottom: 20px;
+                    font-family: $primaryFont;
+                    color: $secondary;
+                }
+                .priceNstock{
+                    display: flex;
+                    justify-content: space-between;
+                    .price{
+                        font-family: $secondaryFont;
+                        color: $secondary;
+                    }
+                    .stock{
+                        font-family: $secondaryFont;
+                        color: $quarternary2;
+                    }
+                }
+                .viewHeartSales{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    i, p{
+                        // font-family: $secondaryFont;
+                        color: $quarternary2;
+
+                    }
+                }
+
+            }
+            .productOption{
+                display: flex;
+                border-top: 1px solid $quarternary;
+                div{
+                    border-right: 1px solid $quarternary;
+                    width: 0;
+                    padding: 0;
+                }
+                button{
+                    width: 100%;
+                    background-color: white;
+                    color: $quarternary2;
+                }
+
+            }
+        }
+    }
+
+    
+
+}

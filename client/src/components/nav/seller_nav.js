@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Link } from 'react-router-dom';
 
 const Seller_nav = () => {
+
+    const sellerMainNav = useRef();
 
     const nav = [
         {
@@ -33,11 +35,18 @@ const Seller_nav = () => {
         },
         
     ]
+
+    const openSellerMainNav = () => {
+        sellerMainNav.current.classList.toggle('open');
+        
+    }
     return (
         <header>
             <nav className='nav_sellUShopAuth'>
+                <i onClick={openSellerMainNav} className='menu-icon'>☰</i>
                 <Link to='/sell-UShop'><h1>UShop Sell</h1></Link>
-                <ul className='sellerNavMainList'>
+                <ul className='sellerNavMainList' ref={sellerMainNav}>
+                    <i onClick={openSellerMainNav} className='fa fa-close'></i>
                     {nav.map(li => (
                         <li className='main-li'>
                             {li.li}  <i className='fa fa-angle-down'></i>
