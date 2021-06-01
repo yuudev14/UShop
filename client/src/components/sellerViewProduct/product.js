@@ -24,7 +24,7 @@ const SellerProduct = () => {
             <div className='productOption'>
                 <button className='fa fa-edit'></button>
                 <div></div>
-                <button className='fa fa-ellipsis-h'></button>
+                <button className='fa fa-trash'></button>
 
             </div>
 

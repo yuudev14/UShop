@@ -10,7 +10,6 @@ const SellerAddProduct = () => {
         category : '',
         price : null,
         images : [],
-        status : '',
         description : '',
         stock : null,
         sampleImages : [],
@@ -52,14 +51,10 @@ const SellerAddProduct = () => {
         'Video Games',
     ]
 
-    useEffect(() => {
-        console.log(addProductsForm)
-    }, [addProductsForm])
-
 
     const checkError = () => {
         let errors = 0;
-        const inputListsCheck = ['status', 'productName', 'price'];
+        const inputListsCheck = ['productName', 'price', 'stock', 'category'];
 
         inputListsCheck.forEach(input => {
             const value = addProductsForm[input]
@@ -76,20 +71,30 @@ const SellerAddProduct = () => {
 
     }
 
-    const addProduct = async(e) => {
+    const addProduct = (e) => {
         e.preventDefault();
-        setIsLoading(true);
         if(!checkError()){
+            setIsLoading(true);
+            const preset = 'kopfy1vm';
+            const url = 'https://api.cloudinary.com/v1_1/yutakaki/image/upload';
             try {
-                await axios.post('/sell-ushop/add-product', addProductsForm, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}})
-                history.push('/sell-UShop');
+                let newImages = [];
+                addProductsForm.images.forEach(async(img, i) => {
+                    const formData = new FormData();
+                    formData.append('file', img);
+                    formData.append('upload_preset', preset);
+                    const uploadImg = await axios.post(url, formData);
+                    newImages.push(uploadImg.data.secure_url);
+                    if(newImages.length === addProductsForm.images.length){
+                        await axios.post('/sell-ushop/add-product', {...addProductsForm, newImages}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}})
+                        history.push('/sell-UShop');
+                    }
+                })  
 
             } catch (error) {
                 console.log(error);
             }
-        }
-        setIsLoading(false);
-        
+        }   
     }
 
     const setAddProductsFormMethod = (e) => {
@@ -117,7 +122,7 @@ const SellerAddProduct = () => {
 
     return (
         <div className='addProducts'>
-            <form className={`addProductsForm ${isLoading && 'isLoading'}`} onSubmit={addProduct}>
+            <form className={`addProductsForm ${isLoading ? 'isLoading' : ''}`} onSubmit={addProduct}>
                 <p className='isLoadingTag'>wait for a moment...</p>
                 <h1>Add Products</h1>
                 <div className='inputContainer'>
@@ -140,15 +145,7 @@ const SellerAddProduct = () => {
                 </div>
                 <div className='inputContainer'>
                     <p>Stock</p>
-                    <input name ='stock' id='price' type='number' onChange={setAddProductsFormMethod} />
-                </div>
-                <div className='inputContainer'>
-                    <p>Status</p>
-                    <select id='status' name='status' onChange={setAddProductsFormMethod}>
-                        <option disabled selected value> -- select status-- </option>
-                        <option value='available'>Available</option>
-                        <option value='unavailable'>Unavailable</option>
-                    </select>
+                    <input name ='stock' id='stock' type='number' onChange={setAddProductsFormMethod} />
                 </div>
                 <div className='inputContainer'>
                     <p>Images</p>
