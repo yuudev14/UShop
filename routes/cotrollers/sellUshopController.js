@@ -40,6 +40,21 @@ const addProducts = async(req, res) => {
         }       
 }
 
+const getProducts = async(req, res) => {
+    try {
+        const products = await db.query(
+            `SELECT * from products WHERE user_id = $1`,
+            [req.user]
+        );
+        res.send(products.rows);
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
 module.exports = {
     addProducts,
+    getProducts
 }
