@@ -1,6 +1,6 @@
 @import '../variables.scss';
-@mixin addProducts{
-    .addProducts{
+@mixin add_manageProducts{
+    .addProducts, .manageProducts {
         margin-top: 10px;
         .isLoading{
             opacity: 0.7;
@@ -9,7 +9,8 @@
                 display: block !important;
             }
         }
-        .addProductsForm{
+        
+        .addProductsForm, .manageProductsForm{
             .isLoadingTag{
                 display: none;
                 font-family: $primaryFont;
