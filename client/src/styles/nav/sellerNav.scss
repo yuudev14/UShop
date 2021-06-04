@@ -1,5 +1,6 @@
 @import '../variables.scss';
 header{
+    z-index: 100;
     .nav_sellUShopAuth{
         display: flex;
         justify-content: space-between;

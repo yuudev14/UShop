@@ -1,13 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import { connect } from 'react-redux'
 
-const SellerProductListHeader = () => {
+const SellerProductListHeader = (props) => {
+
+    const {
+        sellerProducts
+    } = props;
     return (
         <div className='productListHeader'>
             <div className='viewProductsHeader1'>
                 <div className='viewTotalProductList'>
-                    <h3>47 Products</h3>
-                    <h4>47 / 1000</h4>
+                    <h3>{sellerProducts.length} Products</h3>
+                    <h4>{sellerProducts.length} / {sellerProducts.length}</h4>
                 </div>
                 <div className='viewTotalProductools'>
                     <Link>
@@ -29,4 +34,11 @@ const SellerProductListHeader = () => {
     )
 }
 
-export default SellerProductListHeader
+const mapStateToProps = state => {
+    return {
+        sellerProducts : state.sellerProducts
+    }
+}
+
+export default connect(mapStateToProps)
+                (SellerProductListHeader)

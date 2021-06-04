@@ -54,7 +54,84 @@ const getProducts = async(req, res) => {
     }
 }
 
+const deleteProduct = async(req,res) => {
+    try {
+        const product_id = req.params.product_id;
+        await db.query(
+            `DELETE FROM products WHERE user_id = $1 AND product_id = $2`,
+            [req.user, product_id]
+        );
+        res.send(true)
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const productInfo = async(req, res) => {
+    try {
+        const product_id = req.params.product_id;
+        const products = await db.query(
+            `SELECT * from products WHERE user_id = $1 AND product_id = $2`,
+            [req.user, product_id]
+        );
+        if(products.rowCount === 0){
+            res.status(404).send(false)
+
+        }else{
+            res.send(products.rows[0]);
+        }
+        
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
+const modifyProduct = async(req, res) => {
+    try {
+        const product_id = req.params.product_id;
+        const {
+            productName,
+            category,
+            price,
+            newImages,
+            description,
+            stock,
+        } = req.body;
+        await db.query(
+            `UPDATE products
+            SET product_name = $1,
+                category = $2,
+                price = $3,
+                images = $4,
+                description = $5,
+                stock = $6
+            WHERE product_id = $7
+            AND user_id = $8`,
+            [
+                productName,
+                category,
+                price,
+                newImages,
+                description,
+                stock,
+                product_id,
+                req.user
+            ]
+        );
+        
+        res.send(true);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     addProducts,
-    getProducts
+    getProducts,
+    deleteProduct,
+    productInfo,
+    modifyProduct
 }

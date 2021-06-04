@@ -1,10 +1,17 @@
-import React from 'react'
+import React from 'react';
+import {connect} from 'react-redux'; 
+import { deleteProductAction } from '../../reduxStore/actions/sellerAction';
+import { Link } from 'react-router-dom';
 
 const SellerProduct = (props) => {
     const {
-        data
+        data,
+        deleteProductDispatch
     } = props;
-    console.log(data)
+    
+    const deleteProduct = () => {
+        deleteProductDispatch(data.product_id)
+    }
 
     return (
         <div className='productContainer'>
@@ -27,9 +34,9 @@ const SellerProduct = (props) => {
 
             </div>
             <div className='productOption'>
-                <button className='fa fa-edit'></button>
+                <Link to={`/sell-UShop/manage-product/${data.product_id}`}><button className='fa fa-edit'></button></Link>
                 <div></div>
-                <button className='fa fa-trash'></button>
+                <button onClick={deleteProduct} className='fa fa-trash'></button>
 
             </div>
 
@@ -37,4 +44,10 @@ const SellerProduct = (props) => {
     )
 }
 
-export default SellerProduct
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteProductDispatch : (product_id) => dispatch(deleteProductAction(product_id))
+    }
+}
+export default connect(null, mapDispatchToProps)
+                (SellerProduct)
