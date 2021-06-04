@@ -1,0 +1,119 @@
+@import '../variables.scss';
+
+@mixin product{
+    .productDetails{
+        margin-top: 10px;
+        
+        .productContainer{
+            background-color: white;
+            padding: 10px;
+            display: flex;
+            width: 80%;
+            margin: auto;
+            flex-direction: column;
+            h1{
+                font-family: $primaryFont;
+                color: $secondary;
+            }
+            .productImages{
+                width: 100%;
+                .preview_img{
+                    width: 100%;
+                    img{
+                        width: 100%;
+                    }
+                }
+                .list_img{
+                    margin: 5px 0;
+                    display: flex;
+                    img{
+                        width: 30%;
+                        margin: 0 5px;
+                        border: 1px solid $primary;
+                        cursor: pointer;
+                    }
+                    overflow-x: auto;
+                }
+                button, a{
+                    width: 100%;
+                    border-radius: 13px;
+                    margin-bottom: 5px;
+                    color: white;
+                }
+                .fa-edit{
+                    background-color: $tertiary;
+                    
+                }
+                .fa-trash{
+                    background-color: rgb(255, 72, 72);
+                }
+            }
+            .productInfo{
+                h1{
+                    
+                    display: none;
+                }
+                h3{
+                    font-family: $primaryFont;
+                    color: $tertiary;
+                }
+                
+                .subInfo{
+                    display: flex;
+                    margin-bottom: 20px;
+                    p{
+                        margin-right: 10px;
+                        color: $quarternary2;
+                    }
+                    span{
+                        color: $secondary;
+                    }
+
+                }
+                p{
+                    font-family: $secondaryFont;
+                    color: $primary;
+                }
+
+            }
+        }
+    
+    }
+    @media only screen and (min-width : 600px){
+        .productDetails{
+            .productContainer{
+                flex-direction: row;
+                justify-content: space-between;
+                max-width: 700px;
+                
+                
+                .productImages{
+                    width: 40%;
+                    h1{
+                        display: none;
+                    }
+
+                }
+                .productInfo{
+                    width: 50%;
+                    h1{
+                        display: block;
+                    }
+
+                }
+            }
+
+        }
+    }
+
+    @media only screen and (min-width : 1080px){
+        .productDetails{
+            .productContainer{
+                margin: 0;
+                margin-right: auto;
+
+            }
+        }
+        
+    }
+}

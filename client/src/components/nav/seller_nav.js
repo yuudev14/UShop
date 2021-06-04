@@ -16,11 +16,6 @@ const Seller_nav = () => {
                     link : 'add-product'
                 },
                 {
-                    dropdown_li : 'Manage Product',
-                    func : null,
-                    link : 'add-product'
-                },
-                {
                     dropdown_li : 'View Product',
                     func : null,
                     link : 'view-product'

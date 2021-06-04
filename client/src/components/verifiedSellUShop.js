@@ -6,6 +6,7 @@ import SellerAddProduct from '../pages/sellerAddProduct';
 import '../styles/sellerPage/sellerPage.scss';
 import ViewProducts from '../pages/sellerViewProducts';
 import SellerManageProduct from '../pages/sellerManageProduct';
+import SellerProductDetails from '../pages/sellerProductDetails';
 
 
 const VerifiedSellUShop = (props) => {
@@ -22,9 +23,10 @@ const VerifiedSellUShop = (props) => {
             <Router>
                 <Switch>
                     <Route exact path='/sell-UShop' render = {() => <div>home</div>}/>    
-                    <Route exact path='/sell-UShop/add-product' component={SellerAddProduct}/>
-                    <Route exact path='/sell-UShop/view-product' component={ViewProducts}/> 
-                    <Route exact path='/sell-UShop/manage-product/:product_id' component={SellerManageProduct}/>    
+                    <Route path='/sell-UShop/add-product' component={SellerAddProduct}/>
+                    <Route path='/sell-UShop/view-product' component={ViewProducts}/> 
+                    <Route path='/sell-UShop/product/:product_id' component={SellerProductDetails}/> 
+                    <Route path='/sell-UShop/manage-product/:product_id' component={SellerManageProduct}/>    
                 </Switch>
             </Router>
             
