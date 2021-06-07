@@ -81,7 +81,7 @@ const SellerProductDetails = () => {
 
                     </div>
                     <h3>${productInfo.price}</h3>
-                    <p>lorem ipsum wanna fucking see what i can do you son of a bitch</p>
+                    <p>{productInfo.description}</p>
 
                 </div>
 

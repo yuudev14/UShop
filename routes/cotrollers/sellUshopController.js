@@ -40,6 +40,53 @@ const addProducts = async(req, res) => {
         }       
 }
 
+const getSellerProducts_no = async(req, res) => {
+    try {
+        const number = await db.query(
+            `SELECT COUNT(*) as totalProd FROM products 
+            WHERE user_id = $1 
+            GROUP BY user_id `,
+            [req.user]
+        );
+
+        res.send(number.rows[0].totalprod)
+        
+    } catch (error) {
+        cpnsole.log(error)
+        
+    }
+}
+
+const filterProducts = async(req, res) => {
+    try {
+        const {
+            productName,
+            category,
+            minStock,
+            maxStock,
+            minPrice,
+            maxPrice
+        } = req.body;
+        const products = await db.query(
+            `SELECT * from products 
+            WHERE product_name ILIKE '%${productName}%'
+            AND category ILIKE '%${category}%'
+            AND price BETWEEN ${minPrice} AND ${maxPrice} 
+            AND stock BETWEEN ${minStock} AND ${maxStock}
+            AND user_id = $1`,
+            [
+                req.user
+            ]
+        )
+
+        res.send(products.rows)
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
 const getProducts = async(req, res) => {
     try {
         const products = await db.query(
@@ -133,5 +180,7 @@ module.exports = {
     getProducts,
     deleteProduct,
     productInfo,
-    modifyProduct
+    modifyProduct,
+    filterProducts,
+    getSellerProducts_no
 }

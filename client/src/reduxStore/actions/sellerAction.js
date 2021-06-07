@@ -1,7 +1,21 @@
 import axios from 'axios';
 import { SET_SELLER_PRODUCT,DELETE_SELLER_PRODUCT } from '../actions/types';
 
-
+export const filterProductsAction = (data) => {
+    return async(dispatch) => {
+        try {
+            const filteredProducts = await axios.post('/sell-ushop/filter-products', data, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type: SET_SELLER_PRODUCT,
+                data : filteredProducts.data
+            })
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
 export const getSellerProductAction = () => {
     return async(dispatch) => {
         console.log('hi')
