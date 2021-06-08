@@ -11,6 +11,8 @@ app.use(express.urlencoded({limit: '50mb', extended : true}));
 app.use('/auth', require('./routes/authentication'));
 //sellerRoute
 app.use('/sell-ushop', require('./routes/sellUshop'));
+//ushop route
+app.use('/ushop', require('./routes/ushop'));
 
 
 app.listen(port, () => {

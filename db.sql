@@ -24,10 +24,11 @@ CREATE TABLE products (
     user_id uuid NOT NULL REFERENCES account(user_id),
     product_name VARCHAR(200) NOT NULL,
     category VARCHAR(50) NOT NULL,
-    price INTEGER NOT NULL,
+    price FLOAT NOT NULL,
     images VARCHAR(200)[] NOT NULL,
     description TEXT,
     stock INTEGER DEFAULT 0,
     heart INTEGER DEFAULT 0, 
-    seen INTEGER DEFAULT 0
+    seen INTEGER DEFAULT 0,
+    sold INTEGER DEFAULT 0
 );
