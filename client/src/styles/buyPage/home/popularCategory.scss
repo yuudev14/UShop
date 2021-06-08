@@ -17,6 +17,10 @@
                 grid-row: 1/3;
                 background-color: $quarternary;
                 // height: 100%;
+                
+
+            }
+            .categoryContent{
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -30,11 +34,18 @@
                     font-family: $secondaryFont;
                     color: $quarternary2;
                 }
-
             }
             .category{
                 width: 100%;
                 background-color: $quarternary;
+                padding: 5px;
+                text-align: center;
+                h3{
+                    font-size: 0.8em;
+                }
+                p{
+                    font-size: 0.7em;
+                }
 
             }
         }

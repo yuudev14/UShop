@@ -1,16 +1,37 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const TopCategory = () => {
+
+    const [topCategoryProducts, setTopCategoryProduct] = useState([]);
+
+    const getTopCategoryProduct = async() => {
+        try {
+            const products = await axios.get('/ushop/top-category-product');
+            setTopCategoryProduct(products.data)
+        } catch (error) {
+            console.log(error)       
+        }
+    }
+    useEffect(() => {
+        getTopCategoryProduct()
+    }, [])
     return (
         <div className='bestSellersInTopCategory previewContainer'>
-            <h1>Most Popular</h1>
+            <h1>Most Popular {topCategoryProducts[0] && topCategoryProducts[0].category}</h1>
             <div className='productList'>
-                <div className='product'>
-                    <div className='productImg'>
-                        <img src='https://res.cloudinary.com/yutakaki/image/upload/v1622623223/blog/fpuxomywjeblrydmbtdz.jpg' />
-                    </div>
-                    <h3>product name</h3>
-                </div>
+                {topCategoryProducts.map(prod => (
+                    <Link>
+                        <div className='product'>
+                            <div className='productImg'>
+                                <img src={prod.images} />
+                            </div>
+                            <h3>{prod.product_name}</h3>
+                        </div>
+                    </Link>
+
+                ))}
             </div>
         </div>
     )

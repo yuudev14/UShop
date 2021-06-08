@@ -90,7 +90,7 @@ const filterProducts = async(req, res) => {
 const getProducts = async(req, res) => {
     try {
         const products = await db.query(
-            `SELECT * from products WHERE user_id = $1`,
+            `SELECT * from products WHERE user_id = $1 ORDER BY date DESC`,
             [req.user]
         );
         res.send(products.rows);

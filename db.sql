@@ -30,5 +30,6 @@ CREATE TABLE products (
     stock INTEGER DEFAULT 0,
     heart INTEGER DEFAULT 0, 
     seen INTEGER DEFAULT 0,
-    sold INTEGER DEFAULT 0
+    sold INTEGER DEFAULT 0,
+    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );

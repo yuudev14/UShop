@@ -1,16 +1,44 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const MostPopular = () => {
+
+    const [mostPopularProducts, setMostPopularProducts] = useState([]);
+
+    const getPopularProducts = async() => {
+        try {
+            const products = await axios.get('/ushop/most-popular-products');
+            setMostPopularProducts(products.data)
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+    }
+
+
+    useEffect(() => {
+        getPopularProducts()
+
+
+    }, [])
     return (
         <div className='mostPopular previewContainer'>
             <h1>Most Popular</h1>
             <div className='productList'>
-                <div className='product'>
-                    <div className='productImg'>
-                        <img src='https://res.cloudinary.com/yutakaki/image/upload/v1622623223/blog/fpuxomywjeblrydmbtdz.jpg' />
-                    </div>
-                    <h3>product name</h3>
-                </div>
+                {mostPopularProducts.map(prod => (
+                    <Link>
+                        <div className='product'>
+                            <div className='productImg'>
+                                <img src={prod.images} />
+                            </div>
+                            <h3>{prod.product_name}</h3>
+                        </div>
+                    </Link>
+
+                ))}
+                
             </div>
         </div>
     )
