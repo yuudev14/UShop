@@ -1,0 +1,43 @@
+@mixin popularCategory{
+    .popularCategory{
+        padding: 15px;
+        background-color: white;
+        .categoryList{
+            margin-top: 10px;
+            width: 100%;
+            min-height: 200px;
+            display: grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+
+            .mostPopularCategory{
+                width: 100%;
+                grid-column: 1/3;
+                grid-row: 1/3;
+                background-color: $quarternary;
+                // height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                h3{
+                    font-family: $secondaryFont;
+                    color: $secondary;
+                }
+                p{
+                    font-family: $secondaryFont;
+                    color: $quarternary2;
+                }
+
+            }
+            .category{
+                width: 100%;
+                background-color: $quarternary;
+
+            }
+        }
+
+    }
+}

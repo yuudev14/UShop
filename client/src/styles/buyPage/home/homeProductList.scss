@@ -1,0 +1,63 @@
+@mixin forYou{
+    .forYou{
+        padding: 15px;
+        .productContainer{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .product{
+            border: 1px solid $quarternary;
+            width: 40%;
+            max-width: 170px;
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            .prev-img{
+                width: 100%;
+                height: 170px;
+                background-color: $quarternary;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+
+            }
+            .productInfo{
+                padding: 10px;
+                margin-top: auto;
+                h3{
+                    margin-bottom: 20px;
+                    font-family: $primaryFont;
+                    color: $secondary;
+                }
+                .priceNstock{
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    flex-direction: column;
+                    .price{
+                        font-family: $secondaryFont;
+                        color: $quarternary2;
+                        margin-right: 10px;
+                    }
+                    .stock{
+                        font-family: $secondaryFont;
+                        color: $quarternary2;
+                    }
+                }
+                .viewHeartSales{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    i, p{
+                        // font-family: $secondaryFont;
+                        color: $quarternary2;
+
+                    }
+                }
+            }
+        }
+    }
+}

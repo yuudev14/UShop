@@ -20,6 +20,11 @@ const MainNav1 = (props) => {
     const logout = () => {
         logoutDispatch();
     }
+    const closeNav1 = () => {
+        document.querySelector('.nav1').classList.remove('openNav1');
+    }
+
+    
     return (
         <div className='nav1'>
             <ul>
@@ -41,7 +46,7 @@ const MainNav1 = (props) => {
 
                 )}
             </ul>
-            <i className='fa fa-close'></i>
+            <i className='fa fa-close' onClick={closeNav1}></i>
 
         </div>
     )
