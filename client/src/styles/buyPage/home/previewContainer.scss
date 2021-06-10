@@ -1,4 +1,4 @@
-@mixin  previewContainer {
+@mixin previewContainer {
     .previewContainer{
         background-color: white;
         margin: 10px 0;
@@ -9,7 +9,7 @@
         }
         .productList{
             display: flex;
-            overflow-x: hidden;
+            overflow-x: auto;
             width: 100%;
             a{
                 width: 15%;

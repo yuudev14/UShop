@@ -10,11 +10,12 @@ import {getUshopProductListAction} from '../reduxStore/actions/ushopAction';
 const Home = (props) => {
 
     const {
-        getUshopProductsDispatch
+        getUshopProductsDispatch,
+        productLists
     } = props;
 
     useEffect(() => {
-        getUshopProductsDispatch();
+        getUshopProductsDispatch(productLists.length);
 
     }, [])
 
@@ -28,11 +29,16 @@ const Home = (props) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        productLists : state.ushopProductLists
+    }
+}
 const mapDispatchToProps = dispatch => {
     return {
-        getUshopProductsDispatch : () => dispatch(getUshopProductListAction())
+        getUshopProductsDispatch : (start) => dispatch(getUshopProductListAction(start))
     }
 }
 
-export default connect(null, mapDispatchToProps)
+export default connect(mapStateToProps, mapDispatchToProps)
                 (Home)

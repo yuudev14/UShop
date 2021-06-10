@@ -1,12 +1,19 @@
 import React from 'react'
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import { getUshopProductListAction } from '../../reduxStore/actions/ushopAction';
 
 const HomeProductList = (props) => {
     const {
-        productLists
+        productLists,
+        getUshopProductsDispatch
 
-    } = props
+    } = props;
+
+    const seeMoreProducts = () => {
+        getUshopProductsDispatch(productLists.length)
+
+    }
     return (
         <div className='forYou'>
             <h1>For You</h1>
@@ -28,7 +35,10 @@ const HomeProductList = (props) => {
 
                 ))}
                 
-            </div>     
+                
+            </div>
+            <button onClick={seeMoreProducts}>see more</button>
+            
         </div>
     )
 }
@@ -39,5 +49,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)
+const mapDispatchToProps = dispatch => {
+    return {
+        getUshopProductsDispatch : (start) => dispatch(getUshopProductListAction(start))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)
                 (HomeProductList)

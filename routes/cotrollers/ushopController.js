@@ -18,7 +18,11 @@ const getMostPopularProducts = async(req, res) => {
 const getUshopProducts = async(req, res) => {
     try {
         const products = await db.query(
-            `SELECT product_name, product_id, sold, price, images[1] FROM products ORDER BY date DESC`
+            `SELECT product_name, product_id, sold, price, images[1] 
+            FROM products 
+            ORDER BY date DESC
+            OFFSET $1 LIMIT 20 `,
+            [req.params.start]
         )
 
         res.send(products.rows);

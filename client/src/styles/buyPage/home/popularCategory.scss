@@ -1,7 +1,15 @@
+@import '../../variables.scss';
+
+
 @mixin popularCategory{
     .popularCategory{
         padding: 15px;
         background-color: white;
+        h1{
+            font-family: $primaryFont;
+            color: $primary;
+
+        }
         .categoryList{
             margin-top: 10px;
             width: 100%;
