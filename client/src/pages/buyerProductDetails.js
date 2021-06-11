@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {useParams, useHistory, Link} from 'react-router-dom';
-import SellerProductDetailOption from '../components/sellerProductDetailOption';
 import ProductDetails from '../components/productDetail';
+import BuyerProductDetailOptions from '../components/buyerProductDetailOptions';
+import '../styles/buyPage/buyerProductDetail.scss';
 
-const SellerProductDetails = () => {
+const BuyerProductDetails = () => {
 
     const [productInfo, setProductInfo] = useState({
         product_id : '',
@@ -24,7 +25,7 @@ const SellerProductDetails = () => {
 
     const getProductInfo = async() => {
         try {
-            const productDetails = await axios.get(`/sell-ushop/getProduct/${product_id}`,{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            const productDetails = await axios.get(`/ushop/get-product-info/${product_id}`);
             const data = productDetails.data;
             console.log(data);
             setProductInfo({
@@ -41,7 +42,7 @@ const SellerProductDetails = () => {
             
         } catch (error) {
             console.log(error.response);
-            history.push('/sell-UShop/view-product');
+            history.push('/');
             
         }
         
@@ -52,9 +53,9 @@ const SellerProductDetails = () => {
 
     return (
         <>
-            <ProductDetails productInfo={productInfo} Option={SellerProductDetailOption} />
+            <ProductDetails productInfo={productInfo} Option={BuyerProductDetailOptions}/>
         </>
     )
 }
 
-export default SellerProductDetails
+export default BuyerProductDetails

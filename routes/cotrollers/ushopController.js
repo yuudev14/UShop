@@ -67,9 +67,32 @@ const getPopularCategories = async(req, res) => {
     }
 }
 
+const getProductInfo = async(req, res) => {
+    try {
+        const product_id = req.params.product_id;
+        const products = await db.query(
+            `SELECT * from products WHERE product_id = $1`,
+            [product_id]
+        );
+        if(products.rowCount === 0){
+            res.status(404).send(false)
+
+        }else{
+            res.send(products.rows[0]);
+        }
+        
+        
+    } catch (error) {
+        console.log(error);
+        res.status(404).send('product not found')
+        
+    }
+}
+
 module.exports = {
     getMostPopularProducts,
     getPopularCategories,
     getTopCategoryProduct,
-    getUshopProducts
+    getUshopProducts,
+    getProductInfo
 }

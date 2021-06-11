@@ -1,0 +1,6 @@
+@import '../product.scss';
+
+@include product;
+.productDetails{
+    margin-top: 100px;
+}

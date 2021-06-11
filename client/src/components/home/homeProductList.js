@@ -19,7 +19,7 @@ const HomeProductList = (props) => {
             <h1>For You</h1>
             <div className='productContainer'>
                 {productLists.map(prod => (
-                    <Link className='product'>
+                    <Link className='product' to={`/product/${prod.product_id}`}>
                         <div className='prev-img'>
                             <img src={prod.images} />
                         </div>
