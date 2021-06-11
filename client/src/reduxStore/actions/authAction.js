@@ -48,6 +48,43 @@ export const logoutAction = () => {
     }
 }
 
+export const verifyHasShop = () => {
+    return async(dispatch) => {
+        try {
+            const uShoptoken = JSON.parse(localStorage.getItem('UShop'));
+            let auth;
+            if(uShoptoken){
+                const verifySellerRequest = await axios.get('/auth/has-shop',
+                                                    {headers : {
+                                                        token : uShoptoken.token
+                                                    }});
+                auth = true
+            }else{
+                auth = false
+
+            }
+            dispatch({
+                type : SET_AUTH,
+                data : {
+                    hasShop : auth,
+                }
+            });
+            
+
+            
+        } catch (error) {
+            console.log(error.response.data)
+            dispatch({
+                type : SET_AUTH,
+                data : {
+                    hasShop : false,
+                }
+            });
+            
+        }
+    }
+
+}
 export const verifyToken = () => {
     return async(dispatch) => {
         try {
@@ -85,3 +122,4 @@ export const verifyToken = () => {
         }
     }
 }
+

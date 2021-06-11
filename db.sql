@@ -17,26 +17,24 @@ CREATE TABLE account
 );
 
 CREATE TABLE category (
-    category_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    category_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE seller_account (
-    seller_account_id NOT NULL REFERENCES account(user_id),
+CREATE TABLE shops (
+    shop_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES account(user_id),
     email VARCHAR(100) NOT NULL,
     shop_name VARCHAR(100),
     CONSTRAINT unique_shopname UNIQUE (shop_name),
-    CONSTRAINT unique_email UNIQUE (email)
+    CONSTRAINT unique_seller UNIQUE (user_id),
+    CONSTRAINT unique_shop_email UNIQUE (email)
 );
 
-CREATE TABLE shopCategory (
-    seller_account_id uuid REFERENCES seller_account(seller_account_id) NOT NULL,
-    category_id uuid REFERENCES category(category_id) NOT NULL
-);
 
 CREATE TABLE products (
     product_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
-    user_id uuid NOT NULL REFERENCES seller_account(seller_account_id),
+    shop_id uuid NOT NULL REFERENCES shops(shop_id),
     product_name VARCHAR(200) NOT NULL,
     price FLOAT NOT NULL,
     description TEXT,
@@ -52,7 +50,7 @@ CREATE TABLE productCategory (
     category_id uuid REFERENCES category(category_id) NOT NULL 
 );
 
-CREATE TABLE productImage (
+CREATE TABLE productImages (
     product_id uuid NOT NULL REFERENCES products(product_id),
     image_link VARCHAR(200) NOT NULL
 );

@@ -176,6 +176,29 @@ const modifyProduct = async(req, res) => {
     }
 }
 
+const registerShop = async(req, res) => {
+    try {
+        const {shop_name, email} = req.body;
+        await db.query(
+            `INSERT INTO shops
+            (
+                shop_name,
+                email,
+                user_id
+            )
+            VALUES (
+                $1, $2, $3
+            )`,
+            [shop_name, email, req.user]
+
+        )
+        res.send(true);
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 module.exports = {
     addProducts,
     getProducts,
@@ -183,5 +206,6 @@ module.exports = {
     productInfo,
     modifyProduct,
     filterProducts,
-    getSellerProducts_no
+    getSellerProducts_no,
+    registerShop
 }

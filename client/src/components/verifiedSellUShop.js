@@ -7,18 +7,27 @@ import '../styles/sellerPage/sellerPage.scss';
 import ViewProducts from '../pages/sellerViewProducts';
 import SellerManageProduct from '../pages/sellerManageProduct';
 import SellerProductDetails from '../pages/sellerProductDetails';
+import { verifyHasShop } from '../reduxStore/actions/authAction';
 
 
 const VerifiedSellUShop = (props) => {
 
     const {
         auth,
+        verifyHasShopDispatch
     } = props
+
+    useEffect(() => {
+        verifyHasShopDispatch();
+    }, [])
 
     return (
         <div className='sellUShop'>
             {(auth.isAuth === false) && (
                 <Redirect to ='/auth' />
+            )}
+            {(auth.isAuth === true && auth.hasShop === false) && (
+                <Redirect to ='/registerShop' />
             )}
             <Router>
                 <Switch>
@@ -40,7 +49,13 @@ const mapStateToProps = (state) => {
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        verifyHasShopDispatch : () => dispatch(verifyHasShop())
+    }
+}
 
 
-export default connect(mapStateToProps)
+
+export default connect(mapStateToProps, mapDispatchToProps)
                 (VerifiedSellUShop)

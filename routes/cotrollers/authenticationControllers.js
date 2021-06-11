@@ -6,6 +6,7 @@ const verifyAccount = (req, res) => {
     res.send(true);
 }
 
+
 const login = async(req, res) => {
     const {
         email,
@@ -100,5 +101,5 @@ const register = async(req, res) => {
 module.exports = {
     register,
     verifyAccount,
-    login
+    login,
 }
