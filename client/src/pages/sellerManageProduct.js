@@ -46,19 +46,20 @@ const SellerManageProduct = () => {
             const url = 'https://api.cloudinary.com/v1_1/yutakaki/image/upload';
             try {
                 let newImages = [];
-                let uploaded;
+                console.log(manageProductsForm.images)
                 manageProductsForm.images.forEach(async(img, i) => {
-                    if(img.includes('data:image')){
+                    if(img.image_link.includes('data:image')){
                         const formData = new FormData();
-                        formData.append('file', img);
+                        formData.append('file', img.image_link);
                         formData.append('upload_preset', preset);
                         const uploadImg = await axios.post(url, formData);
                         newImages.push(uploadImg.data.secure_url);
-                        uploaded++;
                         
                     }
                     if(i === manageProductsForm.images.length - 1 ){
-                        await axios.post(`/sell-ushop/modify-product/${product_id}`, {...manageProductsForm, newImages : [...manageProductsForm.images, ...newImages]}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}})
+                        const beforeImg = manageProductsForm.images.filter(img => !img.image_link.includes('data:image'))
+                                                                    .map(img => img.image_link)
+                        await axios.post(`/sell-ushop/modify-product/${product_id}`, {...manageProductsForm, newImages : [ ...beforeImg, ...newImages]}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}})
                         history.push('/sell-UShop/view-product');
                     }
                 })  
@@ -78,8 +79,8 @@ const SellerManageProduct = () => {
                 reader.onload = () => {
                     setManageProductsForm({
                         ...manageProductsForm,
-                        [key] : [ ...manageProductsForm[key] , reader.result],
-                        sampleImages : [...manageProductsForm.sampleImages, URL.createObjectURL(e.target.files[0])]
+                        [key] : [ ...manageProductsForm[key] , { image_link : reader.result}],
+                        sampleImages : [...manageProductsForm.sampleImages, {image_link: URL.createObjectURL(e.target.files[0])}]
                     });
                 }
             }

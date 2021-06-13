@@ -17,7 +17,7 @@ const SellerProduct = (props) => {
         <div className='productContainer'>
             <Link to={`/sell-UShop/product/${data.product_id}`}>
                 <div className='prev-img'>
-                    <img src={data.images[0]} />
+                    <img src={data.image} />
                 </div>
                 <div className='productInfo'>
                     <h3>{data.product_name}</h3>

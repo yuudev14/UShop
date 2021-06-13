@@ -9,12 +9,12 @@ const ProductDetails = ({productInfo, Option}) => {
                 <div className='productImages'>
                     <h1>{productInfo.productName}</h1>
                     <div className='preview_img'>
-                        <img src={productInfo.images[preview_img]} />
+                        <img src={productInfo.images.length > 0 && productInfo.images[preview_img].image_link } />
                     </div>
                     
                     <div className='list_img'>
                         {productInfo.images.map((img, i) => (
-                            <img src={img} onClick={() => setPreviewImage(i)}/>
+                            <img src={img.image_link} onClick={() => setPreviewImage(i)}/>
 
                         ))}
                     </div>

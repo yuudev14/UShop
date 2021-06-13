@@ -89,10 +89,24 @@ const getProductInfo = async(req, res) => {
     }
 }
 
+const getCategories = async(req, res) => {
+    try {
+        const categories = await db.query(
+            `SELECT * FROM category`
+        )
+        res.send(categories.rows);
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 module.exports = {
     getMostPopularProducts,
     getPopularCategories,
     getTopCategoryProduct,
     getUshopProducts,
-    getProductInfo
+    getProductInfo,
+    getCategories
 }

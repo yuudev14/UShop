@@ -1,4 +1,5 @@
-import React, {useRef} from 'react'
+import axios from 'axios';
+import React, {useRef, useState, useEffect} from 'react'
 
 const SellerManageAddForm = (props) => {
     const {
@@ -19,39 +20,21 @@ const SellerManageAddForm = (props) => {
 
     const addImageLogo = useRef();
 
-    
+    const [category, setCategory] = useState([])
 
-    const categoryList = [
-        'Appliances',
-        'Apps & Games',
-        'Arts, Crafts, & Sewing',
-        'Automotive Parts & Accessories',
-        'Baby',
-        'Beauty & Personal Care',
-        'Books',
-        'CDs & Vinyl',
-        'Cell Phones & Accessories',
-        'Clothing, Shoes and Jewelry',
-        'Collectibles & Fine Art',
-        'Computers',
-        'Electronics',
-        'Garden & Outdoor',
-        'Grocery & Gourmet Food',
-        'Handmade',
-        'Health, Household & Baby Care',
-        'Home & Kitchen',
-        'Industrial & Scientific',
-        'Kindle',
-        'Luggage & Travel Gear',
-        'Movies & TV',
-        'Musical Instruments',
-        'Office Products',
-        'Pet Supplies',
-        'Sports & Outdoors',
-        'Tools & Home Improvement',
-        'Toys & Games',
-        'Video Games',
-    ]
+    useEffect(() => {
+        (async() => {
+            try {
+                const category = await axios.get('/ushop/categories');
+                setCategory(category.data);
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+        })();
+    }, [])
+
 
 
     const checkError = () => {
@@ -91,8 +74,8 @@ const SellerManageAddForm = (props) => {
                 <p>Category</p>
                 <select id='category' name='category' onChange={setFormMethod} value={state.category ? state.category : null}>
                     <option disabled selected value = {null}> -- select category-- </option>
-                    {categoryList.map(category => (
-                        <option value={category}>{category}</option>
+                    {category.map(category => (
+                        <option value={category.category_id}>{category.category_name}</option>
                     ))}
                     
                 </select>
@@ -113,7 +96,7 @@ const SellerManageAddForm = (props) => {
                 <input name='images' type='file' id='productNameImage' onChange={setFormMethod}/>
                 <div className='sampleImages'>
                     {state.sampleImages.map(img => (
-                        <img src={img} />
+                        <img src={img.image_link} />
                     ))}
                 </div>
             </div>

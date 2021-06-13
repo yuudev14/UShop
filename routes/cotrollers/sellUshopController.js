@@ -1,5 +1,4 @@
 const db = require('../../db');
-const cloudinary = require('../../utils/cloudinarySetup');
 
 const addProducts = async(req, res) => {
         let {
@@ -11,27 +10,47 @@ const addProducts = async(req, res) => {
             stock
         } = req.body;
         try {
-            const addProductQuery = await db.query(
+            const product = await db.query(
                 `INSERT INTO products
                 (
-                    user_id,
+                    shop_id,
                     product_name,
-                    category,
                     price,
-                    images,
                     description,
                     stock
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7) `,
+                VALUES ($1, $2, $3, $4, $5) RETURNING product_id`,
                 [
                     req.user,
                     productName,
-                    category,
                     Number(price),
-                    newImages,
                     description,
                     stock
                 ]
+            )
+
+            for(let i in newImages){
+                await db.query(
+                    `INSERT INTO productImages
+                    (
+                        product_id,
+                        image_link
+                    )
+                    VALUES (
+                        $1, $2
+                    )`, [product.rows[0].product_id,newImages[i]]
+                )
+            }
+
+            await db.query(
+                `INSERT INTO productCategory
+                (
+                    product_id,
+                    category_id
+                )
+                VALUES (
+                    $1, $2
+                )`, [product.rows[0].product_id, category]
             )
             res.send(true);
         }catch (error) {
@@ -44,8 +63,8 @@ const getSellerProducts_no = async(req, res) => {
     try {
         const number = await db.query(
             `SELECT COUNT(*) as totalProd FROM products 
-            WHERE user_id = $1 
-            GROUP BY user_id `,
+            WHERE shop_id = $1 
+            GROUP BY shop_id `,
             [req.user]
         );
 
@@ -73,7 +92,7 @@ const filterProducts = async(req, res) => {
             AND category ILIKE '%${category}%'
             AND price BETWEEN ${minPrice} AND ${maxPrice} 
             AND stock BETWEEN ${minStock} AND ${maxStock}
-            AND user_id = $1`,
+            AND shop_id = $1`,
             [
                 req.user
             ]
@@ -90,7 +109,11 @@ const filterProducts = async(req, res) => {
 const getProducts = async(req, res) => {
     try {
         const products = await db.query(
-            `SELECT * from products WHERE user_id = $1 ORDER BY date DESC`,
+            `SELECT *, 
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as image 
+            FROM products 
+            WHERE shop_id = $1 
+            ORDER BY date DESC`,
             [req.user]
         );
         res.send(products.rows);
@@ -105,7 +128,7 @@ const deleteProduct = async(req,res) => {
     try {
         const product_id = req.params.product_id;
         await db.query(
-            `DELETE FROM products WHERE user_id = $1 AND product_id = $2`,
+            `DELETE FROM products WHERE shop_id = $1 AND product_id = $2`,
             [req.user, product_id]
         );
         res.send(true)
@@ -119,14 +142,26 @@ const productInfo = async(req, res) => {
     try {
         const product_id = req.params.product_id;
         const products = await db.query(
-            `SELECT * from products WHERE user_id = $1 AND product_id = $2`,
+            `SELECT * from products WHERE shop_id = $1 AND product_id = $2`,
             [req.user, product_id]
+        );
+        const images = await db.query(
+            `SELECT * from productImages WHERE product_id = $1`,
+            [product_id]
+        );
+        const category = await db.query(
+            `SELECT category_id from productCategory WHERE product_id = $1`,
+            [product_id]
         );
         if(products.rowCount === 0){
             res.status(404).send(false)
 
         }else{
-            res.send(products.rows[0]);
+            res.send({
+                ...products.rows[0],
+                images : images.rows,
+                category : category.rows[0].category_id || null
+            });
         }
         
         
@@ -148,27 +183,61 @@ const modifyProduct = async(req, res) => {
             description,
             stock,
         } = req.body;
+
+        console.log(newImages);
         await db.query(
             `UPDATE products
             SET product_name = $1,
-                category = $2,
-                price = $3,
-                images = $4,
-                description = $5,
-                stock = $6
-            WHERE product_id = $7
-            AND user_id = $8`,
+                price = $2,
+                description = $3,
+                stock = $4
+            WHERE product_id = $5
+            AND shop_id = $6`,
             [
                 productName,
-                category,
                 price,
-                newImages,
                 description,
                 stock,
                 product_id,
                 req.user
             ]
         );
+
+        await db.query(
+            `DELETE FROM productImages
+            WHERE product_id = $1`,
+            [product_id]
+        )
+
+        await db.query(
+            `DELETE FROM productCategory
+            WHERE product_id = $1`,
+            [product_id]
+        )
+
+        for(let i in newImages){
+            await db.query(
+                `INSERT INTO productImages
+                (
+                    product_id,
+                    image_link
+                )
+                VALUES (
+                    $1, $2
+                )`, [product_id,newImages[i]]
+            )
+        }
+
+        await db.query(
+            `INSERT INTO productCategory
+            (
+                product_id,
+                category_id
+            )
+            VALUES (
+                $1, $2
+            )`, [product_id, category]
+        )
         
         res.send(true);
     } catch (error) {

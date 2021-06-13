@@ -21,6 +21,18 @@ CREATE TABLE category (
     category_name VARCHAR(100) NOT NULL
 );
 
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Appliances'
+);
+
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Games'
+);
+
 CREATE TABLE shops (
     shop_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES account(user_id),
@@ -46,18 +58,18 @@ CREATE TABLE products (
 );
 
 CREATE TABLE productCategory (
-    product_id uuid NOT NULL REFERENCES products(product_id),
+    product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
     category_id uuid REFERENCES category(category_id) NOT NULL 
 );
 
 CREATE TABLE productImages (
-    product_id uuid NOT NULL REFERENCES products(product_id),
+    product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
     image_link VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE orders (
     order_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
-    product_id uuid NOT NULL REFERENCES products(product_id),
+    product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
     status VARCHAR(15) NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
     user_id uuid NOT NULL REFERENCES account(user_id),

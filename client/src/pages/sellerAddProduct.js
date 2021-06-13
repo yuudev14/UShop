@@ -28,7 +28,7 @@ const SellerAddProduct = () => {
                 let newImages = [];
                 addProductsForm.images.forEach(async(img, i) => {
                     const formData = new FormData();
-                    formData.append('file', img);
+                    formData.append('file', img.image_link);
                     formData.append('upload_preset', preset);
                     const uploadImg = await axios.post(url, formData);
                     newImages.push(uploadImg.data.secure_url);
@@ -53,8 +53,8 @@ const SellerAddProduct = () => {
                 reader.onload = () => {
                     setAddProductsForm({
                         ...addProductsForm,
-                        [key] : [ ...addProductsForm[key] , reader.result],
-                        sampleImages : [...addProductsForm.sampleImages, URL.createObjectURL(e.target.files[0])]
+                        [key] : [ ...addProductsForm[key] , { image_link : reader.result}],
+                        sampleImages : [...addProductsForm.sampleImages, {image_link: URL.createObjectURL(e.target.files[0])}]
                     });
                 }
             }
