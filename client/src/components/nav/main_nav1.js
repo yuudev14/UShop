@@ -39,7 +39,10 @@ const MainNav1 = (props) => {
                 <li>Categories</li>
 
                 {auth.isAuth ? (
-                    <li onClick={logout}>log out</li>
+                    <>
+                        <li onClick={logout}>log out</li>
+                        <li>profile</li>
+                    </>
 
                 ) : (
                     <Link to='/auth'><li className='account_nav'>log-in | sign-up</li></Link>

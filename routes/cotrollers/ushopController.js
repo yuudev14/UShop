@@ -3,8 +3,10 @@ const db = require('../../db');
 const getMostPopularProducts = async(req, res) => {
     try {
         const popularProducts = await db.query(
-            `SELECT product_id, product_name, images[1] FROM products
-             ORDER BY sold LIMIT 10`
+            `SELECT product_id, product_name, 
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images  
+            FROM products
+            ORDER BY sold LIMIT 10`
         )
 
         res.send(popularProducts.rows);
@@ -18,8 +20,9 @@ const getMostPopularProducts = async(req, res) => {
 const getUshopProducts = async(req, res) => {
     try {
         const products = await db.query(
-            `SELECT product_name, product_id, sold, price, images[1] 
-            FROM products 
+            `SELECT product_id, product_name, 
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images  
+            FROM products
             ORDER BY date DESC
             OFFSET $1 LIMIT 20 `,
             [req.params.start]
@@ -36,11 +39,21 @@ const getUshopProducts = async(req, res) => {
 const getTopCategoryProduct = async(req, res) => {
     try {
         const product = await db.query(
-            `SELECT product_id, product_name, images[1], category FROM products 
-            WHERE category = (SELECT category FROM products 
-                              GROUP BY category 
-                              ORDER BY COUNT(*) 
-                              DESC LIMIT 1)
+            `SELECT 
+                products.product_id, 
+                products.product_name, 
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images   
+            FROM productCategory
+            JOIN products ON products.product_id = productCategory.product_id
+            WHERE category_id = (
+                SELECT category.category_id FROM (
+                    SELECT productCategory.category_id, category_name, productCategory.product_id FROM productCategory 
+                    JOIN category ON category.category_id = productCategory.category_id
+                ) as category
+                GROUP BY category.category_id
+                ORDER BY COUNT(*) DESC
+                LIMIT 1
+            ) 
             ORDER BY sold`
         );
 
@@ -54,8 +67,11 @@ const getTopCategoryProduct = async(req, res) => {
 const getPopularCategories = async(req, res) => {
     try {
         const categories = await db.query(
-            `SELECT category, COUNT(*) as products FROM products
-            GROUP BY category
+            `SELECT category.category_name, COUNT(*) as products FROM (
+                SELECT productCategory.category_id, category_name FROM productCategory 
+                JOIN category ON category.category_id = productCategory.category_id
+            ) as category
+            GROUP BY category.category_name
             ORDER BY products DESC
             LIMIT 9`
         );
@@ -63,6 +79,44 @@ const getPopularCategories = async(req, res) => {
         
     } catch (error) {
         console.log(error);
+        
+    }
+}
+
+const getCartProduct = async(req, res) => {
+    try {
+        const {cart} = req.body;
+        console.log(cart.map(cart => `'${cart}'`).join(','))
+
+        const numExecute = (arr) => {
+            let str  = '';
+            for(let x in arr){
+                str += `$${Number(x)+1},`
+            }
+
+            return str.slice(0, -1);
+        }
+        if(cart.length){
+            const products = await db.query(
+                `SELECT product_id, product_name, price, (
+                    SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
+                ) as image
+                FROM products WHERE product_id IN (${numExecute(cart)})`,
+                cart
+            )
+    
+            res.send(products.rows);
+
+        }else{
+            res.send([]);
+        }
+
+        
+        
+        
+    } catch (error) {
+        console.log(error);
+        console.log(1)
         
     }
 }
@@ -78,7 +132,12 @@ const getProductInfo = async(req, res) => {
             res.status(404).send(false)
 
         }else{
-            res.send(products.rows[0]);
+
+            const images = await db.query(
+                `SELECT image_link from productImages WHERE product_id = $1`,
+                [product_id]
+            )
+            res.send({...products.rows[0], images : images.rows});
         }
         
         
@@ -108,5 +167,6 @@ module.exports = {
     getTopCategoryProduct,
     getUshopProducts,
     getProductInfo,
-    getCategories
+    getCategories,
+    getCartProduct
 }

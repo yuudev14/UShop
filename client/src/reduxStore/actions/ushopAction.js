@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_USHOP_PRODUCT } from './types';
+import { RESET_USHOP_PRODUCT, SET_USHOP_PRODUCT } from './types';
 
 export const getUshopProductListAction = (start) => {
     return async(dispatch) => {
@@ -17,4 +17,11 @@ export const getUshopProductListAction = (start) => {
         }
     }
 
+}
+
+export const resetProductListAction = () => {
+    return{
+        type : RESET_USHOP_PRODUCT,
+        data : []
+    }
 }

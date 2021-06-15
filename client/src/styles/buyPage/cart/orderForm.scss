@@ -1,0 +1,43 @@
+@import '../../variables.scss';
+
+@mixin orderform{
+    .orderForm{
+        width: 100%;
+        min-height: 100px;
+        height: max-content;
+        text-align: center;
+        padding: 20px;
+        background-color: white;
+        margin-top: 10px;
+        h1{
+            text-align: left;
+            font-family: $primaryFont;
+            color: $secondary;
+        }
+        .orderInfo{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            
+        }
+        h5{
+            color: $quarternary2;
+            font-family: $secondaryFont;
+            width: 70%;
+            text-align: left;
+        }
+        p{
+            font-family: $secondaryFont;
+            color: $primary;
+
+        }
+        
+        button{
+            width: 70%;
+            background-color: $tertiary;
+            color: $quarternary;
+        }
+        
+    }
+}

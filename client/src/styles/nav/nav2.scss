@@ -59,10 +59,17 @@
         h1{
             font-family: $primaryFont;
         }
-        .fa-shopping-cart{
+        .cartIcon{
             grid-column: 10 / 11;
             grid-row: 1 / 2;
             text-align: center;
+            position: relative;
+            p{
+                position: absolute;
+                top: 0;
+                right: -10px;
+
+            }
         }
         .menu-icon{
             width: 1.5em;

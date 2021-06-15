@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {useParams, useHistory, Link} from 'react-router-dom';
+import {useParams, useHistory} from 'react-router-dom';
 import SellerProductDetailOption from '../components/sellerProductDetailOption';
 import ProductDetails from '../components/productDetail';
 

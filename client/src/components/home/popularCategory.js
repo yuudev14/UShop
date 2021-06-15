@@ -33,7 +33,7 @@ const PopularCategory = () => {
                     if(i === 0){
                         return (
                             <Link className='mostPopularCategory categoryContent'>
-                                <h3>{category.category}</h3>
+                                <h3>{category.category_name}</h3>
                                 <p>{category.products} products</p>
                             </Link>
 
@@ -41,7 +41,7 @@ const PopularCategory = () => {
                     }
                     return (
                         <Link className='category categoryContent'>
-                            <h3>{category.category}</h3>
+                            <h3>{category.category_name}</h3>
                             <p>{category.products} products</p>
 
                         </Link>

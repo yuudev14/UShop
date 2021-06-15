@@ -1,14 +1,24 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import { getUshopProductListAction } from '../../reduxStore/actions/ushopAction';
+import { getUshopProductListAction, resetProductListAction } from '../../reduxStore/actions/ushopAction';
 
 const HomeProductList = (props) => {
     const {
         productLists,
-        getUshopProductsDispatch
+        getUshopProductsDispatch,
+        resetProductListDispatch
 
     } = props;
+
+    useEffect(() => {
+        getUshopProductsDispatch(productLists.length);
+
+        return() => {
+            resetProductListDispatch()
+
+        }
+    }, [])
 
     const seeMoreProducts = () => {
         getUshopProductsDispatch(productLists.length)
@@ -51,9 +61,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUshopProductsDispatch : (start) => dispatch(getUshopProductListAction(start))
+        getUshopProductsDispatch : (start) => dispatch(getUshopProductListAction(start)),
+        resetProductListDispatch : () => dispatch(resetProductListAction())
     }
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)
                 (HomeProductList)

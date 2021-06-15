@@ -22,7 +22,7 @@ const TopCategory = () => {
             <h1>Most Popular {topCategoryProducts[0] && topCategoryProducts[0].category}</h1>
             <div className='productList'>
                 {topCategoryProducts.map(prod => (
-                    <Link>
+                    <Link to={`/product/${prod.product_id}`}>
                         <div className='product'>
                             <div className='productImg'>
                                 <img src={prod.images} />
