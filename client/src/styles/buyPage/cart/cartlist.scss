@@ -42,14 +42,19 @@
                     display: flex;
                     width: 35%;
                     justify-content: space-between;
+                    .price{
+                        width: 50%;
+
+                    }
                     
                     .itemOption{
                         display: flex;
                         flex-direction: column;
                         align-items: center;
+                        width: 50%;
 
                         input{
-                            width: 40%;
+                            width: 100%;
                         }
                         button{
                             margin-top: 10px

@@ -54,7 +54,8 @@ CREATE TABLE products (
     heart INTEGER DEFAULT 0, 
     seen INTEGER DEFAULT 0,
     sold INTEGER DEFAULT 0,
-    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT check_stock CHECK(stock >= 0)
 );
 
 CREATE TABLE productCategory (
@@ -68,10 +69,15 @@ CREATE TABLE productImages (
 );
 
 CREATE TABLE orders (
-    order_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
-    product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
-    status VARCHAR(15) NOT NULL,
-    quantity INTEGER NOT NULL DEFAULT 1,
+    order_number uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES account(user_id),
     date timestamp with time zone
+);
+
+CREATE TABLE orderDetails (
+    order_number uuid REFERENCES orders(order_number),
+    product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
+    status VARCHAR(15) NOT NULL DEFAULT 'PENDING',
+    item INTEGER NOT NULL
+
 );

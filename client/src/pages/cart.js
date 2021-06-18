@@ -32,7 +32,7 @@ const Cart = ({setCartDispatch}) => {
     const setItemsMethod = (id, value) => {
         const updatedProduct = cartProducts.map(prod => {
             if (prod.product_id === id){
-                prod.item = value;
+                prod.item = value > prod.stock ? prod.stock : value;
                 prod.totalPrice = prod.price * value
             }
             return prod;
@@ -61,6 +61,16 @@ const Cart = ({setCartDispatch}) => {
         setCartProducts(filterProduct);
         setCartDispatch()
         
+
+    }
+
+    const deleteSomeCart = (cart) => {
+        const ushop = JSON.parse(localStorage.getItem('UShop'));
+        const data = {...ushop, cart}
+        localStorage.setItem('UShop', JSON.stringify(data));
+        const filterProduct = cartProducts.filter(prod => !cart.indexOf(prod.product_id))
+        setCartProducts(filterProduct);
+        setCartDispatch()
 
     }
 
@@ -97,12 +107,9 @@ const Cart = ({setCartDispatch}) => {
                             }
                             deleteCart={deleteCart} setItemsMethod={setItemsMethod} setSelectedItems={setSelectedItems}/>
                         ))}
-
-                        
-
                     </div>
                 </div>
-                <OrderForm cartProducts={cartProducts}/>
+                <OrderForm cartProducts={cartProducts} deleteSomeCart={deleteSomeCart}/>
             </div>
             <HomeProductList />
         </div>

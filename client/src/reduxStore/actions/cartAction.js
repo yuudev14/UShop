@@ -11,7 +11,7 @@ export const setCartAction = () => {
             data  = []
         }
     }else{
-        data  = ushop.cart
+        data  = []
     }
     return {
         type : SET_CART,

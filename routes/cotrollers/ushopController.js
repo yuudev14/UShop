@@ -86,7 +86,6 @@ const getPopularCategories = async(req, res) => {
 const getCartProduct = async(req, res) => {
     try {
         const {cart} = req.body;
-        console.log(cart.map(cart => `'${cart}'`).join(','))
 
         const numExecute = (arr) => {
             let str  = '';
@@ -98,7 +97,7 @@ const getCartProduct = async(req, res) => {
         }
         if(cart.length){
             const products = await db.query(
-                `SELECT product_id, product_name, price, (
+                `SELECT product_id, product_name, price, stock, (
                     SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
                 ) as image
                 FROM products WHERE product_id IN (${numExecute(cart)})`,
@@ -161,6 +160,60 @@ const getCategories = async(req, res) => {
     }
 }
 
+const checkout = async(req, res) => {
+    try {
+        const buyItems  = req.body;
+        const ordernumber = await db.query(
+            `INSERT into orders
+            (
+                user_id
+            ) VALUES (
+                $1
+            ) RETURNING order_number`, [req.user]
+        )
+
+        buyItems.forEach(async(prod, i) => {
+            try {
+                await db.query(
+                    `UPDATE products
+                    SET sold = products.sold + 1,
+                        stock = products.stock - $1
+                    WHERE product_id = $2`,
+                    [prod.item, prod.product_id],
+                )
+                await db.query(
+                    `INSERT INTO orderDetails (
+                        order_number,
+                        product_id,
+                        item
+                    ) VALUES (
+                        $1, $2,$3
+                    )`, [ordernumber.rows[0].order_number, prod.product_id, Number(prod.item)]
+                )
+                if(i === buyItems.length - 1){
+                    res.send(true);
+                }
+                
+            } catch (error) {
+                console.log(error);
+                
+                if(error.constraint === 'check_stock'){
+                    const product = buyItems.filter(prod => error.detail.includes(prod.product_id))[0]
+                    res.status(400).send(`${product.product_name} items exceeds product's stocks`)
+                }
+                
+            }
+            
+
+        });
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+        
+}
+
 module.exports = {
     getMostPopularProducts,
     getPopularCategories,
@@ -168,5 +221,6 @@ module.exports = {
     getUshopProducts,
     getProductInfo,
     getCategories,
-    getCartProduct
+    getCartProduct,
+    checkout
 }
