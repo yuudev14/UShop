@@ -17,15 +17,15 @@ const getMostPopularProducts = async(req, res) => {
     }
 }
 
-const getUshopProducts = async(req, res) => {
+const getUshopProducts = async(req, res, column, start) => {
     try {
         const products = await db.query(
             `SELECT product_id, product_name, 
                 (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images  
             FROM products
-            ORDER BY date DESC
-            OFFSET $1 LIMIT 20 `,
-            [req.params.start]
+            ORDER BY ${column} DESC
+            OFFSET $1 LIMIT 10 `,
+            [start]
         )
 
         res.send(products.rows);
@@ -35,6 +35,51 @@ const getUshopProducts = async(req, res) => {
         
     }
 }
+
+const getPopularUshopProducts = (req, res) => {
+    getUshopProducts(req, res, 'rating', req.params.start)
+}
+const getLatestUshopProducts = (req, res) => {
+    getUshopProducts(req, res, 'date', req.params.start)
+}
+const getTopSalesUshopProducts = (req, res) => {
+    getUshopProducts(req, res, 'sold', req.params.start)
+}
+
+const getShopsProductList = async(req, res, column, start) => {
+    try {
+        const products = await db.query(
+            `SELECT product_id, product_name, 
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images  
+            FROM products
+            JOIN shops
+            ON shops.shop_id = products.shop_id
+            WHERE shop_name = $2
+            ORDER BY ${column} DESC
+            OFFSET $1 LIMIT 10 
+            `,
+            [start, req.body.shop_name]
+        )
+
+        res.send(products.rows);
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const getShopsPopularProductList = (req, res) => {
+    getShopsProductList(req, res, 'rating', req.params.start)
+}
+const getShopsLatestProductList = (req, res) => {
+    getShopsProductList(req, res, 'date', req.params.start)
+}
+const getShopsTopSalesProductList = (req, res) => {
+    getShopsProductList(req, res, 'sold', req.params.start)
+}
+
+
 
 const getTopCategoryProduct = async(req, res) => {
     try {
@@ -221,9 +266,14 @@ module.exports = {
     getMostPopularProducts,
     getPopularCategories,
     getTopCategoryProduct,
-    getUshopProducts,
+    getPopularUshopProducts,
     getProductInfo,
     getCategories,
     getCartProduct,
-    checkout
+    checkout,
+    getLatestUshopProducts,
+    getTopSalesUshopProducts,
+    getShopsPopularProductList,
+    getShopsLatestProductList,
+    getShopsTopSalesProductList
 }
