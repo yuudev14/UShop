@@ -8,6 +8,7 @@ import ViewProducts from '../pages/sellerViewProducts';
 import SellerManageProduct from '../pages/sellerManageProduct';
 import SellerProductDetails from '../pages/sellerProductDetails';
 import { verifyHasShop } from '../reduxStore/actions/authAction';
+import SellerHome from '../pages/sellerHome';
 
 
 const VerifiedSellUShop = (props) => {
@@ -31,7 +32,7 @@ const VerifiedSellUShop = (props) => {
             )}
             <Router>
                 <Switch>
-                    <Route exact path='/sell-UShop' render = {() => <div>home</div>}/>    
+                    <Route exact path='/sell-UShop' component = {SellerHome}/>    
                     <Route path='/sell-UShop/add-product' component={SellerAddProduct}/>
                     <Route path='/sell-UShop/view-product' component={ViewProducts}/> 
                     <Route path='/sell-UShop/product/:product_id' component={SellerProductDetails}/> 

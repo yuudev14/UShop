@@ -1,0 +1,67 @@
+@import '../variables.scss';
+
+.sellerHome{
+    background-color: white;
+    padding: 20px;
+    min-height: 80vh;
+    width: 90%;
+    margin: auto;
+    h2, h4{
+        font-family: $primaryFont;
+        color : $primary;
+    }
+
+    p{
+        font-family: $secondary;
+        color: $primary;
+    }
+    .todos{
+        width: 100%;
+        .todoPanel{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            width: 100%;
+            margin: auto;
+            .panel{
+                width: 25%;
+                text-align: center;
+                padding: 50px 0;
+                &:hover{
+                    background-color: $quarternary;
+                }
+    
+            }
+
+
+    
+        }
+
+    }
+
+    .businessInsights{
+        .businessInfo{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 2px;
+            .panel{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 10px;
+                height: 100px;
+                background-color: $tertiary;
+                text-align: center;
+                h4, p{
+                    color: $quarternary !important;
+                }
+                
+            }
+
+        }
+    }
+    
+
+}

@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
+import { useLocation } from 'react-router';
 
 const ProductDetails = ({productInfo, Option}) => {
 
     const [preview_img, setPreviewImage] = useState(0);
+    console.log(productInfo)
+
+    const location = useLocation();
+    console.log(location);
     return (
         <div className='productDetails'>
             <div className='productContainer'>
@@ -32,8 +37,23 @@ const ProductDetails = ({productInfo, Option}) => {
                     <p>{productInfo.description}</p>
 
                 </div>
+                
 
             </div>
+            {!location.pathname.includes('sell-UShop') && (
+                <div className='product_shop'>
+                    <div className='shopNameAndImg'>
+                        <img src='https://res.cloudinary.com/yutakaki/image/upload/v1623512442/blog/tk9wlaqmiorxjuw4rjrm.jpg' />
+                        <div className='shopName'>
+                            <h4>{productInfo.shop_name}</h4>
+                            <button>View Shop</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            )}
+            
             
         </div>
     )

@@ -38,6 +38,8 @@ CREATE TABLE shops (
     user_id uuid NOT NULL REFERENCES account(user_id),
     email VARCHAR(100) NOT NULL,
     shop_name VARCHAR(100),
+    logo VARCHAR(200),
+    about TEXT,
     CONSTRAINT unique_shopname UNIQUE (shop_name),
     CONSTRAINT unique_seller UNIQUE (user_id),
     CONSTRAINT unique_shop_email UNIQUE (email)

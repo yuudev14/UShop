@@ -80,6 +80,37 @@
 
             }
         }
+        .product_shop{
+            display: flex;
+            background-color: white;
+            padding: 10px;
+            margin-top: 10px;
+            width: 700px;
+            .shopNameAndImg{
+                display: flex;
+                width: 30%;
+                justify-content: space-between;
+                img{
+                    width: 100px;
+                    height: 100px;
+                }
+                .shopName{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    h4{
+                        color: $secondary;
+                        font-family: $primary;
+                    }
+                    button{
+                        background-color: $secondary;
+                        color: white;
+                        font-family: $secondary;
+                    }
+                }
+            }
+        }
     
     }
     @media only screen and (min-width : 600px){

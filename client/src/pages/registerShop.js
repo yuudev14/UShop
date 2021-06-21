@@ -12,16 +12,35 @@ const RegisterShop = (props) => {
 
     const [shopInfo, setShopInfo] = useState({
         email : '',
-        shop_name : ''
+        shop_name : '',
+        images : '',
+        sampleImages : '',
+        aboutShop : ''
     });
 
     const history = useHistory();
 
-    const setShopInfoMethod = (e) => setShopInfo({
-        ...shopInfo,
-        [e.target.name] : e.target.value
-
-    })
+    const setShopInfoMethod = (e) => {
+        if(e.target.name !== 'images'){
+            setShopInfo({
+                ...shopInfo,
+                [e.target.name] : e.target.value
+        
+            })
+        }else{
+            if(e.target.files.length !== 0){
+                const reader = new FileReader();
+                reader.readAsDataURL(e.target.files[0]);
+                reader.onload = () => {
+                    setShopInfo({
+                        ...shopInfo,
+                        [e.target.name] : reader.result,
+                        sampleImages : URL.createObjectURL(e.target.files[0])
+                    });
+                }
+            }
+        }
+    }
 
     const registerShop = async(e) => {
         e.preventDefault();
@@ -38,20 +57,48 @@ const RegisterShop = (props) => {
         <div className='registerShop'>
             <form onSubmit={registerShop}>
                 <h1>Register Shop</h1>
-                <input 
-                    type='email' 
-                    name='email'
-                    placeholder='Email'
-                    value={shopInfo.email}
-                    onChange={setShopInfoMethod}
-                    />
-                <input 
-                    type='text' 
-                    name='shop_name'
-                    placeholder='shop name'
-                    value={shopInfo.shop_name}
-                    onChange={setShopInfoMethod}
-                    />
+                <div className='inputContainer'>
+                    <p>Email</p>
+                    <input 
+                        type='email' 
+                        name='email'
+                        placeholder='Email'
+                        value={shopInfo.email}
+                        onChange={setShopInfoMethod}
+                        />
+                </div>
+
+                <div className='inputContainer'>
+                    <p>Shop name</p>
+                    <input 
+                        type='text' 
+                        name='shop_name'
+                        placeholder='shop name'
+                        value={shopInfo.shop_name}
+                        onChange={setShopInfoMethod}
+                        />
+
+                </div>
+                <div className='inputContainer'>
+                    <p>Logo</p>
+                    <label htmlFor='productNameImage'>
+                        <i className='fa fa-plus'></i>
+                    </label>
+                    <input name='images' type='file' id='productNameImage' onChange={setShopInfoMethod}/>
+                    <div className='sampleImages'>
+                        {shopInfo.sampleImages !== '' && (
+                            <img src={shopInfo.sampleImages} />
+                        )}
+                    </div>
+                </div>
+
+                <div className='inputContainer'>
+                    <p>About shop</p>
+                    <textarea name='aboutShop' id='aboutShop' onChange={setShopInfoMethod}>
+                    </textarea>
+                </div>
+                
+                
                 <input type='submit' />
                 
             </form>

@@ -124,7 +124,10 @@ const getProductInfo = async(req, res) => {
     try {
         const product_id = req.params.product_id;
         const products = await db.query(
-            `SELECT * from products WHERE product_id = $1`,
+            `SELECT * from products 
+            JOIN shops
+            ON products.shop_id = shops.shop_id
+            WHERE product_id = $1`,
             [product_id]
         );
         if(products.rowCount === 0){

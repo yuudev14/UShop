@@ -38,6 +38,7 @@ const BuyerProductDetails = () => {
                 productName: data.product_name,
                 seen: data.seen,
                 stock: data.stock,
+                ...data
             });
             
         } catch (error) {
