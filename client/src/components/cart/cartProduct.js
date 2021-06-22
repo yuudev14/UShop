@@ -1,29 +1,89 @@
-import React from 'react'
+import React, {useRef} from 'react'
+import { connect} from 'react-redux';
+import { checkProductAction, deleteCartAction, updateItemNumberAction } from '../../reduxStore/actions/cartAction';
 
-const CartProduct = ({data, method}) => {
-    const {setItemsMethod, setSelectedItems, deleteCart} = method;
-    console.log(data.stock);
+const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateItemNumberDispatch, deleteCartDispatch}) => {
+    const item = useRef();
+    const checkbox = useRef();
 
-    return (
+    const updateItem = (e, id, itemValue) => {
+        updateItemNumberDispatch(Number(e.target.value), id)
+        // e.target.value = itemValue;
+    }
+
+    const checkProduct = (id) => {
+        checkProductDispatch(id);
+    }
+
+    const deleteCart = (id) => {
+        deleteCartDispatch(id);
+
+    }
+
+    const Products = ({data}) => (
         <div className='cartProduct'>
             <label className='productInfo1'>
-                <input type='checkbox' onChange={ e => setSelectedItems(data.product_id, e)} checked={data.checked}/>
+                <input type='checkbox' ref={checkbox} disabled={!data.stock} onClick={() => checkProduct(data.product_id)} checked={data.checked}/>
                 <img src={data.image}/>
-                <p>{data.product_name}</p>
+                <div>
+                    <p>{data.product_name}</p>
+                    <p>Stock : {data.stock}</p>
+                </div>
             </label>
             <div className='productInfo2'>
                 <div className='price'>
                     <h2>${data.totalPrice}</h2>
                 </div>
                 <div className='itemOption'>
-                    <input type='number' min='1' max={`${data.stock}`} value={data.item} onChange={ (e) => setItemsMethod(data.product_id, e.target.value)}/>
-                    <button onClick={() => deleteCart(data.product_id)}>delete</button>
+                    <input type='number'
+                            ref={item}
+                            disabled={!data.stock}
+                            onChange={ (e) => updateItem(e, data.product_id, data.item)}
+                            min='1' max={`${data.stock}`} value={data.item}/>
+                    <button onClick={()=> deleteCart(data.product_id)}>delete</button>
 
                 </div>
 
             </div>
         </div>
     )
+
+    return (
+        <>
+
+            {cartActive.map(data => (
+                <Products data={data}/>
+            ))}
+
+            {cartOutOfStock.length ? (
+                <div className='outOfStockProducts'>
+                    <h1>OutOfStock</h1>
+                    {cartOutOfStock.map(data => (
+                        <Products data={data}/>
+                    ))}
+                </div>
+
+            ) : null}
+
+            
+
+        </>
+        
+    )
 }
 
-export default CartProduct
+const mapStateToProps = state => {
+    return{
+        cartActive : state.cart.filter(prod => prod.stock),
+        cartOutOfStock : state.cart.filter(prod => !prod.stock)
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        checkProductDispatch : (id) => dispatch(checkProductAction(id)),
+        updateItemNumberDispatch : (value, id) => dispatch(updateItemNumberAction(value, id)),
+        deleteCartDispatch : (id) => dispatch(deleteCartAction(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartProduct)

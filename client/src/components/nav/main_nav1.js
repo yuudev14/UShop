@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutAction } from '../../reduxStore/actions/authAction';
+import { resetCartAction } from '../../reduxStore/actions/cartAction';
 
 const MainNav1 = (props) => {
 
     const {
         auth,
-        logoutDispatch
+        logoutDispatch,
+        resetCartDispatch,
 
     } = props;
     const socialMedia = [
@@ -63,7 +65,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logoutDispatch : () => dispatch(logoutAction())
+        logoutDispatch : () => dispatch(logoutAction()),
+        resetCartDispatch : () => dispatch(resetCartAction())
     }
 }
 

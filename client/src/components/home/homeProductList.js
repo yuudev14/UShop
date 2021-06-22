@@ -1,32 +1,71 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import { getUshopProductListAction, resetProductListAction } from '../../reduxStore/actions/ushopAction';
+import {Link, useParams} from 'react-router-dom';
+import { getShopProductsAction, getUshopProductListAction, seeMoreShopProductsAction, seeMoreUshopProductListAction} from '../../reduxStore/actions/ushopAction';
 
 const HomeProductList = (props) => {
     const {
         productLists,
         getUshopProductsDispatch,
-        resetProductListDispatch
-
+        getShopProductsDispatch,
+        seeMoreUShopProductsDispatch,
+        seeMoreShopsProductDispatch
     } = props;
 
-    useEffect(() => {
-        getUshopProductsDispatch(productLists.length);
+    const [filterState, setFilterState] = useState('popular');
+    const filterList = useRef();
+    const {shop_name} = useParams();
 
-        return() => {
-            resetProductListDispatch()
-
-        }
-    }, [])
 
     const seeMoreProducts = () => {
-        getUshopProductsDispatch(productLists.length)
+        if(shop_name){
+            seeMoreShopsProductDispatch(filterState, shop_name, productLists.length)
+
+        }else{
+            seeMoreUShopProductsDispatch(productLists.length, filterState);
+
+        }
+        
 
     }
+
+    const setFilterStateMethod = (e) => {
+        if(e.target.id !== filterState){
+            setFilterState(e.target.id);
+            if(shop_name){
+                getShopProductsDispatch(filterState, shop_name);
+
+            }else{
+                getUshopProductsDispatch(productLists.length, e.target.id);
+            }
+        }
+        
+    }
+
+    useEffect(() => {
+        [...filterList.current.children].forEach(li => {
+            if(li.id === filterState){
+                li.classList.add('active');
+            }else{
+                li.classList.remove('active');
+            }
+        })
+        
+
+    }, [filterState])
+
     return (
         <div className='forYou'>
-            <h1>For You</h1>
+            <div className='filter'>
+                <h4>Sort by</h4>
+                <ul ref={filterList}>
+                    <li onClick={setFilterStateMethod} className='active' id='popular'>Popular</li>
+                    <li onClick={setFilterStateMethod} id='latest'>Latest</li>
+                    <li onClick={setFilterStateMethod} id='top-sales'>Top Sales</li>
+                </ul>
+
+            </div>
+            
             <div className='productContainer'>
                 {productLists.map(prod => (
                     <Link className='product' to={`/product/${prod.product_id}`}>
@@ -61,8 +100,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUshopProductsDispatch : (start) => dispatch(getUshopProductListAction(start)),
-        resetProductListDispatch : () => dispatch(resetProductListAction())
+        getUshopProductsDispatch : (start, filter) => dispatch(getUshopProductListAction(start, filter)),
+        getShopProductsDispatch : (filter, shop_name) => dispatch(getShopProductsAction(filter, shop_name)),
+        seeMoreUShopProductsDispatch : (start, filter) => dispatch(seeMoreUshopProductListAction(start, filter)),
+        seeMoreShopsProductDispatch : (filter, shop_name, start) => dispatch(seeMoreShopProductsAction(filter, shop_name, start))
     }
 }
 

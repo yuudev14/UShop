@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_AUTH } from './types';
+import { RESET_CART, SET_AUTH } from './types';
 
 
 export const registerAction = (data) => {
@@ -46,6 +46,9 @@ export const logoutAction = () => {
             data : {
                 isAuth : false
             }
+        });
+        dispatch({
+            type : RESET_CART,
         })
     }
 }

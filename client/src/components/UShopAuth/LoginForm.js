@@ -3,11 +3,13 @@ import '../../styles/nav/sellerNav.scss';
 import { connect } from 'react-redux';
 import { loginAction } from '../../reduxStore/actions/authAction';
 import { useHistory } from 'react-router-dom';
+import { getCartProductAction } from '../../reduxStore/actions/cartAction';
 
 const LoginForm = (props) => {
 
     const {
         loginDispatch,
+        getCartProductsDispatch
 
     } = props;
 
@@ -56,6 +58,8 @@ const LoginForm = (props) => {
                     password : '',
                 });
                 history.push('/');
+                getCartProductsDispatch();
+
 
                 
             } catch (error) {
@@ -92,7 +96,8 @@ const LoginForm = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginDispatch : (data) => dispatch(loginAction(data))
+        loginDispatch : (data) => dispatch(loginAction(data)),
+        getCartProductsDispatch : () => dispatch(getCartProductAction())
     }
 }
 export default connect(null, mapDispatchToProps)

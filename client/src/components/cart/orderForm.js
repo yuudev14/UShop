@@ -1,28 +1,18 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { checkOutAction } from '../../reduxStore/actions/cartAction';
+import { useHistory } from 'react-router-dom';
 
-const OrderForm = ({cartProducts, deleteSomeCart}) => {
-
-    const itemsChecked = cartProducts.filter(prod => prod.checked);
-    const total = itemsChecked.reduce((total, current) => {
-        return total + current.totalPrice
-    }, 0);
+const OrderForm = ({cart, total, checkoutDispatch}) => {
+    const history = useHistory();
 
     const checkout = async() => {
         try {
-            if(itemsChecked.length){
-                console.log(itemsChecked);
-                const checkoutRequest = await axios.post('/ushop/checkout', itemsChecked, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
-                if(checkoutRequest.data === true){
-                    
-                    const filterCart = cartProducts.filter(prod => !prod.checked)
-                                                    .map(prod => prod.product_id);
-                    deleteSomeCart(filterCart);
-                    
-                };
-                
+            const checkout = await checkoutDispatch(cart);
+            if(checkout === true){
+                history.push('/');
             }
-            
         } catch (error) {
             console.log(error);
         }
@@ -31,7 +21,7 @@ const OrderForm = ({cartProducts, deleteSomeCart}) => {
     return (
         <div className='orderForm'>
             <h1>Order Summary</h1>
-            {itemsChecked.map(prod => (
+            {cart.map(prod => (
                 <div className='orderInfo'>
                     <h5>{prod.product_name} ({prod.item}) </h5>
                     <p>${prod.totalPrice}</p>
@@ -39,7 +29,7 @@ const OrderForm = ({cartProducts, deleteSomeCart}) => {
             ))}
             
             <div className='orderInfo total'>
-                <h5>total ({itemsChecked.length} items)</h5>
+                <h5>total ({cart.length} items)</h5>
                 <p>${total}</p>
             </div>
             <button onClick={checkout}>Proceed to checkout</button>
@@ -47,4 +37,19 @@ const OrderForm = ({cartProducts, deleteSomeCart}) => {
     )
 }
 
-export default (OrderForm)
+const mapStateToProps = state => {
+    return {
+        cart : state.cart.filter(prod => prod.checked),
+        total : state.cart.filter(prod => prod.checked).reduce((total, current) => {
+            return total + current.totalPrice
+        }, 0),
+        
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        checkoutDispatch : (data) => dispatch(checkOutAction(data))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(OrderForm)

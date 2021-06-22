@@ -128,43 +128,6 @@ const getPopularCategories = async(req, res) => {
     }
 }
 
-const getCartProduct = async(req, res) => {
-    try {
-        const {cart} = req.body;
-
-        const numExecute = (arr) => {
-            let str  = '';
-            for(let x in arr){
-                str += `$${Number(x)+1},`
-            }
-
-            return str.slice(0, -1);
-        }
-        if(cart.length){
-            const products = await db.query(
-                `SELECT product_id, product_name, price, stock, (
-                    SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
-                ) as image
-                FROM products WHERE product_id IN (${numExecute(cart)})`,
-                cart
-            )
-    
-            res.send(products.rows);
-
-        }else{
-            res.send([]);
-        }
-
-        
-        
-        
-    } catch (error) {
-        console.log(error);
-        console.log(1)
-        
-    }
-}
-
 const getProductInfo = async(req, res) => {
     try {
         const product_id = req.params.product_id;
@@ -208,19 +171,36 @@ const getCategories = async(req, res) => {
     }
 }
 
+
 const checkout = async(req, res) => {
     try {
-        const buyItems  = req.body;
-        const ordernumber = await db.query(
-            `INSERT into orders
-            (
-                user_id
-            ) VALUES (
-                $1
-            ) RETURNING order_number`, [req.user]
+        const {buyItems}  = req.body;
+        
+
+        const buyItems_product_id = buyItems.map(prod => `'${prod.product_id}'`).join(',')
+
+        const products = await db.query(
+            `SELECT * FROM PRODUCTS WHERE product_id IN (${buyItems_product_id})`
         )
 
-        buyItems.forEach(async(prod, i) => {
+        const filterProd = (id) => {
+            return products.rows.filter(prod => prod.product_id === id)[0];
+        }
+        const updatedBuyItems = buyItems.map(prod => {
+                prod.stock = filterProd(prod.product_id).stock
+            return prod
+        });
+
+        if(updatedBuyItems.every(prod => prod.stock >= prod.item)){
+            const ordernumber = await db.query(
+                `INSERT into orders
+                (
+                    user_id
+                ) VALUES (
+                    $1
+                ) RETURNING order_number`, [req.user]
+            )
+            updatedBuyItems.forEach(async(prod, i) => {
             try {
                 await db.query(
                     `UPDATE products
@@ -238,6 +218,13 @@ const checkout = async(req, res) => {
                         $1, $2,$3
                     )`, [ordernumber.rows[0].order_number, prod.product_id, Number(prod.item)]
                 )
+
+                await db.query(
+                    `DELETE FROM cart
+                    WHERE product_id = $1
+                    AND user_id = $2`,
+                    [prod.product_id, req.user]
+                )
                 if(i === buyItems.length - 1){
                     res.send(true);
                 }
@@ -254,7 +241,9 @@ const checkout = async(req, res) => {
             
 
         });
-        
+        }else{
+            res.status(400).send('one of the items exceeds stock quantity')
+        }  
     } catch (error) {
         console.log(error);
         
@@ -269,7 +258,6 @@ module.exports = {
     getPopularUshopProducts,
     getProductInfo,
     getCategories,
-    getCartProduct,
     checkout,
     getLatestUshopProducts,
     getTopSalesUshopProducts,

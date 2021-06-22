@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const ProductDetails = ({productInfo, Option}) => {
 
@@ -46,7 +47,7 @@ const ProductDetails = ({productInfo, Option}) => {
                         <img src='https://res.cloudinary.com/yutakaki/image/upload/v1623512442/blog/tk9wlaqmiorxjuw4rjrm.jpg' />
                         <div className='shopName'>
                             <h4>{productInfo.shop_name}</h4>
-                            <button>View Shop</button>
+                            <Link to={`/shop/${productInfo.shop_name}`}><button>View Shop</button></Link>
                         </div>
 
                     </div>

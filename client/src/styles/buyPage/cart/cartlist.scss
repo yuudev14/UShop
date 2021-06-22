@@ -13,6 +13,14 @@
             padding: 10px;
 
         }
+        .outOfStockProducts{
+            background-color: $quarternary;
+            padding: 20px;
+            h1{
+                font-family: $primaryFont;
+                color: $primary;
+            }
+        }
         .cartProducts{
             width: 100%;
             margin-top: 20px;

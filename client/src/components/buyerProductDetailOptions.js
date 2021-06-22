@@ -1,41 +1,13 @@
 import React, {Fragment} from 'react'
 import {useParams} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setCartAction } from '../reduxStore/actions/cartAction';
+import { addCartAction } from '../reduxStore/actions/cartAction';
 
-const BuyerProductDetailOptions = ({setCartDispatch}) => {
+const BuyerProductDetailOptions = ({addCartDispatch}) => {
 
     const {product_id}  = useParams();
     const addToCart = () => {
-        const ushop = JSON.parse(localStorage.getItem('UShop'))
-        let carts;
-        if(ushop){
-            if(ushop.hasOwnProperty('cart')){
-                if(!ushop.cart.includes(product_id)){
-                    carts = {
-                        cart : [...ushop.cart, product_id]
-                    }
-                }else{
-                    carts = {
-                        cart : [...ushop.cart]
-                    }
-                }
-            }else{
-                carts = {
-                    cart : [product_id]
-                }
-            }
-
-        }else{
-            carts = {
-                cart : [product_id]
-            }
-
-        }
-        
-
-        localStorage.setItem('UShop', JSON.stringify({...ushop, ...carts}));
-        setCartDispatch();
+        addCartDispatch(product_id)
     }
     return (
         <Fragment>
@@ -47,7 +19,7 @@ const BuyerProductDetailOptions = ({setCartDispatch}) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setCartDispatch : () => dispatch(setCartAction())
+        addCartDispatch : (product_id) => dispatch(addCartAction(product_id))
     }
 }
 

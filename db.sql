@@ -53,11 +53,17 @@ CREATE TABLE products (
     price FLOAT NOT NULL,
     description TEXT,
     stock INTEGER DEFAULT 0,
-    heart INTEGER DEFAULT 0, 
+    rating INTEGER DEFAULT 0, 
     seen INTEGER DEFAULT 0,
     sold INTEGER DEFAULT 0,
     date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT check_stock CHECK(stock >= 0)
+);
+
+CREATE TABLE cart (
+    product_id uuid NOT NULL REFERENCES products(product_id),
+    user_id uuid NOT NULL REFERENCES account(user_id),
+    items INTEGER DEFAULT 1 NOT NULL,
 );
 
 CREATE TABLE productCategory (

@@ -4,6 +4,7 @@ import BuyerProductDetails from '../pages/buyerProductDetails';
 import Cart from '../pages/cart';
 import Home from '../pages/home';
 import RegisterShop from '../pages/registerShop';
+import Shop from '../pages/shop';
 import UshopAuth from '../pages/ushopAuth';
 import MainNav from './nav/main_nav';
 
@@ -17,6 +18,7 @@ const WithMainNav = () => {
             <Route exact path='/' component={Home}/>
             <Route path='/product/:product_id' component={BuyerProductDetails} />
             <Route path='/cart' component={Cart}/>
+            <Route path='/shop/:shop_name' component={Shop}/>
             
             
           </Switch>

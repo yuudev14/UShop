@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setCartAction } from '../../reduxStore/actions/cartAction';
+import { getCartProductAction } from '../../reduxStore/actions/cartAction';
 
-const MainNav2 = ({cart, setCartDispatch}) => {
+const MainNav2 = ({cart, getCartProductDispatch}) => {
 
     const openNav1 = () => {
         document.querySelector('.nav1').classList.add('openNav1');
     }
 
     useEffect(() => {
-        setCartDispatch()
+        getCartProductDispatch()
     }, []);
     return (
         <div className='nav2'>
@@ -39,7 +39,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setCartDispatch : () => dispatch(setCartAction())
+        getCartProductDispatch : () => dispatch(getCartProductAction())
         
     }
 }

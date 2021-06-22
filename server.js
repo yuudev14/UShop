@@ -14,6 +14,8 @@ app.use('/sell-ushop', require('./routes/sellUshop'));
 //ushop route
 app.use('/ushop', require('./routes/ushop'));
 
+app.use('/cart', require('./routes/cart'));
+
 
 app.listen(port, () => {
     console.log(`listen to ${port}`)
