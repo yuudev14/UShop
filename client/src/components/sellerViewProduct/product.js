@@ -15,12 +15,15 @@ const SellerProduct = (props) => {
 
     return (
         <div className='productContainer'>
-            <Link to={`/sell-UShop/product/${data.product_id}`}>
-                <div className='prev-img'>
-                    <img src={data.image} />
-                </div>
+                <Link to={`/sell-UShop/product/${data.product_id}`}>
+                    <div className='prev-img'>
+                        <img src={data.image} />
+                    </div>
+                </Link>
                 <div className='productInfo'>
-                    <h3>{data.product_name}</h3>
+                    <Link to={`/sell-UShop/product/${data.product_id}`}>
+                        <h3>{data.product_name}</h3>
+                    </Link>
                     <div className='priceNstock'>
                         <p className='price'>price: ${data.price}</p>
                         <p className='stock'>Stock: {data.stock}</p>
@@ -34,7 +37,7 @@ const SellerProduct = (props) => {
                     </div>
 
                 </div>
-            </Link>
+            
             
             <div className='productOption'>
                 <Link to={`/sell-UShop/manage-product/${data.product_id}`}><button className='fa fa-edit'></button></Link>

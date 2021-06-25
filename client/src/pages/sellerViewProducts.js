@@ -3,19 +3,21 @@ import SellerViewForm from '../components/sellerViewProduct/form';
 import SellerProduct from '../components/sellerViewProduct/product';
 import SellerProductListHeader from '../components/sellerViewProduct/productListHeader';
 import { connect } from 'react-redux';
-import { getSellerProductAction } from '../reduxStore/actions/sellerAction';
+import { getSellerProductAction, resetSellerProductsAction } from '../reduxStore/actions/sellerAction';
 
 const ViewProducts = (props) => {
 
     const {
         getSellerProductDispatch,
-        sellerProducts
+        sellerProducts,
+        resetSellerProductsDispatch
 
     } = props;
 
     useEffect(() => {
         getSellerProductDispatch()
         return () => {
+            resetSellerProductsDispatch();
         }
     }, [])
     return (
@@ -41,7 +43,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getSellerProductDispatch : () => dispatch(getSellerProductAction())
+        getSellerProductDispatch : () => dispatch(getSellerProductAction()),
+        resetSellerProductsDispatch : () => dispatch(resetSellerProductsAction()),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)

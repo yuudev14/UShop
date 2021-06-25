@@ -21,7 +21,9 @@ const getUshopProducts = async(req, res, column, start) => {
     try {
         const products = await db.query(
             `SELECT product_id, product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images  
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                sold,
+                price
             FROM products
             ORDER BY ${column} DESC
             OFFSET $1 LIMIT 10 `,
@@ -50,7 +52,9 @@ const getShopsProductList = async(req, res, column, start) => {
     try {
         const products = await db.query(
             `SELECT product_id, product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images  
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                sold,
+                price
             FROM products
             JOIN shops
             ON shops.shop_id = products.shop_id

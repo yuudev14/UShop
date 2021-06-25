@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_SELLER_PRODUCT,DELETE_SELLER_PRODUCT, SET_AUTH } from '../actions/types';
+import { SET_SELLER_PRODUCT,DELETE_SELLER_PRODUCT, SET_AUTH, RESET_SELLER_PRODUCT, SET_SELLER_ORDERS, RESET_SELLER_ORDERS } from '../actions/types';
 
 export const filterProductsAction = (data) => {
     return async(dispatch) => {
@@ -14,6 +14,12 @@ export const filterProductsAction = (data) => {
             console.log(error);
             
         }
+    }
+}
+
+export const resetSellerProductsAction = () => {
+    return {
+        type: RESET_SELLER_PRODUCT,
     }
 }
 export const getSellerProductAction = () => {
@@ -68,5 +74,27 @@ export const registerShopAction = (data) => {
             throw error.response
             
         }
+    }
+}
+
+export const sellerPendingOrdersAction = () => {
+    return async(dispatch) => {
+        try {
+            const pending_orders = await axios.get('/sell-ushop/pending-orders',{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type: SET_SELLER_ORDERS,
+                data: pending_orders.data
+            })
+        } catch (error) {
+            throw error.response
+            
+        }
+
+    }
+}
+
+export const resetPendingOrdersAction = () => {
+    return {
+        type : RESET_SELLER_ORDERS
     }
 }

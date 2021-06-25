@@ -30,8 +30,8 @@ const ProductDetails = ({productInfo, Option}) => {
                 <div className='productInfo'>
                     <h1>{productInfo.productName}</h1>
                     <div className='subInfo'>
-                        <p>sold: <span>19</span></p>
-                        <p>rating: <span>4.5</span></p>
+                        <p>sold: <span>{productInfo.sold}</span></p>
+                        <p>rating: <span>{productInfo.rating}</span></p>
 
                     </div>
                     <h3>${productInfo.price}</h3>

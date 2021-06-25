@@ -268,6 +268,71 @@ const registerShop = async(req, res) => {
         
     }
 }
+
+const homeTodoInfos = async(req, res) => {
+    try {
+        const pendingOrder = await db.query(
+            `SELECT COUNT(*) FROM products
+            JOIN orderDetails
+            ON orderDetails.product_id = products.product_id
+            WHERE shop_id = $1
+            AND status = 'PENDING'
+            `, [req.user]
+        )
+
+
+        const soldOutProduct = await db.query(
+            `SELECT COUNT(*) FROM products
+            WHERE shop_id = $1
+            AND stock = 0
+            `, [req.user]
+        )
+
+
+        res.send({
+            soldOut: soldOutProduct.rows[0].count,
+            pendingOrder : pendingOrder.rows[0].count
+        })
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const pendingOrders = async(req, res) => {
+    try {
+        const pendingOrders = await db.query(
+            `SELECT orders.order_number, 
+                    orders.date, 
+                    orderDetails.product_id,
+                    product_name,
+                    (SELECT image_link
+                    FROM productImages
+                    WHERE product_id = orderDetails.product_id
+                    LIMIT 1) as image,
+                    item,
+                    first_name,
+                    last_name,
+                    email
+            FROM orders
+            JOIN orderDetails
+            ON orderDetails.order_number = orders.order_number
+            JOIN products
+            ON products.product_id = orderDetails.product_id
+            JOIN account
+            ON account.user_id = orders.user_id
+            WHERE orderDetails.status = 'PENDING'
+            AND shop_id = $1
+            `, [req.user]
+
+        )
+        res.send(pendingOrders.rows);
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 module.exports = {
     addProducts,
     getProducts,
@@ -276,5 +341,7 @@ module.exports = {
     modifyProduct,
     filterProducts,
     getSellerProducts_no,
-    registerShop
+    registerShop,
+    homeTodoInfos,
+    pendingOrders
 }
