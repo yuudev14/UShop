@@ -14,6 +14,7 @@ const PendingOrder = ({sellerPendingOrdersDispatch, pendingOrders, resetSellerPe
     return (
         <div className='pendingOrderContainer'>
             <div className='pendingOrderList'>
+                <h1>Pending Orders</h1>
                 <table>
                     <thead>
                         <tr>
