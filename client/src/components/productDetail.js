@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const ProductDetails = ({productInfo, Option}) => {
+const ProductDetails = ({productInfo, Option, auth}) => {
 
     const [preview_img, setPreviewImage] = useState(0);
-    console.log(productInfo)
 
     const location = useLocation();
-    console.log(location);
     return (
         <div className='productDetails'>
             <div className='productContainer'>
@@ -48,6 +47,7 @@ const ProductDetails = ({productInfo, Option}) => {
                         <div className='shopName'>
                             <h4>{productInfo.shop_name}</h4>
                             <Link to={`/shop/${productInfo.shop_name}`}><button>View Shop</button></Link>
+                            
                         </div>
 
                     </div>
@@ -60,4 +60,9 @@ const ProductDetails = ({productInfo, Option}) => {
     )
 }
 
-export default ProductDetails
+const mapStateToProps = state => {
+    return {
+        auth : state.auth
+    }
+}
+export default connect(mapStateToProps)(ProductDetails)

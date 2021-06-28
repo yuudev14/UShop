@@ -118,7 +118,7 @@ export const checkOutAction = (data) => {
             }
             
         } catch (error) {
-            console.log(error);
+            console.log(error.response);
             
         }
     }

@@ -3,6 +3,7 @@ import '../styles/registerShop.scss';
 import { connect } from 'react-redux';
 import { registerShopAction } from '../reduxStore/actions/sellerAction';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const RegisterShop = (props) => {
 
@@ -44,9 +45,16 @@ const RegisterShop = (props) => {
 
     const registerShop = async(e) => {
         e.preventDefault();
+        const preset = 'kopfy1vm';
+        const url = 'https://api.cloudinary.com/v1_1/yutakaki/image/upload';
         try {
-            await registerShopDispatch(shopInfo);
-            history.push('/sell-UShop')
+            const formData = new FormData();
+            formData.append('file', shopInfo.images);
+            formData.append('upload_preset', preset);
+            const uploadImg = await axios.post(url, formData);
+            await registerShopDispatch({...shopInfo, images: uploadImg.data.secure_url});
+            history.push('/sell-UShop') 
+            
         } catch (error) {
             console.log(error);
             

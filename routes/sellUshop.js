@@ -13,6 +13,7 @@ route.get('/getProduct/:product_id', verifyToken,verifySeller, sellUshop.product
 route.get('/view-product', verifyToken, verifySeller,sellUshop.getProducts);
 route.get('/total-products', verifyToken, verifySeller, sellUshop.getSellerProducts_no);
 route.get('/pending-orders', verifyToken, verifySeller, sellUshop.pendingOrders);
+route.get('/out-of-stock-products', verifyToken, verifySeller, sellUshop.getEmptyProducts);
 route.post('/filter-products', verifyToken,verifySeller, sellUshop.filterProducts);
 
 

@@ -14,5 +14,7 @@ route.post('/get-popular-shops-product/:start', ushop.getShopsPopularProductList
 route.post('/get-latest-shops-product/:start', ushop.getShopsLatestProductList);
 route.post('/get-top-sales-shops-product/:start', ushop.getShopsTopSalesProductList);
 route.get('/get-product-info/:product_id', ushop.getProductInfo);
+route.get('/get-shop-info/:shop_name', ushop.getShopInfo);
 route.post('/checkout', verifyToken, ushop.checkout);
+route.post('/follow/:shop_id', verifyToken, ushop.follow_unfollow_store);
 module.exports = route;

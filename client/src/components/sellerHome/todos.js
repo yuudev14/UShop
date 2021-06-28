@@ -23,15 +23,15 @@ const Todos = () => {
         <div className='todos'>
             <h2>Todos</h2>
             <div className='todoPanel'>
-                <Link to='/sell-UShop/pending-orders'className='panel'>
+                <Link to='/sell-UShop/pending-orders' className='panel'>
                     <h5>{todos.pendingOrder}</h5>
                     <h4>Pending Orders</h4>
                 </Link>
 
-                <div className='panel'>
+                <Link to='/sell-UShop/out-of-stock' className='panel'>
                     <h5>{todos.soldOut}</h5>
                     <h4>Sold Out products</h4>
-                </div>
+                </Link>
 
             </div>
 

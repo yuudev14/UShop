@@ -37,9 +37,10 @@ CREATE TABLE shops (
     shop_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES account(user_id),
     email VARCHAR(100) NOT NULL,
-    shop_name VARCHAR(100),
-    logo VARCHAR(200),
-    about TEXT,
+    shop_name VARCHAR(100) NOT NULL,
+    logo VARCHAR(200) NOT NULL,
+    about TEXT NOT NULL,
+    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_shopname UNIQUE (shop_name),
     CONSTRAINT unique_seller UNIQUE (user_id),
     CONSTRAINT unique_shop_email UNIQUE (email)
@@ -63,7 +64,7 @@ CREATE TABLE products (
 CREATE TABLE cart (
     product_id uuid NOT NULL REFERENCES products(product_id),
     user_id uuid NOT NULL REFERENCES account(user_id),
-    items INTEGER DEFAULT 1 NOT NULL,
+    items INTEGER DEFAULT 1 NOT NULL
 );
 
 CREATE TABLE productCategory (
@@ -79,7 +80,7 @@ CREATE TABLE productImages (
 CREATE TABLE orders (
     order_number uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES account(user_id),
-    date timestamp with time zone
+    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE orderDetails (
@@ -87,5 +88,10 @@ CREATE TABLE orderDetails (
     product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
     status VARCHAR(15) NOT NULL DEFAULT 'PENDING',
     item INTEGER NOT NULL
+    
+);
 
+CREATE TABLE follow (
+    user_id uuid REFERENCES account(user_id),
+    shop_id uuid REFERENCES shops(shop_id)
 );

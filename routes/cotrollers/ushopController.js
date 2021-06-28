@@ -1,4 +1,6 @@
 const db = require('../../db');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const getMostPopularProducts = async(req, res) => {
     try {
@@ -134,14 +136,17 @@ const getPopularCategories = async(req, res) => {
 
 const getProductInfo = async(req, res) => {
     try {
+        
         const product_id = req.params.product_id;
         const products = await db.query(
-            `SELECT * from products 
+            `SELECT *
+            FROM products
             JOIN shops
             ON products.shop_id = shops.shop_id
             WHERE product_id = $1`,
             [product_id]
         );
+        
         if(products.rowCount === 0){
             res.status(404).send(false)
 
@@ -195,7 +200,7 @@ const checkout = async(req, res) => {
             return prod
         });
 
-        if(updatedBuyItems.every(prod => prod.stock >= prod.item)){
+        if(updatedBuyItems.every(prod => Number(prod.stock) >= Number(prod.items))){
             const ordernumber = await db.query(
                 `INSERT into orders
                 (
@@ -220,7 +225,7 @@ const checkout = async(req, res) => {
                         item
                     ) VALUES (
                         $1, $2,$3
-                    )`, [ordernumber.rows[0].order_number, prod.product_id, Number(prod.item)]
+                    )`, [ordernumber.rows[0].order_number, prod.product_id, Number(prod.items)]
                 )
 
                 await db.query(
@@ -255,6 +260,95 @@ const checkout = async(req, res) => {
         
 }
 
+const getShopInfo = async(req,res) => {
+    try {
+        const token = req.headers.token;
+        if(token){
+            try {
+                const payload = jwt.verify(token, process.env.jwtsecret);
+                req.user = payload.user;
+            } catch (error) {
+                req.user = ''
+            }
+            
+        }else{
+            req.user = ''
+        }
+        let shopInfo;
+        const shop_name = req.params.shop_name;
+        if(req.user){
+            shopInfo = await db.query(
+                `SELECT *,
+                    (SELECT NULLIF(COUNT(*), 0) FROM follow
+                    WHERE user_id = $2
+                    AND shop_id = shops.shop_id) as follows,
+                    (SELECT NULLIF(COUNT(*), 0) FROM products
+                    WHERE shop_id = shops.shop_id) as products,
+                    COALESCE((SELECT COUNT(*) FROM follow
+                    WHERE shop_id = shops.shop_id
+                    GROUP BY shop_id), 0) as followers
+                    
+                FROM shops
+                WHERE shop_name = $1`, [shop_name, req.user]
+            );
+
+        }else{
+            shopInfo = await db.query(
+                `SELECT *,
+                    (SELECT NULLIF(COUNT(*), 0) FROM products
+                    WHERE shop_id = shops.shop_id) as products,
+                    COALESCE((SELECT COUNT(*) FROM follow
+                    WHERE shop_id = shops.shop_id
+                    GROUP BY shop_id), 0) as followers
+                    
+                FROM shops
+                WHERE shop_name = $1`, [shop_name]
+            );
+        }
+        res.send(shopInfo.rows[0]);
+        
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const follow_unfollow_store = async(req, res) => {
+    try {
+        const shop_id = req.params.shop_id;
+        const follow = await db.query(
+            `SELECT * FROM follow WHERE user_id = $1 AND shop_id = $2`,
+            [req.user, shop_id]
+        );
+
+        if(follow.rowCount){
+            await db.query(
+                `DELETE FROM follow
+                WHERE user_id = $1 AND shop_id = $2`,
+                [req.user, shop_id]
+            )
+            res.send(null)
+        }else{
+            await db.query(
+                `INSERT INTO follow(
+                    user_id,
+                    shop_id
+                )VALUES (
+                    $1, $2
+                )`,
+                [req.user, shop_id]
+            )
+            res.send('1')
+
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 module.exports = {
     getMostPopularProducts,
     getPopularCategories,
@@ -267,5 +361,7 @@ module.exports = {
     getTopSalesUshopProducts,
     getShopsPopularProductList,
     getShopsLatestProductList,
-    getShopsTopSalesProductList
+    getShopsTopSalesProductList,
+    getShopInfo,
+    follow_unfollow_store
 }

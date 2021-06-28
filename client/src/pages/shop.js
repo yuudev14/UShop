@@ -1,33 +1,56 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import '../styles/buyPage/shop.scss';
 import HomeProductList from '../components/home/homeProductList';
 import { connect } from 'react-redux';
 import { getShopProductsAction, resetProductListAction } from '../reduxStore/actions/ushopAction';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Shop = (props) => {
     const {
         resetProductListDispatch,
-        getShopProductsDispatch
+        getShopProductsDispatch,
+        auth
 
     } = props;
+
+    const [shopDetails, setShopDetails] = useState({});
     const shopAndImage = useRef();
     const {shop_name} = useParams();
 
     useEffect(() => {
         shopAndImage.current.style = `
-        background : url(${'https://res.cloudinary.com/yutakaki/image/upload/v1623512442/blog/tk9wlaqmiorxjuw4rjrm.jpg'}) no-repeat center center;
+        background : url(${shopDetails.logo}) no-repeat center center;
         background-size : cover;
         opacity: 0.5
-
-        `
-        getShopProductsDispatch('popular', shop_name)
+        `;
+        (async() => {
+            const shopDetails = await axios.get(`/ushop/get-shop-info/${shop_name}`, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            console.log(shopDetails.data)
+            setShopDetails(shopDetails.data);
+        })()
+        getShopProductsDispatch('popular', shop_name);
 
         return() => {
             resetProductListDispatch()
 
         }
-    }, [])
+    }, []);
+
+    const follow_unfollow = async() => {
+        try {
+            const follow = await axios.post(`/ushop/follow/${shopDetails.shop_id}`,{}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            setShopDetails({
+                ...shopDetails,
+                follows : follow.data
+            })
+            
+        } catch (error) {
+            console.log(error.response);
+            
+        }
+
+    }
     return (
         <div className='shop'>
             
@@ -35,40 +58,41 @@ const Shop = (props) => {
                 <div className='shopNameAndImg' >
                     <div className='background' ref={shopAndImage}>
 
+                    </div>     
+                    <div className='shopName'>    
+                        <img src={shopDetails.logo} />
+                        <h3>{shopDetails.shop_name}</h3>
                     </div>
+                    {auth.isAuth === true && (
+                        <button onClick={follow_unfollow}>{!shopDetails.follows ? 'Follow' : 'Unfollow'}</button>
+                    )}
                     
-                    
-                    <div className='shopName'>
-                        
-                        <img src='https://res.cloudinary.com/yutakaki/image/upload/v1623512442/blog/tk9wlaqmiorxjuw4rjrm.jpg' />
-                        <h3>isicjcisud</h3>
-                    </div>
-                    <button>Follow</button>
 
                 </div>
                 <div className='shopInfoSummary'>
                     <div className='info'>
                         <p>products</p>
-                        <p className='value'>197</p>
+                        <p className='value'>{shopDetails.products}</p>
                     </div>
                     <div className='info'>
                         <p>followers</p>
-                        <p className='value'>197</p>
+                        <p className='value'>{shopDetails.followers}</p>
                     </div>
                     <div className='info'>
-                        <p>Rating</p>
-                        <p className='value'>197</p>
+                        <p>Email</p>
+                        <p className='value'>{shopDetails.email}</p>
                     </div>
                     <div className='info'>
                         <p>joined</p>
-                        <p className='value'>197</p>
+                        <p className='value'>{shopDetails.date}</p>
                     </div>
 
                 </div>
             </div>
+            
             <div className='aboutShop'>
                 <h3>About Shop</h3>
-                <p>Occaecat ipsum laboris do pariatur eiusmod minim in do minim ex veniam reprehenderit. Nulla quis est laborum occaecat velit laborum. Eu aliquip duis exercitation elit consequat ea adipisicing.</p>
+                <p>{shopDetails.about}</p>
 
             </div>
             <h1>Products</h1>
@@ -80,6 +104,11 @@ const Shop = (props) => {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        auth : state.auth
+    }
+}
 const mapDispatchToProps = dispatch => {
     return {
         getShopProductsDispatch : (filter, shop_name) => dispatch(getShopProductsAction(filter, shop_name)),
@@ -87,4 +116,5 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Shop)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shop)

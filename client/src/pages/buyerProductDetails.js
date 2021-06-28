@@ -15,6 +15,7 @@ const BuyerProductDetails = () => {
         images : [],
         description : '',
         stock : null,
+        follows: null
     });
 
     const {product_id} = useParams();
@@ -25,19 +26,14 @@ const BuyerProductDetails = () => {
 
     const getProductInfo = async() => {
         try {
-            const productDetails = await axios.get(`/ushop/get-product-info/${product_id}`);
+            const productDetails = await axios.get(`/ushop/get-product-info/${product_id}`,{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
             const data = productDetails.data;
-            console.log(data);
+            console.log(data)
             setProductInfo({
                 ...productInfo,
-                category: data.category,
-                description: data.description,
                 images: data.images,
                 sampleImages: data.images,
-                price: data.price,
                 productName: data.product_name,
-                seen: data.seen,
-                stock: data.stock,
                 ...data
             });
             

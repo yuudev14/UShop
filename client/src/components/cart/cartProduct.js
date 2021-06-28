@@ -6,6 +6,7 @@ const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateIt
     const item = useRef();
     const checkbox = useRef();
 
+
     const updateItem = (e, id, itemValue) => {
         updateItemNumberDispatch(Number(e.target.value), id)
         // e.target.value = itemValue;
@@ -39,7 +40,7 @@ const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateIt
                             ref={item}
                             disabled={!data.stock}
                             onChange={ (e) => updateItem(e, data.product_id, data.item)}
-                            min='1' max={`${data.stock}`} value={data.item}/>
+                            min='1' max={`${data.stock}`} value={data.items}/>
                     <button onClick={()=> deleteCart(data.product_id)}>delete</button>
 
                 </div>

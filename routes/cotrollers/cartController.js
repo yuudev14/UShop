@@ -20,14 +20,14 @@ const addCart = async(req, res) => {
         else{
             await db.query(
                 `UPDATE cart
-                SET item = cart.item + 1
+                SET items = cart.items + 1
                 WHERE product_id = $1 AND user_id = $2
                 `, [product_id, req.user]
 
             )
         }
         const product = await db.query(
-            `SELECT products.product_id, product_name, price, stock, item, (
+            `SELECT products.product_id, product_name, price, stock, items, (
                 SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
             ) as image
             FROM products
@@ -55,7 +55,7 @@ const deleteCart = async(req, res) => {
         );
 
         const product = await db.query(
-            `SELECT products.product_id, product_name, price, stock, item, (
+            `SELECT products.product_id, product_name, price, stock, items, (
                 SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
             ) as image
             FROM products
@@ -73,7 +73,7 @@ const deleteCart = async(req, res) => {
 const viewCartProducts = async(req, res) => {
     try {
         const product = await db.query(
-            `SELECT products.product_id, product_name, price, stock, item, (
+            `SELECT products.product_id, product_name, price, stock, items, (
                 SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
             ) as image
             FROM products

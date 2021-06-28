@@ -23,7 +23,7 @@ const OrderForm = ({cart, total, checkoutDispatch}) => {
             <h1>Order Summary</h1>
             {cart.map(prod => (
                 <div className='orderInfo'>
-                    <h5>{prod.product_name} ({prod.item}) </h5>
+                    <h5>{prod.product_name} ({prod.items}) </h5>
                     <p>${prod.totalPrice}</p>
                 </div>
             ))}

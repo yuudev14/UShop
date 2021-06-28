@@ -124,6 +124,24 @@ const getProducts = async(req, res) => {
     }
 }
 
+const getEmptyProducts = async(req, res) => {
+    try {
+        const products = await db.query(
+            `SELECT *, 
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as image 
+            FROM products 
+            WHERE shop_id = $1 
+            AND stock = 0`,
+            [req.user]
+        );
+        res.send(products.rows);
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
 const deleteProduct = async(req,res) => {
     try {
         const product_id = req.params.product_id;
@@ -247,18 +265,20 @@ const modifyProduct = async(req, res) => {
 
 const registerShop = async(req, res) => {
     try {
-        const {shop_name, email} = req.body;
+        const {shop_name, email, images, aboutShop} = req.body;
         await db.query(
             `INSERT INTO shops
             (
                 shop_name,
                 email,
-                user_id
+                user_id,
+                logo,
+                about
             )
             VALUES (
-                $1, $2, $3
+                $1, $2, $3, $4, $5
             )`,
-            [shop_name, email, req.user]
+            [shop_name, email, req.user, images, aboutShop]
 
         )
         res.send(true);
@@ -343,5 +363,6 @@ module.exports = {
     getSellerProducts_no,
     registerShop,
     homeTodoInfos,
-    pendingOrders
+    pendingOrders,
+    getEmptyProducts
 }

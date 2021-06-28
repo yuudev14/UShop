@@ -26,8 +26,8 @@ const cartReducer = (state = initState, action) => {
         case UPDATE_ITEM_NO_CART:
             const updatedCart2 = [...state].map(cart => {
                 if(action.id === cart.product_id){
-                    cart.item = action.data > cart.stock ? cart.stock : action.data <= 0 ? 1 : action.data;
-                    cart.totalPrice = cart.item * cart.price;
+                    cart.items = action.data > cart.stock ? cart.stock : action.data <= 0 ? 1 : action.data;
+                    cart.totalPrice = cart.items * cart.price;
                 }
                 return cart
             })

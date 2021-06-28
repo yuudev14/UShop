@@ -10,6 +10,7 @@ import SellerProductDetails from '../pages/sellerProductDetails';
 import { verifyHasShop } from '../reduxStore/actions/authAction';
 import SellerHome from '../pages/sellerHome';
 import PendingOrder from '../pages/pendingOrder';
+import SellerOutOfStockProducts from '../pages/sellerOutOfStockProducts';
 
 
 const VerifiedSellUShop = (props) => {
@@ -39,6 +40,7 @@ const VerifiedSellUShop = (props) => {
                     <Route path='/sell-UShop/product/:product_id' component={SellerProductDetails}/> 
                     <Route path='/sell-UShop/manage-product/:product_id' component={SellerManageProduct}/>
                     <Route path='/sell-UShop/pending-orders' component={PendingOrder}/>
+                    <Route path='/sell-UShop/out-of-stock' component={SellerOutOfStockProducts}/>
 
                 </Switch>
             </Router>

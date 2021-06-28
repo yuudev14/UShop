@@ -24,7 +24,6 @@ export const resetSellerProductsAction = () => {
 }
 export const getSellerProductAction = () => {
     return async(dispatch) => {
-        console.log('hi')
         try {
             const sellerProducts = await axios.get('/sell-ushop/view-product', {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
             dispatch({
@@ -38,6 +37,23 @@ export const getSellerProductAction = () => {
 
     }
 }
+
+export const getOutOfStockProductsAction = () => {
+    return async(dispatch) => {
+        try {
+            const outOfStockProducts = await axios.get('/sell-ushop/out-of-stock-products', {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type: SET_SELLER_PRODUCT,
+                data : outOfStockProducts.data
+            })
+        } catch (error) {
+            console.log(error);
+            
+        }
+
+    }
+}
+
 
 export const deleteProductAction = (product_id) => {
     return async(dispatch) => {
