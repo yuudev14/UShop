@@ -16,6 +16,8 @@ app.use('/ushop', require('./routes/ushop'));
 
 app.use('/cart', require('./routes/cart'));
 
+app.use('/profile', require('./routes/profile'));
+
 
 app.listen(port, () => {
     console.log(`listen to ${port}`)

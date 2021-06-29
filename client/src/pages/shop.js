@@ -26,7 +26,6 @@ const Shop = (props) => {
         `;
         (async() => {
             const shopDetails = await axios.get(`/ushop/get-shop-info/${shop_name}`, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
-            console.log(shopDetails.data)
             setShopDetails(shopDetails.data);
         })()
         getShopProductsDispatch('popular', shop_name);
@@ -36,6 +35,14 @@ const Shop = (props) => {
 
         }
     }, []);
+
+    useEffect(() => {
+        shopAndImage.current.style = `
+        background : url(${shopDetails.logo}) no-repeat center center;
+        background-size : cover;
+        opacity: 0.5
+        `;
+    }, [shopDetails]);
 
     const follow_unfollow = async() => {
         try {

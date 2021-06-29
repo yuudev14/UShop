@@ -38,6 +38,43 @@ export const getShopProductsAction= (filter, shop_name) => {
 
 }
 
+
+export const getUsersFollowProductsAction= (filter) => {
+    return async(dispatch) => {
+        try {
+            const products = await axios.get(`/profile/${filter}-follow-products/0`, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type : SET_USHOP_PRODUCT,
+                data : products.data
+            })
+
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+}
+
+export const seeMoreUsersFollowProductsAction = (filter, start) => {
+    return async(dispatch) => {
+        try {
+            const products = await axios.get(`/profile/${filter}-follow-products/${start}`, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type : SEE_MORE_USHOP_PRODUCT,
+                data : products.data
+            })
+
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+}
+
 export const seeMoreShopProductsAction= (filter, shop_name, start) => {
     return async(dispatch) => {
         try {

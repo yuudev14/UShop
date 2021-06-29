@@ -43,7 +43,7 @@ const MainNav1 = (props) => {
                 {auth.isAuth ? (
                     <>
                         <li onClick={logout}>log out</li>
-                        <li>profile</li>
+                        <Link to='/profile'><li>profile</li></Link>
                     </>
 
                 ) : (
