@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RESET_USHOP_PRODUCT, SEE_MORE_USHOP_PRODUCT, SET_USHOP_PRODUCT } from './types';
+import { RESET_USHOP_PRODUCT, SEE_MORE_USHOP_PRODUCT, SET_BUYER_ORDERS, SET_USHOP_PRODUCT } from './types';
 
 export const getUshopProductListAction = (start, filter) => {
     return async(dispatch) => {
@@ -115,5 +115,22 @@ export const resetProductListAction = () => {
     return{
         type : RESET_USHOP_PRODUCT,
         data : []
+    }
+}
+
+export const getAllOrdersAction = () => {
+    return async(dispatch) => {
+        try {
+            const orders = await axios.get('/profile/all-orders', {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type : SET_BUYER_ORDERS,
+                data : orders.data
+            })
+            console.log(orders.data);
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
     }
 }

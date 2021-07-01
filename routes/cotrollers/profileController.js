@@ -51,9 +51,52 @@ const followedShops = async(req, res) => {
         
     }
 }
+
+const getOrders = async(req, res) => {
+    try {
+        let order_number = await db.query(
+            `SELECT order_number, date
+            FROM orders WHERE user_id = $1`, [req.user]
+        );
+
+        let orders = order_number.rows;
+
+        order_number.rows.forEach(async(order, i) => {
+            try {
+                const products = await db.query(
+                    `SELECT orderDetails.product_id,
+                            product_name,
+                            price,
+                            item,
+                            (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                            (SELECT shop_name from shops WHERE shop_id = products.shop_id) as shop_name
+                    FROM orderDetails
+                    JOIN products
+                    ON products.product_id = orderDetails.product_id
+                    WHERE order_number = $1`,[order.order_number]
+                )
+
+                orders[i].productOrders = products.rows;
+                if(i === orders.length - 1){
+                    res.send(orders)
+                }
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+            
+        })
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 module.exports = {
     getPopularUserFollowProducts,
     getLatestUserFollowProducts,
     getTopSalesUserFollowProducts,
-    followedShops
+    followedShops,
+    getOrders
 }

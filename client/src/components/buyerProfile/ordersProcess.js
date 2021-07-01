@@ -6,10 +6,17 @@ const OrdersProcess = () => {
         <div className='buyerProfileOrder'>
             <div className='buyerProfileOrderHeader profileHeaders'>
                 <h1>Orders</h1>
-                <p>View All</p>
+                <Link to='/orders'>View All</Link>
             </div>
             
             <ul className='orderProcess'>
+                <li>
+                    <Link>
+                        <i className='fa fa-money'></i>
+                        <h4>to ship</h4>
+                        <p>3</p>
+                    </Link>
+                </li>
                 <li>
                     <Link>
                         <i className='fa fa-envelope'></i>
@@ -20,7 +27,7 @@ const OrdersProcess = () => {
                 <li>
                     <Link>
                         <i className='fa fa-truck'></i>
-                        <h4>to ship</h4>
+                        <h4>to deliver</h4>
                         <p></p>
                     </Link>
                 </li>

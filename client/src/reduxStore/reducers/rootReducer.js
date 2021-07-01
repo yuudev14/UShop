@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
+import buyerOrderReducer from './buyerOrderReducer';
 import cartReducer from './cartReducer';
 import productListReducer from './productListReducer';
 import sellerOrdersReducer from './sellerOrdersReducer';
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     sellerProducts : sellerProductReducer,
     ushopProductLists : productListReducer,
     cart : cartReducer,
-    sellerOrders : sellerOrdersReducer
+    sellerOrders : sellerOrdersReducer,
+    buyerOrders : buyerOrderReducer,
 
 });
 

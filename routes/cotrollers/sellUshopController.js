@@ -353,6 +353,67 @@ const pendingOrders = async(req, res) => {
         
     }
 }
+
+const allOrders = async(req, res) => {
+    try {
+        const orders = await db.query(
+            `SELECT orders.order_number, 
+                    orders.date, 
+                    orderDetails.product_id,
+                    product_name,
+                    (SELECT image_link
+                    FROM productImages
+                    WHERE product_id = orderDetails.product_id
+                    LIMIT 1) as image,
+                    item,
+                    first_name,
+                    last_name,
+                    email,
+                    status
+            FROM orders
+            JOIN orderDetails
+            ON orderDetails.order_number = orders.order_number
+            JOIN products
+            ON products.product_id = orderDetails.product_id
+            JOIN account
+            ON account.user_id = orders.user_id
+            WHERE shop_id = $1
+            `, [req.user]
+
+        )
+        res.send(orders.rows);
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const businessInsights = async(req, res) => {
+    try {
+        const data = await db.query(
+            `SELECT 
+                (SELECT COUNT(*) FROM follow 
+                WHERE shop_id=$1
+                GROUP BY shop_id) as followers,
+                (SELECT COUNT(*) FROM orderDetails
+                JOIN products
+                ON products.product_id = orderDetails.product_id
+                WHERE shop_id = $1
+                GROUP BY shop_id) as orders,
+                (SELECT COUNT(*) FROM products
+                WHERE shop_id = $1
+                GROUP BY shop_id) as products
+             `, [req.user]
+        )
+
+        res.send(data.rows[0]);
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 module.exports = {
     addProducts,
     getProducts,
@@ -364,5 +425,7 @@ module.exports = {
     registerShop,
     homeTodoInfos,
     pendingOrders,
-    getEmptyProducts
+    getEmptyProducts,
+    businessInsights,
+    allOrders
 }

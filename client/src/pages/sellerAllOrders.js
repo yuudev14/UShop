@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react'
 import '../styles/sellerPage/sellerOrder.scss';
 import {connect} from 'react-redux';
-import {sellerPendingOrdersAction, resetOrdersAction} from '../reduxStore/actions/sellerAction';
+import {sellerAllOrdersAction, resetOrdersAction} from '../reduxStore/actions/sellerAction';
 
-const PendingOrder = ({sellerPendingOrdersDispatch, pendingOrders, resetOrdersDispatch}) => {
+const SellerAllOrders = ({sellerAllOrdersDispatch, pendingOrders, resetOrdersDispatch}) => {
     useEffect(() => {
-        sellerPendingOrdersDispatch();
+        sellerAllOrdersDispatch();
         return () => {
             resetOrdersDispatch()
 
         }
     }, [])
     return (
-        <div className='pendingOrderContainer'>
-            <div className='pendingOrderList'>
+        <div className='sellerOrderContainer'>
+            <div className='sellerOrderList'>
                 <h1>Pending Orders</h1>
                 <table>
                     <thead>
@@ -25,6 +25,7 @@ const PendingOrder = ({sellerPendingOrdersDispatch, pendingOrders, resetOrdersDi
                             <th>Buyer</th>
                             <th>Buyer Email</th>
                             <th>Items(s)</th>
+                            <th>type</th>
                         </tr>
                     </thead>
 
@@ -41,7 +42,7 @@ const PendingOrder = ({sellerPendingOrdersDispatch, pendingOrders, resetOrdersDi
                                 <td>{order.first_name} {order.last_name}</td>
                                 <td>{order.email}</td>
                                 <td>{order.item}</td>
-                                <td className='button'><button>Deliver</button></td>
+                                <td>{order.status}</td>
                             </tr>
                         ))}
                         
@@ -68,10 +69,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        sellerPendingOrdersDispatch : () => dispatch(sellerPendingOrdersAction()),
+        sellerAllOrdersDispatch : () => dispatch(sellerAllOrdersAction()),
         resetOrdersDispatch : () => dispatch(resetOrdersAction())
 
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PendingOrder)
+export default connect(mapStateToProps, mapDispatchToProps)(SellerAllOrders)

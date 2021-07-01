@@ -26,6 +26,11 @@ const Seller_nav = () => {
         {
             li : 'Store',
             dropdown : [
+                {
+                    dropdown_li : 'All Orders',
+                    func : null,
+                    link : 'all-orders'
+                },
             ]
         },
         

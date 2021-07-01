@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import '../../styles/nav/sellerNav.scss';
 import { connect } from 'react-redux';
-import { loginAction } from '../../reduxStore/actions/authAction';
+import { loginAction, verifyHasShop } from '../../reduxStore/actions/authAction';
 import { useHistory } from 'react-router-dom';
 import { getCartProductAction } from '../../reduxStore/actions/cartAction';
 
@@ -9,7 +9,8 @@ const LoginForm = (props) => {
 
     const {
         loginDispatch,
-        getCartProductsDispatch
+        getCartProductsDispatch,
+        verifyHasShopDispatch
 
     } = props;
 
@@ -57,11 +58,9 @@ const LoginForm = (props) => {
                     email : '',
                     password : '',
                 });
-                history.push('/');
                 getCartProductsDispatch();
-
-
-                
+                verifyHasShopDispatch();
+                history.push('/');
             } catch (error) {
                 console.log(error)
                 
@@ -97,7 +96,8 @@ const LoginForm = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         loginDispatch : (data) => dispatch(loginAction(data)),
-        getCartProductsDispatch : () => dispatch(getCartProductAction())
+        getCartProductsDispatch : () => dispatch(getCartProductAction()),
+        verifyHasShopDispatch : () => dispatch(verifyHasShop())
     }
 }
 export default connect(null, mapDispatchToProps)

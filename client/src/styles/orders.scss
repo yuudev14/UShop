@@ -1,0 +1,33 @@
+@import './variables.scss';
+.allOrders{
+    margin-top: 100px;
+    background-color: white;
+    padding: 20px;
+    .order{
+        border: 1px solid $quarternary2;
+        margin-top: 10px;
+        .orderHeader{
+            display: flex;
+            justify-content: space-between;
+            background-color: $quarternary;
+            padding: 10px;
+        }
+        .orderProducts{
+            padding: 10px;
+            .product{
+                display: flex;
+                margin: 10px 0;
+
+                img{
+                    width: 100px;
+                    height: 150px;
+
+                }
+                .productOrderInfo{
+                    margin-left: 10px;
+                }
+
+            }
+        }
+    }
+}

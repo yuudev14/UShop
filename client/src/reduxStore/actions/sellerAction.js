@@ -109,7 +109,24 @@ export const sellerPendingOrdersAction = () => {
     }
 }
 
-export const resetPendingOrdersAction = () => {
+
+export const sellerAllOrdersAction = () => {
+    return async(dispatch) => {
+        try {
+            const orders = await axios.get('/sell-ushop/all-orders',{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type: SET_SELLER_ORDERS,
+                data: orders.data
+            })
+        } catch (error) {
+            throw error.response
+            
+        }
+
+    }
+}
+
+export const resetOrdersAction = () => {
     return {
         type : RESET_SELLER_ORDERS
     }

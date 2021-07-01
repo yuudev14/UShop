@@ -8,19 +8,34 @@ import RegisterShop from '../pages/registerShop';
 import Shop from '../pages/shop';
 import UshopAuth from '../pages/ushopAuth';
 import MainNav from './nav/main_nav';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import BuyerAllOrders from '../pages/buyerAllOrders';
 
-const WithMainNav = () => {
+const WithMainNav = ({auth}) => {
     return (
         <Router>
           <MainNav />
           <Switch>
             <Route path='/auth' component={UshopAuth}/>
-            <Route path='/registerShop' component={RegisterShop}/>
+            
             <Route exact path='/' component={Home}/>
             <Route path='/product/:product_id' component={BuyerProductDetails} />
-            <Route path='/cart' component={Cart}/>
-            <Route path='/profile' component={BuyerProfile}/>
+            
+            
             <Route path='/shop/:shop_name' component={Shop}/>
+
+            {auth.isAuth === true  && (
+              <>
+                <Route path='/profile' component={BuyerProfile}/>
+                <Route path='/registerShop' component={RegisterShop}/>
+                <Route path='/orders' component={BuyerAllOrders}/>
+                <Route path='/cart' component={Cart}/>
+              </>
+            )}
+            {auth.isAuth === false && (
+                <Redirect to='/auth' />
+            )}
             
             
           </Switch>
@@ -28,4 +43,10 @@ const WithMainNav = () => {
     )
 }
 
-export default WithMainNav
+const mapStateToProps = state => {
+  return{
+    auth : state.auth
+  }
+}
+
+export default connect(mapStateToProps)(WithMainNav)

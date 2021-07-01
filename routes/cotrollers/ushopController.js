@@ -79,7 +79,7 @@ const getShopsPopularProductList = (req, res) => {
     getShopsProductList(req, res, 'rating', req.params.start)
 }
 const getShopsLatestProductList = (req, res) => {
-    getShopsProductList(req, res, 'date', req.params.start)
+    getShopsProductList(req, res, 'products.date', req.params.start)
 }
 const getShopsTopSalesProductList = (req, res) => {
     getShopsProductList(req, res, 'sold', req.params.start)
