@@ -80,7 +80,7 @@ export const seeMoreCategoryProductsAction= (filter, category, start) => {
         try {
             const products = await axios.post(`/ushop/get-${filter}-category-product/${start}`, {category}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
             dispatch({
-                type : SET_USHOP_PRODUCT,
+                type : SEE_MORE_USHOP_PRODUCT,
                 data : products.data
             })
 

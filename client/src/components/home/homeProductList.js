@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {connect} from 'react-redux';
 import {Link, useParams, useLocation} from 'react-router-dom';
-import { getCategoryProductsAction, getShopProductsAction, getUsersFollowProductsAction, getUshopProductListAction, seeMoreShopProductsAction, seeMoreUsersFollowProductsAction, seeMoreUshopProductListAction} from '../../reduxStore/actions/ushopAction';
+import { getCategoryProductsAction, getShopProductsAction, getUsersFollowProductsAction, getUshopProductListAction, seeMoreCategoryProductsAction, seeMoreShopProductsAction, seeMoreUsersFollowProductsAction, seeMoreUshopProductListAction} from '../../reduxStore/actions/ushopAction';
 
 const HomeProductList = (props) => {
     const {
@@ -12,7 +12,8 @@ const HomeProductList = (props) => {
         seeMoreUsersFollowProductsDispatch,
         seeMoreUShopProductsDispatch,
         seeMoreShopsProductDispatch,
-        getCategoryProductsDispatch
+        getCategoryProductsDispatch,
+        seeMoreCategoryProductsDispatch
     } = props;
 
     const [filterState, setFilterState] = useState('popular');
@@ -26,6 +27,8 @@ const HomeProductList = (props) => {
         if(shop_name){
             seeMoreShopsProductDispatch(filterState, shop_name, productLists.length)
 
+        }else if(category){
+            seeMoreCategoryProductsDispatch(filterState, currentCategory, productLists.length)
         }else if(location.pathname === "/profile"){
             seeMoreUsersFollowProductsDispatch(filterState, productLists.length)
 
@@ -129,6 +132,7 @@ const mapDispatchToProps = dispatch => {
         getShopProductsDispatch : (filter, shop_name) => dispatch(getShopProductsAction(filter, shop_name)),
         getUsersFollowProductsDispatch : (filter) => dispatch(getUsersFollowProductsAction(filter)),
         getCategoryProductsDispatch : (filter, category) => dispatch(getCategoryProductsAction(filter, category)),
+        seeMoreCategoryProductsDispatch : (filter, catergory, start) => dispatch(seeMoreCategoryProductsAction(filter, catergory, start)),
         seeMoreUsersFollowProductsDispatch : (filter, start) => dispatch(seeMoreUsersFollowProductsAction(filter, start)),
         seeMoreUShopProductsDispatch : (start, filter) => dispatch(seeMoreUshopProductListAction(start, filter)),
         seeMoreShopsProductDispatch : (filter, shop_name, start) => dispatch(seeMoreShopProductsAction(filter, shop_name, start)),
