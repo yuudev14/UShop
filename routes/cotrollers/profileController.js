@@ -41,6 +41,25 @@ const followedShops = async(req, res) => {
             FROM shops
             JOIN follow
             ON shops.shop_id = follow.shop_id
+            WHERE follow.user_id = $1
+            LIMIT 10`, [req.user]
+        );
+
+        res.send(shops.rows);
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const allFollowedShops = async(req, res) => {
+    try {
+        const shops = await db.query(
+            `SELECT logo, shop_name 
+            FROM shops
+            JOIN follow
+            ON shops.shop_id = follow.shop_id
             WHERE follow.user_id = $1`, [req.user]
         );
 
@@ -56,7 +75,8 @@ const getOrders = async(req, res) => {
     try {
         let order_number = await db.query(
             `SELECT order_number, date
-            FROM orders WHERE user_id = $1`, [req.user]
+            FROM orders WHERE user_id = $1
+            ORDER BY date DESC`, [req.user]
         );
 
         let orders = order_number.rows;
@@ -93,10 +113,59 @@ const getOrders = async(req, res) => {
         
     }
 }
+
+
+const toShipOrders = async(req, res) => {
+    try {
+        let order_number = await db.query(
+            `SELECT order_number, date
+            FROM orders WHERE user_id = $1
+            ORDER BY date DESC`, [req.user]
+        );
+
+        let orders = order_number.rows;
+
+        order_number.rows.forEach(async(order, i) => {
+            try {
+                const products = await db.query(
+                    `SELECT orderDetails.product_id,
+                            product_name,
+                            price,
+                            item,
+                            (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                            (SELECT shop_name from shops WHERE shop_id = products.shop_id) as shop_name
+                    FROM orderDetails
+                    JOIN products
+                    ON products.product_id = orderDetails.product_id
+                    WHERE order_number = $1
+                    AND (SELECT COUNT(*) FROM orderDetails
+                    WHERE order_number = $1
+                    AND status = 'PENDING') > 0`,[order.order_number]
+                )
+
+                orders[i].productOrders = products.rows;
+                if(i === orders.length - 1){
+                    res.send(orders)
+                }
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+            
+        })
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 module.exports = {
     getPopularUserFollowProducts,
     getLatestUserFollowProducts,
     getTopSalesUserFollowProducts,
     followedShops,
-    getOrders
+    getOrders,
+    toShipOrders,
+    allFollowedShops
 }

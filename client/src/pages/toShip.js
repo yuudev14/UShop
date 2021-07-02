@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import '../styles/orders.scss';
 import {connect} from 'react-redux';
-import { getAllOrdersAction, resetBuyerOrderAction } from '../reduxStore/actions/ushopAction';
+import { getToShipOrdersAction, resetBuyerOrderAction } from '../reduxStore/actions/ushopAction';
 import Orders from '../components/orders';
 
-const BuyerAllOrders = ({getAllOrdersDispatch, orders, resetBuyerOrderDispatch}) => {
+const ToShip = ({getToShipOrdersDispatch, orders, resetBuyerOrderDispatch}) => {
     useEffect(() => {
-        getAllOrdersDispatch();
+        getToShipOrdersDispatch();
         return () => {
             resetBuyerOrderDispatch()
         }
@@ -33,8 +33,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        getAllOrdersDispatch : () => dispatch(getAllOrdersAction()),
+        getToShipOrdersDispatch : () => dispatch(getToShipOrdersAction()),
         resetBuyerOrderDispatch : () => dispatch(resetBuyerOrderAction())
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(BuyerAllOrders)
+export default connect(mapStateToProps, mapDispatchToProps)(ToShip)

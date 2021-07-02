@@ -13,19 +13,19 @@ const OrdersProcess = () => {
                 <li>
                     <Link>
                         <i className='fa fa-money'></i>
-                        <h4>to ship</h4>
+                        <h4>to pay</h4>
                         <p>3</p>
                     </Link>
                 </li>
                 <li>
-                    <Link>
+                    <Link to='/to-ship-orders'>
                         <i className='fa fa-envelope'></i>
                         <h4>to ship</h4>
                         <p>3</p>
                     </Link>
                 </li>
                 <li>
-                    <Link>
+                    <Link >
                         <i className='fa fa-truck'></i>
                         <h4>to deliver</h4>
                         <p></p>

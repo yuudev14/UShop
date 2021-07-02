@@ -1,0 +1,30 @@
+@import '../variables.scss';
+
+.followedShops{
+    margin-top: 100px;
+    // height: 100%;
+    background-color: white;
+    padding: 20px;
+
+    .shopsLists{
+        display: flex;
+        overflow: auto;
+
+        .shop{
+            width: 15%;
+            min-width: 150px;
+            margin: 1%;
+            color: $primary;
+            font-family: $primaryFont;
+            .shop_logo{
+                width: 100%;
+                img{
+                    width: 100%;
+                    height: 200px;
+                }
+
+            }
+            
+        }
+    }
+}

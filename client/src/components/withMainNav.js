@@ -11,6 +11,8 @@ import MainNav from './nav/main_nav';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import BuyerAllOrders from '../pages/buyerAllOrders';
+import ToShip from '../pages/toShip';
+import FollowedShops from '../pages/followedShops';
 
 const WithMainNav = ({auth}) => {
     return (
@@ -18,11 +20,8 @@ const WithMainNav = ({auth}) => {
           <MainNav />
           <Switch>
             <Route path='/auth' component={UshopAuth}/>
-            
             <Route exact path='/' component={Home}/>
             <Route path='/product/:product_id' component={BuyerProductDetails} />
-            
-            
             <Route path='/shop/:shop_name' component={Shop}/>
 
             {auth.isAuth === true  && (
@@ -30,7 +29,9 @@ const WithMainNav = ({auth}) => {
                 <Route path='/profile' component={BuyerProfile}/>
                 <Route path='/registerShop' component={RegisterShop}/>
                 <Route path='/orders' component={BuyerAllOrders}/>
+                <Route path='/to-ship-orders' component={ToShip}/>
                 <Route path='/cart' component={Cart}/>
+                <Route path='/followed-shops' component={FollowedShops}/>
               </>
             )}
             {auth.isAuth === false && (

@@ -1,31 +1,20 @@
-import axios from 'axios'
-import React, {useEffect, useState} from 'react'
+import axios from 'axios';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/buyPage/followedShops.scss'
 
 const FollowedShops = () => {
-
     const [followedShops, setFollowedShops] = useState([]);
 
     useEffect(() => {
         (async() => {
-            try {
-                const followedShops = await axios.get('/profile/followed-shops',{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
-                setFollowedShops(followedShops.data);
-                
-            } catch (error) {
-                console.log(error); 
-            }
-
+            const shops = await axios.get('/profile/all-followed-shops',{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            setFollowedShops(shops.data)
         })()
     }, [])
-
-
     return (
         <div className='followedShops'>
-            <div className='buyerProfileOrderHeader profileHeaders'>
-                <h1>Followed Shops</h1>
-                <Link to='/followed-shops'>View All</Link>
-            </div>
+            <h1>Followed Shops</h1>
             <div className='shopsLists'>
                 {followedShops.map(shop => (
                     <Link to={`/shop/${shop.shop_name}`}className='shop'>
@@ -38,7 +27,7 @@ const FollowedShops = () => {
                 ))}
                 
             </div>
-
+            
         </div>
     )
 }

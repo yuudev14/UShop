@@ -7,6 +7,8 @@ route.get('/popular-follow-products/:start', verifyToken, profile.getPopularUser
 route.get('/latest-follow-products/:start', verifyToken, profile.getLatestUserFollowProducts);
 route.get('/top-sales-follow-products/:start', verifyToken, profile.getTopSalesUserFollowProducts);
 route.get('/followed-shops', verifyToken, profile.followedShops);
+route.get('/all-followed-shops', verifyToken, profile.allFollowedShops);
 route.get('/all-orders', verifyToken, profile.getOrders);
+route.get('/to-ship-orders', verifyToken, profile.toShipOrders);
 
 module.exports = route;

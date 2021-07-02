@@ -126,11 +126,33 @@ export const getAllOrdersAction = () => {
                 type : SET_BUYER_ORDERS,
                 data : orders.data
             })
-            console.log(orders.data);
             
         } catch (error) {
             console.log(error);
             
         }
+    }
+}
+
+export const getToShipOrdersAction = () => {
+    return async(dispatch) => {
+        try {
+            const orders = await axios.get('/profile/to-ship-orders', {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type : SET_BUYER_ORDERS,
+                data : orders.data
+            })
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const resetBuyerOrderAction = () => {
+    return {
+        type: SET_BUYER_ORDERS,
+        data : []
     }
 }
