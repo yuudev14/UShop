@@ -87,9 +87,15 @@ const filterProducts = async(req, res) => {
             maxPrice
         } = req.body;
         const products = await db.query(
-            `SELECT * from products 
+            `SELECT *,
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as image 
+            from products
+            JOIN productCategory
+            ON productCategory.product_id = products.product_id
+            JOIN category
+            ON category.category_id = productCategory.category_id
             WHERE product_name ILIKE '%${productName}%'
-            AND category ILIKE '%${category}%'
+            AND category_name ILIKE '%${category}%'
             AND price BETWEEN ${minPrice} AND ${maxPrice} 
             AND stock BETWEEN ${minStock} AND ${maxStock}
             AND shop_id = $1`,

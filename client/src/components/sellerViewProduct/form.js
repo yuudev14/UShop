@@ -9,8 +9,6 @@ const SellerViewForm = (props) => {
         filterProductsDispatch
     } = props;
 
-    const data = require('../../json/categories.json');
-
     const [searchForm, setSearchForm] = useState({
         productName : '',
         category : '',
@@ -19,6 +17,20 @@ const SellerViewForm = (props) => {
         minPrice : "FLOAT8 '-infinity'",
         maxPrice : "FLOAT8 '+infinity'",
     });
+    const [category, setCategory] = useState([])
+
+    useEffect(() => {
+        (async() => {
+            try {
+                const category = await axios.get('/ushop/categories');
+                setCategory(category.data);
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+        })();
+    }, [])
 
     const setSearchFormMethod = (e) => {
         let value = e.target.value;
@@ -71,8 +83,8 @@ const SellerViewForm = (props) => {
                     <label htmlFor='category'>Category</label>
                     <select id='category' value={searchForm.category} name='category' onChange={setSearchFormMethod}>
                         <option disabled value='' selected>--- select categories ---</option>
-                        {data.categories.map(cat => (
-                            <option val={cat}>{cat}</option>
+                        {category.map(cat => (
+                            <option val={cat.category_name}>{cat.category_name}</option>
                         ))}
                     </select>
                 </div>

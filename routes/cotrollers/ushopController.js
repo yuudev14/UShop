@@ -240,6 +240,8 @@ const checkout = async(req, res) => {
             return prod
         });
 
+        console.log(updatedBuyItems);
+
         if(updatedBuyItems.every(prod => Number(prod.stock) >= Number(prod.items))){
             const ordernumber = await db.query(
                 `INSERT into orders
@@ -256,7 +258,7 @@ const checkout = async(req, res) => {
                     SET sold = products.sold + 1,
                         stock = products.stock - $1
                     WHERE product_id = $2`,
-                    [prod.item, prod.product_id],
+                    [Number(prod.items), prod.product_id],
                 )
                 await db.query(
                     `INSERT INTO orderDetails (
