@@ -389,7 +389,31 @@ const follow_unfollow_store = async(req, res) => {
     }
 }
 
+const search = async(req, res) => {
+    try {
+        const {search} = req.body;
+        const products = await db.query(
+            `SELECT product_id, product_name,
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images 
+            FROM products
+            WHERE product_name ILIKE '%${search}%'`
+        );
+
+        const shops = await db.query(
+            `SELECT logo, shop_id, shop_name 
+            FROM shops
+            WHERE shop_name ILIKE '%${search}%'`
+        );
+
+        res.send({shops: shops.rows, products: products.rows})
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
 module.exports = {
+    search,
     getMostPopularProducts,
     getPopularCategories,
     getTopCategoryProduct,

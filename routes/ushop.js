@@ -4,6 +4,7 @@ const ushop = require('./cotrollers/ushopController');
 const verifyToken = require('../middleware/verifyToken');
 
 route.get('/most-popular-products', ushop.getMostPopularProducts);
+route.post('/search', ushop.search);
 route.get('/categories', ushop.getCategories);
 route.get('/most-popular-categories', ushop.getPopularCategories);
 route.get('/top-category-product', ushop.getTopCategoryProduct);
