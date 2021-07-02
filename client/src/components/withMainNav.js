@@ -13,6 +13,7 @@ import { Redirect } from 'react-router-dom';
 import BuyerAllOrders from '../pages/buyerAllOrders';
 import ToShip from '../pages/toShip';
 import FollowedShops from '../pages/followedShops';
+import CategoryProducts from '../pages/categoryProducts';
 
 const WithMainNav = ({auth}) => {
     return (
@@ -23,6 +24,7 @@ const WithMainNav = ({auth}) => {
             <Route exact path='/' component={Home}/>
             <Route path='/product/:product_id' component={BuyerProductDetails} />
             <Route path='/shop/:shop_name' component={Shop}/>
+            <Route path='/category/:category' component={CategoryProducts}/>
 
             {auth.isAuth === true  && (
               <>

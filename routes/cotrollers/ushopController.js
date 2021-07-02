@@ -19,7 +19,47 @@ const getMostPopularProducts = async(req, res) => {
     }
 }
 
+const getCategoryProducts = async(req, res, column, start, category) => {
+    try {
+        const products = await db.query(
+            `SELECT products.product_id, product_name, 
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                sold,
+                price
+            FROM productCategory
+            JOIN products
+            ON products.product_id = productCategory.product_id
+            JOIN category
+            ON category.category_id = productCategory.category_id
+            WHERE category_name = $2
+            ORDER BY ${column} DESC
+            OFFSET $1 LIMIT 10 `,
+            [start, category]
+        );
+        res.send(products.rows);
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+
+}
+
+const getPopularCategoryProducts = (req, res) => {
+    const {category} = req.body;
+    getCategoryProducts(req, res, 'rating', req.params.start, category)
+}
+const getLatestCategoryProducts = (req, res) => {
+    const {category} = req.body;
+    getCategoryProducts(req, res, 'date', req.params.start, category)
+}
+const getTopSalesCategoryProducts = (req, res) => {
+    const {category} = req.body;
+    getCategoryProducts(req, res, 'sold', req.params.start, category)
+}
+
 const getUshopProducts = async(req, res, column, start) => {
+
     try {
         const products = await db.query(
             `SELECT product_id, product_name, 
@@ -363,5 +403,8 @@ module.exports = {
     getShopsLatestProductList,
     getShopsTopSalesProductList,
     getShopInfo,
-    follow_unfollow_store
+    follow_unfollow_store,
+    getPopularCategoryProducts,
+    getLatestCategoryProducts,
+    getTopSalesCategoryProducts,
 }

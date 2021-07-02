@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutAction } from '../../reduxStore/actions/authAction';
 import { resetCartAction } from '../../reduxStore/actions/cartAction';
+import axios from 'axios';
 
 const MainNav1 = (props) => {
 
@@ -26,6 +27,21 @@ const MainNav1 = (props) => {
         document.querySelector('.nav1').classList.remove('openNav1');
     }
 
+    const [category, setCategory] = useState([])
+
+    useEffect(() => {
+        (async() => {
+            try {
+                const category = await axios.get('/ushop/categories');
+                setCategory(category.data);
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+        })();
+    }, [])
+
     
     return (
         <div className='nav1'>
@@ -38,7 +54,13 @@ const MainNav1 = (props) => {
             </ul>
             <ul className='nav1-list-options'>
                 <Link to='/sell-UShop'><li>Sell on UShop</li></Link>
-                <li>Categories</li>
+                <li className='category'>Categories
+                    <ul>
+                        {category.map(li => (
+                            <Link to={`/category/${li.category_name}`}><li>{li.category_name}</li></Link>
+                        ))}
+                    </ul>
+                </li>
 
                 {auth.isAuth ? (
                     <>

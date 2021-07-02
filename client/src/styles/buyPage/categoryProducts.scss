@@ -1,0 +1,9 @@
+@import '../variables.scss';
+@import './home/homeProductList.scss';
+
+.categoryProducts{
+    margin-top: 100px;
+    padding: 20px;
+    @include forYou;
+
+}

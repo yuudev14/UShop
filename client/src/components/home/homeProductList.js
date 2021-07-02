@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {connect} from 'react-redux';
 import {Link, useParams, useLocation} from 'react-router-dom';
-import { getShopProductsAction, getUsersFollowProductsAction, getUshopProductListAction, seeMoreShopProductsAction, seeMoreUsersFollowProductsAction, seeMoreUshopProductListAction} from '../../reduxStore/actions/ushopAction';
+import { getCategoryProductsAction, getShopProductsAction, getUsersFollowProductsAction, getUshopProductListAction, seeMoreShopProductsAction, seeMoreUsersFollowProductsAction, seeMoreUshopProductListAction} from '../../reduxStore/actions/ushopAction';
 
 const HomeProductList = (props) => {
     const {
@@ -12,11 +12,13 @@ const HomeProductList = (props) => {
         seeMoreUsersFollowProductsDispatch,
         seeMoreUShopProductsDispatch,
         seeMoreShopsProductDispatch,
+        getCategoryProductsDispatch
     } = props;
 
     const [filterState, setFilterState] = useState('popular');
     const filterList = useRef();
-    const {shop_name} = useParams();
+    const {shop_name, category} = useParams();
+    const [currentCategory, setCurrentCategory] = useState(category);
     const location = useLocation();
 
 
@@ -37,23 +39,37 @@ const HomeProductList = (props) => {
 
     const setFilterStateMethod = (e) => {
         if(e.target.id !== filterState){
-            setFilterState(e.target.id);
-            if(shop_name){
-                getShopProductsDispatch(e.target.id, shop_name);
-
-            }else if(location.pathname === "/profile"){
-                getUsersFollowProductsDispatch(e.target.id);
-
-            }else{
-                getUshopProductsDispatch(productLists.length, e.target.id);
-            }
+            setFilterState(e.target.id);       
         }
-        
     }
 
     useEffect(() => {
+        if(currentCategory !== category){
+            setCurrentCategory(category);
+        }
+    })
+
+    useEffect(() => {
+        setFilterState('popular')
+        getCategoryProductsDispatch('popular', currentCategory)
+
+    }, [currentCategory])
+
+    useEffect(() => {
+        if(shop_name){
+            getShopProductsDispatch(filterState, shop_name);
+
+        }else if(category){
+            getCategoryProductsDispatch(filterState, currentCategory)
+        }else if(location.pathname === "/profile"){
+            getUsersFollowProductsDispatch(filterState);
+
+        }else{
+            getUshopProductsDispatch(productLists.length, filterState);
+        }
         [...filterList.current.children].forEach(li => {
             if(li.id === filterState){
+                
                 li.classList.add('active');
             }else{
                 li.classList.remove('active');
@@ -61,7 +77,7 @@ const HomeProductList = (props) => {
         })
         
 
-    }, [filterState])
+    }, [filterState]);
 
     return (
         <div className='forYou'>
@@ -112,9 +128,11 @@ const mapDispatchToProps = dispatch => {
         getUshopProductsDispatch : (start, filter) => dispatch(getUshopProductListAction(start, filter)),
         getShopProductsDispatch : (filter, shop_name) => dispatch(getShopProductsAction(filter, shop_name)),
         getUsersFollowProductsDispatch : (filter) => dispatch(getUsersFollowProductsAction(filter)),
+        getCategoryProductsDispatch : (filter, category) => dispatch(getCategoryProductsAction(filter, category)),
         seeMoreUsersFollowProductsDispatch : (filter, start) => dispatch(seeMoreUsersFollowProductsAction(filter, start)),
         seeMoreUShopProductsDispatch : (start, filter) => dispatch(seeMoreUshopProductListAction(start, filter)),
-        seeMoreShopsProductDispatch : (filter, shop_name, start) => dispatch(seeMoreShopProductsAction(filter, shop_name, start))
+        seeMoreShopsProductDispatch : (filter, shop_name, start) => dispatch(seeMoreShopProductsAction(filter, shop_name, start)),
+
     }
 }
 

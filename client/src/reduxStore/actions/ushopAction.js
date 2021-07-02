@@ -57,6 +57,42 @@ export const getUsersFollowProductsAction= (filter) => {
 
 }
 
+export const getCategoryProductsAction= (filter, category) => {
+    return async(dispatch) => {
+        try {
+            const products = await axios.post(`/ushop/get-${filter}-category-product/0`, {category}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type : SET_USHOP_PRODUCT,
+                data : products.data
+            })
+
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+}
+
+export const seeMoreCategoryProductsAction= (filter, category, start) => {
+    return async(dispatch) => {
+        try {
+            const products = await axios.post(`/ushop/get-${filter}-category-product/${start}`, {category}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            dispatch({
+                type : SET_USHOP_PRODUCT,
+                data : products.data
+            })
+
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+}
+
 export const seeMoreUsersFollowProductsAction = (filter, start) => {
     return async(dispatch) => {
         try {
