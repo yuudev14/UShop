@@ -35,7 +35,7 @@ const login = async(req, res) => {
             })
 
         }else{
-            res.status(402).send({usernameError : 'email does not exist'});
+            res.status(402).send({emailError : 'email does not exist'});
         }
 
         
@@ -86,9 +86,7 @@ const register = async(req, res) => {
                     })
                     
                 } catch (error) {
-                    // res.status(403).send(error.constraint);
-                    console.log(error);
-                    
+                    res.status(403).send({[error.constraint] : error.constraint});
                 }
             })
         })

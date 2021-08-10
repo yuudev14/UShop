@@ -22,7 +22,7 @@ const LoginForm = (props) => {
     })
 
     const [errors, setErrors] = useState({
-        usernameError: '',
+        emailError: '',
         passwordError : '',
         blanksError : '',
     })
@@ -34,6 +34,7 @@ const LoginForm = (props) => {
         })
     }
     const putErrorBorder = (list) => {
+        
         document.querySelectorAll('.login_form input').forEach(input => {
             if(list.includes(input.name)){
                 input.classList.add('errorInput');
@@ -45,15 +46,12 @@ const LoginForm = (props) => {
     }
 
     const checkFormErrors = () => {
-        setErrors({
-            ...errors,
-            blanksError : '',
-        });
+        
+        
         let formErrors = []
         const inputs = Object.values(loginForm).every(val => val !== '');
         if(!inputs){
             const errorInputs = Object.keys(loginForm).filter(key => loginForm[key] === '');
-            console.log(errorInputs)
             formErrors = [...formErrors, ...errorInputs];
         }
 
@@ -63,7 +61,7 @@ const LoginForm = (props) => {
     const loginSeller = async(e) => {
         e.preventDefault();
         putErrorBorder(checkFormErrors());
-        if(checkFormErrors.length > 0){
+        if(checkFormErrors().length === 0){
             try {
                 await loginDispatch(loginForm);
                 setLoginForm({
@@ -74,12 +72,13 @@ const LoginForm = (props) => {
                 verifyHasShopDispatch();
                 history.push('/');
             } catch (error) {
-                console.log(error)
-                setErrors({
-                    ...errors,
-                    ...error,
-                })
                 
+                setErrors({
+                    emailError: '',
+                    passwordError : '',
+                    blanksError : '',
+                    ...error,
+                });
             }
 
         }else{
@@ -98,15 +97,15 @@ const LoginForm = (props) => {
                 name='email'
                 placeholder='Email'
                 value={loginForm.email}
-                className={errors.usernameError !== '' && 'errorInput'}
+                className={errors.emailError !== '' ? 'errorInput2' : ''}
                 onChange={setLoginFormMethod}/>
-            <p className='error'>{errors.usernameError}</p>
+            <p className='error'>{errors.emailError}</p>
             <input 
                 type='password' 
                 name='password'
                 placeholder='Password'
                 value={loginForm.password}
-                className={errors.passwordError !== '' && 'errorInput'}
+                className={errors.passwordError !== '' && 'errorInput2'}
                 onChange={setLoginFormMethod}/>
             <p className='error'>{errors.passwordError}</p>
             <input type='submit' />

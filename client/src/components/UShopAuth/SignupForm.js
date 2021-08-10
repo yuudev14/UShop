@@ -18,7 +18,17 @@ const SignupForm = (props) => {
         email : '',
         password : '',
         retryPassword : '',
-    })
+    });
+
+    const errorsObject = {
+        unique_email: '',
+        unique_phone_number : '',
+        passwordError : '',
+        retryPasswordError : '',
+        blanksError : '',
+    }
+
+    const [errors, setErrors] = useState(errorsObject)
 
     const setSignupFormMethod = (e) => {
         setSignupForm({
@@ -39,16 +49,28 @@ const SignupForm = (props) => {
     }
 
     const checkFormErrors = () => {
-        let errors = []
+        let errorFields = []
         const inputs = Object.values(signupForm).every(val => val !== '');
         if(!inputs){
             const errorInputs = Object.keys(signupForm).filter(key => signupForm[key] === '');
-            errors = [...errors, ...errorInputs];
+            errorFields = [...errorFields, ...errorInputs];
+        }
+        if(signupForm.password < 7){
+            errorFields = [...errorFields, ...['password']];
+            setErrors({
+                ...errors,
+                passwordError: 'password length should be more than 7'
+            });
+
         }
         if(signupForm.password !== signupForm.retryPassword){
-            errors = [...errors, ...['password', 'retryPassword']];
+            errorFields = [...errorFields, ...['password', 'retryPassword']];
+            setErrors({
+                ...errors,
+                retryPasswordError: 'password does not match'
+            });
         }
-        return errors;
+        return errorFields;
     }
 
 
@@ -61,7 +83,6 @@ const SignupForm = (props) => {
                 setSignupForm({
                     firstName : '',
                     lastName : '',
-                    shopName : '',
                     phoneNumber : '',
                     email : '',
                     password : '',
@@ -69,19 +90,23 @@ const SignupForm = (props) => {
                     shopCategory : [],
                 });
                 history.push('/');
-
-                
             } catch (error) {
-                if(error === 'unique_shopname'){
-                    putErrorBorder(['shopName']);
+                const errorKey = Object.keys(error)[0]
+                if(errorKey === 'unique_phone_number'){
+                    putErrorBorder(['phoneNumber']);
+                    setErrors({
+                        ...errorsObject,
+                        ...error
+                    });
 
-                }else if(error === 'unique_email'){
+                }else if(errorKey === 'unique_email'){
                     putErrorBorder(['email']);
+                    setErrors({
+                        ...errorsObject,
+                        ...error
+                    });
 
-                }else if(error === 'password_length'){
-                    putErrorBorder(['password', 'retryPassword']);
-
-                };
+                }
                 
             }
             
@@ -111,30 +136,38 @@ const SignupForm = (props) => {
                 name='phoneNumber'
                 placeholder='Phone Number'
                 value={signupForm.phoneNumber}
+                className={errors.unique_phone_number !== '' && 'errorInput2'}
                 onChange={setSignupFormMethod}/>
+            <p className='error'>{errors.unique_phone_number }</p>
             <input 
                 type='email' 
                 name='email'
                 placeholder='Email'
                 value={signupForm.email}
+                className={errors.unique_email !== '' && 'errorInput2'}
                 onChange={setSignupFormMethod}/>
+            <p className='error'>{errors.unique_email }</p>
             <input 
                 type='password' 
                 name='password'
                 placeholder='Password'
                 value={signupForm.password}
+                className={errors.passwordError !== '' && 'errorInput2'}
                 onChange={setSignupFormMethod}/>
+            <p className='error'>{errors.passwordError }</p>
             <input 
                 type='password' 
                 name='retryPassword'
                 placeholder='Retry Password'
                 value={signupForm.retryPassword}
+                className={errors.retryPasswordError !== '' && 'errorInput2'}
                 onChange={setSignupFormMethod}/>
+            <p className='error'>{errors.retryPasswordError }</p>
             <input type='submit' />
-            <div className='socials'>
+            {/* <div className='socials'>
                 <i className='fa fa-facebook'></i>
                 <i className='fa fa-google'></i>
-            </div>
+            </div> */}
         </form>
     )
 }
