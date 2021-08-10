@@ -13,6 +13,7 @@ CREATE TABLE account
     date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     password VARCHAR(100) NOT NULL,
     CONSTRAINT unique_email UNIQUE (email),
+    CONSTRAINT unique_phone_number UNIQUE (phone_number),
     CONSTRAINT password_length CHECK (length(password) > 7)
 );
 

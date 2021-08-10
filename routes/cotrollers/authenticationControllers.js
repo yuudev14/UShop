@@ -30,12 +30,12 @@ const login = async(req, res) => {
                         token,
                     })
                 }else{
-                    res.status(404).send('Password is incorrect');
+                    res.status(404).send({passwordError : 'Password is incorrect'});
                 }
             })
 
         }else{
-            res.status(402).send('email does not exist');
+            res.status(402).send({usernameError : 'email does not exist'});
         }
 
         

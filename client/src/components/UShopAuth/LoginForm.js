@@ -21,6 +21,12 @@ const LoginForm = (props) => {
         password : '',
     })
 
+    const [errors, setErrors] = useState({
+        usernameError: '',
+        passwordError : '',
+        blanksError : '',
+    })
+
     const setLoginFormMethod = (e) => {
         setLoginForm({
             ...loginForm,
@@ -39,19 +45,25 @@ const LoginForm = (props) => {
     }
 
     const checkFormErrors = () => {
-        let errors = []
+        setErrors({
+            ...errors,
+            blanksError : '',
+        });
+        let formErrors = []
         const inputs = Object.values(loginForm).every(val => val !== '');
         if(!inputs){
             const errorInputs = Object.keys(loginForm).filter(key => loginForm[key] === '');
-            errors = [...errors, ...errorInputs];
+            console.log(errorInputs)
+            formErrors = [...formErrors, ...errorInputs];
         }
-        return errors;
+
+        return formErrors;
     }
 
     const loginSeller = async(e) => {
         e.preventDefault();
         putErrorBorder(checkFormErrors());
-        if(!checkFormErrors.length){
+        if(checkFormErrors.length > 0){
             try {
                 await loginDispatch(loginForm);
                 setLoginForm({
@@ -63,32 +75,47 @@ const LoginForm = (props) => {
                 history.push('/');
             } catch (error) {
                 console.log(error)
+                setErrors({
+                    ...errors,
+                    ...error,
+                })
                 
             }
 
+        }else{
+            setErrors({
+                ...errors,
+                blanksError : 'fill in the blanks',
+            });
         }
     }
     return (
         <form className='login_form' onSubmit={loginSeller}>
             <h1>Log in</h1>
+            <p className='error'>{errors.blanksError}</p>
             <input 
                 type='email' 
                 name='email'
                 placeholder='Email'
                 value={loginForm.email}
+                className={errors.usernameError !== '' && 'errorInput'}
                 onChange={setLoginFormMethod}/>
+            <p className='error'>{errors.usernameError}</p>
             <input 
                 type='password' 
                 name='password'
                 placeholder='Password'
                 value={loginForm.password}
+                className={errors.passwordError !== '' && 'errorInput'}
                 onChange={setLoginFormMethod}/>
+            <p className='error'>{errors.passwordError}</p>
             <input type='submit' />
-            or
-            <div className='socials'>
+            
+            
+            {/* <div className='socials'>
                 <i className='fa fa-facebook'></i>
                 <i className='fa fa-google'></i>
-            </div>
+            </div> */}
         </form>
     )
 }
