@@ -54,42 +54,90 @@ const register = async(req, res) => {
             phoneNumber,
             email,
             password,
+            retryPassword
         } = req.body;
 
-        bcrypt.genSalt(10, (err, salt) => {
-            if(err) throw err;
-            bcrypt.hash(password, salt, async(err, encrypted) => {
-                if(err) throw err;
-                try {
-                    const registerQuery = await db.query(`
-                            INSERT INTO account (
-                                first_name,
-                                last_name,
-                                phone_number,
-                                email,
-                                password
-                            ) VALUES (
-                                $1, $2, $3, $4, $5
+        let errors = {
+            emailError: '',
+            phone_number_error : '',
+            passwordError : '',
+            retryPasswordError : '',
+        }
 
-                            ) RETURNING user_id
-                    
-                    `, [
-                        firstName,
-                        lastName,
-                        phoneNumber,
-                        email,
-                        encrypted,
-                    ]);
-                    const token = generateToken(registerQuery.rows[0].user_id);
-                    res.send({
-                        token,
+        try {
+            const checkPhoneNumber = await db.query(
+                `SELECT * FROM account
+                WHERE phone_number = $1
+                `, [phoneNumber]
+            )
+
+            const checkEmail = await db.query(
+                `SELECT * FROM account
+                WHERE email = $1
+                `, [email]
+            )
+
+            if(password.length < 7){
+                errors.passwordError = 'password should be longer than 7'
+
+            }
+            if(password !== retryPassword){
+                errors.retryPasswordError = 'password does not match'
+
+            }
+            if(checkEmail.rowCount > 0){
+                errors.emailError = 'email already exist'
+
+            }
+            if(checkPhoneNumber.rowCount > 0){
+                errors.phone_number_error = 'number already exist'
+
+            }
+            if(Object.values(errors).every(err => err === '')){
+                bcrypt.genSalt(10, (err, salt) => {
+                    if(err) throw err;
+                    bcrypt.hash(password, salt, async(err, encrypted) => {
+                        if(err) throw err;
+                        try {
+                            const registerQuery = await db.query(`
+                                    INSERT INTO account (
+                                        first_name,
+                                        last_name,
+                                        phone_number,
+                                        email,
+                                        password
+                                    ) VALUES (
+                                        $1, $2, $3, $4, $5
+        
+                                    ) RETURNING user_id
+                            
+                            `, [
+                                firstName,
+                                lastName,
+                                phoneNumber,
+                                email,
+                                encrypted,
+                            ]);
+                            const token = generateToken(registerQuery.rows[0].user_id);
+                            res.send({
+                                token,
+                            })
+                            
+                        } catch (error) {
+                            console.log(error);
+                        }
                     })
-                    
-                } catch (error) {
-                    res.status(403).send({[error.constraint] : error.constraint});
-                }
-            })
-        })
+                })
+
+            }else{
+                res.status(403).send(errors)
+            }
+            
+        } catch (error) {
+            
+        }
+
+        
         
         
         

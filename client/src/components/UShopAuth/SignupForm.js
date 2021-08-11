@@ -21,8 +21,8 @@ const SignupForm = (props) => {
     });
 
     const errorsObject = {
-        unique_email: '',
-        unique_phone_number : '',
+        emailError: '',
+        phone_number_error : '',
         passwordError : '',
         retryPasswordError : '',
         blanksError : '',
@@ -49,27 +49,8 @@ const SignupForm = (props) => {
     }
 
     const checkFormErrors = () => {
-        let errorFields = []
-        const inputs = Object.values(signupForm).every(val => val !== '');
-        if(!inputs){
-            const errorInputs = Object.keys(signupForm).filter(key => signupForm[key] === '');
-            errorFields = [...errorFields, ...errorInputs];
-        }
-        if(signupForm.password < 7){
-            errorFields = [...errorFields, ...['password']];
-            setErrors({
-                ...errors,
-                passwordError: 'password length should be more than 7'
-            });
-
-        }
-        if(signupForm.password !== signupForm.retryPassword){
-            errorFields = [...errorFields, ...['password', 'retryPassword']];
-            setErrors({
-                ...errors,
-                retryPasswordError: 'password does not match'
-            });
-        }
+        const errorInputs = Object.keys(signupForm).filter(key => signupForm[key] === '');
+        let errorFields = [ ...errorInputs];
         return errorFields;
     }
 
@@ -91,31 +72,25 @@ const SignupForm = (props) => {
                 });
                 history.push('/');
             } catch (error) {
-                const errorKey = Object.keys(error)[0]
-                if(errorKey === 'unique_phone_number'){
-                    putErrorBorder(['phoneNumber']);
-                    setErrors({
-                        ...errorsObject,
-                        ...error
-                    });
-
-                }else if(errorKey === 'unique_email'){
-                    putErrorBorder(['email']);
-                    setErrors({
-                        ...errorsObject,
-                        ...error
-                    });
-
-                }
+                setErrors({
+                    ...errorsObject,
+                    ...error
+                });
                 
             }
             
+        }else{
+            setErrors({
+                ...errorsObject,
+                blanksError : 'fill up the forms'
+            });
         }
     }
 
     return (
         <form onSubmit={registerSeller} className='signup_form'>
             <h1>Sign up</h1>
+            <p className='error'>{errors.blanksError}</p>
             <div className='nameForm'>
                 <input 
                     type='text' 
@@ -136,17 +111,17 @@ const SignupForm = (props) => {
                 name='phoneNumber'
                 placeholder='Phone Number'
                 value={signupForm.phoneNumber}
-                className={errors.unique_phone_number !== '' && 'errorInput2'}
+                className={errors.phone_number_error !== '' && 'errorInput2'}
                 onChange={setSignupFormMethod}/>
-            <p className='error'>{errors.unique_phone_number }</p>
+            <p className='error'>{errors.phone_number_error }</p>
             <input 
                 type='email' 
                 name='email'
                 placeholder='Email'
                 value={signupForm.email}
-                className={errors.unique_email !== '' && 'errorInput2'}
+                className={errors.emailError !== '' && 'errorInput2'}
                 onChange={setSignupFormMethod}/>
-            <p className='error'>{errors.unique_email }</p>
+            <p className='error'>{errors.emailError }</p>
             <input 
                 type='password' 
                 name='password'
