@@ -271,23 +271,50 @@ const modifyProduct = async(req, res) => {
 
 const registerShop = async(req, res) => {
     try {
-        const {shop_name, email, images, aboutShop} = req.body;
-        await db.query(
-            `INSERT INTO shops
-            (
-                shop_name,
-                email,
-                user_id,
-                logo,
-                about
-            )
-            VALUES (
-                $1, $2, $3, $4, $5
-            )`,
-            [shop_name, email, req.user, images, aboutShop]
 
-        )
-        res.send(true);
+        const {shop_name, email, images, aboutShop} = req.body;
+        let errors = {
+            emailError : '',
+            shop_name_error : '',
+        }
+        const checkEmail = await db.query(
+            `SELECT * from shops
+            WHERE email = $1`, [email]
+        );
+
+        const checkShopName = await db.query(
+            `SELECT * FROM shops
+            WHERE shop_name = $1`, [shop_name]
+        );
+
+        if(checkEmail.rowCount > 0){
+            errors.emailError = 'email already exist'
+        }
+        if(checkShopName.rowCount > 0){
+            errors.shop_name_error = 'shop name already exist'
+
+        }
+        if(Object.values(errors).every(err => err === '')){
+            await db.query(
+                `INSERT INTO shops
+                (
+                    shop_name,
+                    email,
+                    user_id,
+                    logo,
+                    about
+                )
+                VALUES (
+                    $1, $2, $3, $4, $5
+                )`,
+                [shop_name, email, req.user, images, aboutShop]
+    
+            )
+            res.send(true);
+        }else{
+            res.status(403).send(errors);
+        }
+        
         
     } catch (error) {
         console.log(error);

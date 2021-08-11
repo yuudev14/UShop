@@ -17,10 +17,16 @@
                 color: $secondary;
                 text-align: center;
             }
+            
             width: 80%;
             margin: auto;
             background-color: white;
             padding: 20px;
+            .errorInfo{
+                color: red;
+                // text-align: right;
+                width: 100%;
+            }
             h1{
                 font-family: $primaryFont;
                 color: $secondary;
@@ -39,22 +45,37 @@
             
             .inputContainer{
                 display: flex;
-                margin: 20px 0;
-                align-items: center;
-                .error{
+                margin-Top: 20px;
+                align-items: flex-start;
+                .error, .error2{
                     border: 1px solid red !important;
                     color: red !important;
                     i{
                         color: red !important;
                     }
                 }
+                .errorInfo{
+                    color: red;
+                    // text-align: right;
+                    width: 100%;
+                    font-size: 0.8em;
+                }
+                
+                
                 
                 input{
-                    width: 50%;
+                    width: 100%;
                     padding: 5px;
                     font-family: $secondaryFont;
                     outline: none;
 
+                }
+                .inputAndError{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    
+                    
                 }
                 select{
                     background-color: white;

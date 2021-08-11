@@ -18,6 +18,13 @@ const RegisterShop = (props) => {
         sampleImages : '',
         aboutShop : ''
     });
+    const errorsObject = {
+        emailError: '',
+        shop_name_error : '',
+        blanksError : '',
+    }
+
+    const [errors, setErrors] = useState(errorsObject)
 
     const history = useHistory();
 
@@ -43,53 +50,114 @@ const RegisterShop = (props) => {
         }
     }
 
+    const checkForm = () => {
+        const importantFields = ['shop_name', 'email', 'images'];
+        const errors = importantFields.filter(field => shopInfo[field] === '');
+        return errors
+    }
+
+    const putErrorBorder = (fields) => {
+        document.querySelectorAll('.registerShop input').forEach(inp => {
+            if(fields.includes(inp.name)){
+                inp.classList.add('error')
+            }else{
+                inp.classList.remove('error')
+
+            }
+        });
+
+        if(shopInfo.images === ''){
+            document.querySelector('.registerShop label').classList.add('error')
+
+        }else{
+            document.querySelector('.registerShop label').classList.remove('error')
+        }
+
+        
+
+
+
+    }
+
     const registerShop = async(e) => {
         e.preventDefault();
-        const preset = 'kopfy1vm';
-        const url = 'https://api.cloudinary.com/v1_1/yutakaki/image/upload';
-        try {
-            const formData = new FormData();
-            formData.append('file', shopInfo.images);
-            formData.append('upload_preset', preset);
-            const uploadImg = await axios.post(url, formData);
-            await registerShopDispatch({...shopInfo, images: uploadImg.data.secure_url});
-            history.push('/sell-UShop') 
+        
+        if(checkForm().length === 0){
             
-        } catch (error) {
-            console.log(error);
-            
+            const preset = 'kopfy1vm';
+            const url = 'https://api.cloudinary.com/v1_1/yutakaki/image/upload';
+            try {
+                const formData = new FormData();
+                formData.append('file', shopInfo.images);
+                formData.append('upload_preset', preset);
+                const uploadImg = await axios.post(url, formData);
+                await registerShopDispatch({...shopInfo, images: uploadImg.data.secure_url});
+                history.push('/sell-UShop') 
+                
+            } catch (error) {
+                setErrors({
+                    ...errorsObject,
+                    ...error.data
+                });
+                
+            }
+
+        }else{
+            setErrors({
+                ...errorsObject,
+                blanksError : 'fill up the fields'
+            });
+        
+
         }
+        putErrorBorder(checkForm());
+        
         
     }
     return (
         <div className='registerShop'>
             <form onSubmit={registerShop}>
                 <h1>Register Shop</h1>
+                <p className='errorInfo'>{errors.blanksError}</p>
                 <div className='inputContainer'>
                     <p>Email</p>
-                    <input 
-                        type='email' 
-                        name='email'
-                        placeholder='Email'
-                        value={shopInfo.email}
-                        onChange={setShopInfoMethod}
-                        />
+                    <div className='inputAndError'>
+                        <input 
+                            type='email' 
+                            name='email'
+                            placeholder='Email'
+                            value={shopInfo.email}
+                            onChange={setShopInfoMethod}
+                            className={errors.emailError !== '' && 'error2'}
+                            />
+                        <p className='errorInfo'>{errors.emailError}</p>
+
+                    </div>
+                    
+                    
                 </div>
+                
 
                 <div className='inputContainer'>
                     <p>Shop name</p>
-                    <input 
-                        type='text' 
-                        name='shop_name'
-                        placeholder='shop name'
-                        value={shopInfo.shop_name}
-                        onChange={setShopInfoMethod}
-                        />
+                    <div className='inputAndError'>
+                        <input 
+                            type='text' 
+                            name='shop_name'
+                            placeholder='shop name'
+                            value={shopInfo.shop_name}
+                            onChange={setShopInfoMethod}
+                            className={errors.shop_name_error !== '' && 'error2'}
+                            />
+                        <p className='errorInfo'>{errors.shop_name_error}</p>
+
+                    </div>
+                    
 
                 </div>
                 <div className='inputContainer'>
                     <p>Logo</p>
-                    <label htmlFor='productNameImage'>
+                    <label htmlFor='productNameImage' >
                         <i className='fa fa-plus'></i>
                     </label>
                     <input name='images' type='file' id='productNameImage' onChange={setShopInfoMethod}/>
