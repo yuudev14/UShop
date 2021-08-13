@@ -10,7 +10,10 @@ const cartReducer = (state = initState, action) => {
             return []
         case CHECK_ALL_CART:
             const updatedCart3 = [...state].map(cart => {
-                cart.checked = !cart.checked
+                if(cart.stock !== 0){
+                    cart.checked = !cart.checked
+                }
+                
                 return cart
             })
             return [...updatedCart3]

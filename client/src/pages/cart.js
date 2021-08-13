@@ -30,7 +30,7 @@ const Cart = (props) => {
                 <div className='cartList'>
                     <div className='cartHeader'>
                         <label>
-                            <input type='checkBox' onChange={() =>checkAllCartDispatch()} checked={cart.every(prod => prod.checked)}/>  select all {cart.length} items
+                            <input type='checkBox' onChange={() =>checkAllCartDispatch()} checked={cart.every(prod => prod.checked)}/>  select all {cart.filter(prod => prod.stock !== 0).length} items
                         </label>
 
                         <button className='fa fa-trash'>Delete</button>

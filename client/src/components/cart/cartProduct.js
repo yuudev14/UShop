@@ -24,7 +24,6 @@ const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateIt
 
     return (
         <>
-
             {cartActive.map(data => (
                 <div className='cartProduct'>
                 <label className='productInfo1'>
