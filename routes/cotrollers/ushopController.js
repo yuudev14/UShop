@@ -133,7 +133,8 @@ const getTopCategoryProduct = async(req, res) => {
             `SELECT 
                 products.product_id, 
                 products.product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images   
+                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                (SELECT category_name FROM category WHERE category_id =  productCategory.category_id) as category
             FROM productCategory
             JOIN products ON products.product_id = productCategory.product_id
             WHERE category_id = (
@@ -147,6 +148,7 @@ const getTopCategoryProduct = async(req, res) => {
             ) 
             ORDER BY sold`
         );
+        console.log(product.rows)
 
         res.send(product.rows);
         
