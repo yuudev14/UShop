@@ -1,20 +1,20 @@
 @import '../variables.scss';
 .UShopAuth{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    padding: 10px;
+    
+    
     
     
     .AuthContainer{
         position: relative;
-        width: 800px;
         box-shadow: 1px 1px 5px $primary;
         min-height: 480px;
-        min-width: 500px;
-
-        
-        
+        margin-left: 50%;
+        width: 100%;
+        // min-width: 500px;
+        max-width: 800px;
+        margin-top: 150px;
+        transform: translateX( -50%);
         form{
             display: flex;
             flex-direction: column;
@@ -33,10 +33,22 @@
             .nameForm{
                 display: flex;
                 justify-content: space-between;
+                flex-direction: column;
                 width: 70%;
                 input{
-                    width: 45%;
+                    width: 100%;
                 }
+            }
+
+            @media only screen and (min-width : 500px) {
+                .nameForm{
+                    width: 70%;
+                    flex-direction: row;
+                    input{
+                        width: 45%;
+                    }
+                }
+                
             }
             input{
                 outline: none;

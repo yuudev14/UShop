@@ -43,7 +43,7 @@ const ProductDetails = ({productInfo, Option, auth}) => {
             {!location.pathname.includes('sell-UShop') && (
                 <div className='product_shop'>
                     <div className='shopNameAndImg'>
-                        <img src='https://res.cloudinary.com/yutakaki/image/upload/v1623512442/blog/tk9wlaqmiorxjuw4rjrm.jpg' />
+                        <img src={productInfo.logo} />
                         <div className='shopName'>
                             <h4>{productInfo.shop_name}</h4>
                             <Link to={`/shop/${productInfo.shop_name}`}><button>View Shop</button></Link>
