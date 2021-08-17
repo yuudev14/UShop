@@ -5,7 +5,7 @@ const Orders = ({data}) => {
     return (
         <div className='order'>
             <div className='orderHeader'>
-                <p>Date: {data.date}</p>
+                <p>Date: {new Date(data.date).toLocaleDateString()}</p>
                 <p>Order number: {data.order_number}</p>
             </div>
             {data.productOrders.map(prod => (
@@ -19,7 +19,7 @@ const Orders = ({data}) => {
                             <h4>{prod.product_name}</h4>
                             <p>Shop: {prod.shop_name}</p>
                             <p>item: {prod.item}</p>
-                            <p>price : ${prod.price}</p>
+                            <p>price : ¥{prod.price}</p>
                         </div>
                     </div>
                 </div>

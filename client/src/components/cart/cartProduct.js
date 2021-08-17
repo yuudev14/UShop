@@ -32,12 +32,10 @@ const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateIt
                     <div>
                         <p>{data.product_name}</p>
                         <p>Stock : {data.stock}</p>
+                        <h2>$¥{data.totalPrice}</h2>
                     </div>
                 </label>
                 <div className='productInfo2'>
-                    <div className='price'>
-                        <h2>${data.totalPrice}</h2>
-                    </div>
                     <div className='itemOption'>
                         <input type='number'
                                 ref={item}
@@ -63,12 +61,11 @@ const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateIt
                             <div>
                                 <p>{data.product_name}</p>
                                 <p>Stock : {data.stock}</p>
+                                <h2>¥{data.totalPrice}</h2>
                             </div>
                         </label>
                         <div className='productInfo2'>
-                            <div className='price'>
-                                <h2>${data.totalPrice}</h2>
-                            </div>
+                            
                             <div className='itemOption'>
                                 <input type='number'
                                         ref={item}

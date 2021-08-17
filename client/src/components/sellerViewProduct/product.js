@@ -25,7 +25,7 @@ const SellerProduct = (props) => {
                         <h3>{data.product_name}</h3>
                     </Link>
                     <div className='priceNstock'>
-                        <p className='price'>price: ${data.price}</p>
+                        <p className='price'>price: ¥{data.price}</p>
                         <p className='stock'>Stock: {data.stock}</p>
 
                     </div>

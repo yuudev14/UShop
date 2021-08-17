@@ -15,7 +15,7 @@
         }
         .outOfStockProducts{
             background-color: $quarternary;
-            padding: 20px;
+            padding: 10px;
             h1{
                 font-family: $primaryFont;
                 color: $primary;
@@ -35,31 +35,27 @@
                 .productInfo1{
                     display: flex;
                     align-items: center;
-                    width: 60%;
+                    width: 70%;
                     height: 100%;
                     img{
                         width: 100px;
                         height: 100%;
                     }
-                    p{
+                    p, h2{
                         margin-left: 10px;
                         margin-bottom: auto;
                     }
                 }
                 .productInfo2{
                     display: flex;
-                    width: 35%;
-                    justify-content: space-between;
-                    .price{
-                        width: 50%;
-
-                    }
+                    width: 30%;
+                    justify-content: flex-end;
                     
                     .itemOption{
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        width: 50%;
+                        width: 80%;
 
                         input{
                             width: 100%;

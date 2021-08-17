@@ -103,7 +103,7 @@ const HomeProductList = (props) => {
                         <div className='productInfo'>
                             <h3>{prod.product_name}</h3>
                             <div className='priceNstock'>
-                                <p className='price'>price: ${prod.price}</p>
+                                <p className='price'>price: ¥{prod.price}</p>
                                 <p className='stock'>Sold: {prod.sold}</p>
 
                             </div>

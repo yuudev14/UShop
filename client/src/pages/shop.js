@@ -91,7 +91,7 @@ const Shop = (props) => {
                     </div>
                     <div className='info'>
                         <p>joined</p>
-                        <p className='value'>{shopDetails.date}</p>
+                        <p className='value'>{new Date(shopDetails.date).toLocaleDateString()}</p>
                     </div>
 
                 </div>

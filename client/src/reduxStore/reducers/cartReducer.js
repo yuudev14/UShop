@@ -10,9 +10,7 @@ const cartReducer = (state = initState, action) => {
             return []
         case CHECK_ALL_CART:
             const updatedCart3 = [...state].map(cart => {
-                if(cart.stock !== 0){
-                    cart.checked = !cart.checked
-                }
+                cart.checked = !cart.checked
                 
                 return cart
             })
@@ -29,12 +27,11 @@ const cartReducer = (state = initState, action) => {
         case UPDATE_ITEM_NO_CART:
             const updatedCart2 = [...state].map(cart => {
                 if(action.id === cart.product_id){
-                    cart.items = action.data > cart.stock ? cart.stock : action.data <= 0 ? 1 : action.data;
+                    cart.items = action.data > cart.stock ? cart.stock : action.data < 0 ? 0 : action.data;
                     cart.totalPrice = cart.items * cart.price;
                 }
                 return cart
             })
-            console.log(updatedCart2)
             return [...updatedCart2]
 
         default:

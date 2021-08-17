@@ -22,7 +22,9 @@
                 width: 20%;
                 min-width: 70px;
                 background-color: $quarternary;
-                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 &:hover{
                     background-color: $tertiary;
                     color: $quarternary;

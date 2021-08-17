@@ -9,10 +9,16 @@ const OrderForm = ({cart, total, checkoutDispatch}) => {
 
     const checkout = async() => {
         try {
-            const checkout = await checkoutDispatch(cart);
-            if(checkout === true){
-                history.push('/');
+            if(cart.every(item => item.items > 0)){
+                const checkout = await checkoutDispatch(cart);
+                if(checkout === true){
+                    history.push('/');
+                }
+
+            }else{
+                alert('you didn\'t buy anything in ');
             }
+            
         } catch (error) {
             console.log(error);
         }
@@ -24,13 +30,13 @@ const OrderForm = ({cart, total, checkoutDispatch}) => {
             {cart.map(prod => (
                 <div className='orderInfo'>
                     <h5>{prod.product_name} ({prod.items}) </h5>
-                    <p>${prod.totalPrice}</p>
+                    <p>¥{prod.totalPrice}</p>
                 </div>
             ))}
             
             <div className='orderInfo total'>
                 <h5>total ({cart.length} items)</h5>
-                <p>${total}</p>
+                <p>¥{total}</p>
             </div>
             <button onClick={checkout}>Proceed to checkout</button>
         </div>
@@ -38,9 +44,10 @@ const OrderForm = ({cart, total, checkoutDispatch}) => {
 }
 
 const mapStateToProps = state => {
+    let cart = state.cart.filter(prod => prod.checked && prod.stock !== 0)
     return {
-        cart : state.cart.filter(prod => prod.checked),
-        total : state.cart.filter(prod => prod.checked).reduce((total, current) => {
+        cart,
+        total : cart.reduce((total, current) => {
             return total + current.totalPrice
         }, 0),
         

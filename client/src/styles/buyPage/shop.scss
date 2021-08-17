@@ -5,6 +5,7 @@
 
 .shop{
     margin-top: 130px;
+    padding: 0 10px;
     .product_shop{
         display: flex;
         flex-direction: column;
@@ -79,7 +80,8 @@
                     color: $secondary;
                 }
                 .value{
-                    color: $tertiary
+                    color: $tertiary;
+                    margin-left: 10px;
                 }
             }
         }

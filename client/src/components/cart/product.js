@@ -34,7 +34,7 @@ const Products = ({data, checkProductDispatch, updateItemNumberDispatch, deleteC
             </label>
             <div className='productInfo2'>
                 <div className='price'>
-                    <h2>${data.totalPrice}</h2>
+                    <h2>¥{data.totalPrice}</h2>
                 </div>
                 <div className='itemOption'>
                     <input type='number'

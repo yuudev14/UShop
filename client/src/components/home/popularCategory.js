@@ -29,26 +29,12 @@ const PopularCategory = () => {
             <h1>Popular Categories</h1>
             
             <div className='categoryList'>
-                {mostPopularCategories.map((category, i) => {
-                    if(i === 0){
-                        return (
-                            <Link className='mostPopularCategory categoryContent'>
-                                <h3>{category.category_name}</h3>
-                                <p>{category.products} products</p>
-                            </Link>
-
-                        )
-                    }
-                    return (
-                        <Link className='category categoryContent'>
-                            <h3>{category.category_name}</h3>
-                            <p>{category.products} products</p>
-
-                        </Link>
-                    )
-                })}
-                
-                
+                {mostPopularCategories.map((category, i) => (
+                    <Link to={`/category/${category.category_name}`} className={i === 0 ? 'mostPopularCategory categoryContent' : 'category categoryContent'}>
+                        <h3>{category.category_name}</h3>
+                        <p>{category.products} products</p>
+                    </Link>
+                ))}
             </div>
         </div>
     )

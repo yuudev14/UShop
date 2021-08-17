@@ -33,7 +33,7 @@ const ProductDetails = ({productInfo, Option, auth}) => {
                         <p>rating: <span>{productInfo.rating}</span></p>
 
                     </div>
-                    <h3>${productInfo.price}</h3>
+                    <h3>¥{productInfo.price}</h3>
                     <p>{productInfo.description}</p>
 
                 </div>
