@@ -26,17 +26,17 @@ const SellerProductDetails = () => {
         try {
             const productDetails = await axios.get(`/sell-ushop/getProduct/${product_id}`,{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
             const data = productDetails.data;
-            console.log(data);
             setProductInfo({
                 ...productInfo,
-                category: data.category,
-                description: data.description,
-                images: data.images,
+                // category: data.category,
+                // description: data.description,
+                // images: data.images,
+                ...data,
                 sampleImages: data.images,
-                price: data.price,
+                // price: data.price,
                 productName: data.product_name,
-                seen: data.seen,
-                stock: data.stock,
+                // seen: data.seen,
+                // stock: data.stock,
             });
             
         } catch (error) {

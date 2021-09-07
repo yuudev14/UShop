@@ -50,7 +50,6 @@ export const updateItemNumberAction = (value, id) => {
 export const deleteCartAction = (id) => {
     return async(dispatch) => {
         const product = await axios.delete(`/cart/delete-cart/${id}`,{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
-        console.log(product);
         const prod = product.data.map(prod => {
             prod.totalPrice = prod.price
             prod.checked = false

@@ -28,7 +28,7 @@ const HomeProductList = (props) => {
             seeMoreShopsProductDispatch(filterState, shop_name, productLists.length)
 
         }else if(category){
-            seeMoreCategoryProductsDispatch(filterState, currentCategory, productLists.length)
+            seeMoreCategoryProductsDispatch(filterState, currentCategory.replace(/[(%20)]g/, ' '), productLists.length)
         }else if(location.pathname === "/profile"){
             seeMoreUsersFollowProductsDispatch(filterState, productLists.length)
 
@@ -47,12 +47,11 @@ const HomeProductList = (props) => {
     }
 
     useEffect(() => {
-        if(currentCategory !== category){
-            setCurrentCategory(category);
-        }
-    })
+        setCurrentCategory(category.replace(/[(%20)]g/, ' '));
+    }, [category])
 
     useEffect(() => {
+        console.log(currentCategory)
         setFilterState('popular')
         getCategoryProductsDispatch('popular', currentCategory)
 
@@ -63,7 +62,7 @@ const HomeProductList = (props) => {
             getShopProductsDispatch(filterState, shop_name);
 
         }else if(category){
-            getCategoryProductsDispatch(filterState, currentCategory)
+            getCategoryProductsDispatch(filterState, currentCategory.replace(/[(%20)]g/, ' '))
         }else if(location.pathname === "/profile"){
             getUsersFollowProductsDispatch(filterState);
 

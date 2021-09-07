@@ -9,7 +9,6 @@ const PopularCategory = () => {
     const getPopularCategories = async() => {
         try {
             const categories = await axios.get('/ushop/most-popular-categories');
-            console.log(categories);
             setMostPopularCategories(categories.data)
             
         } catch (error) {

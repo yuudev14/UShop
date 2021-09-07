@@ -23,7 +23,6 @@ export const loginAction = (data) => {
     return async(dispatch) => {
         try {
             const loginRequest = await axios.post('/auth/login', data);
-            console.log(loginRequest)
             localStorage.setItem('UShop', JSON.stringify({...JSON.parse(localStorage.getItem('UShop')),...loginRequest.data}))
             dispatch({
                 type : SET_AUTH,
@@ -103,7 +102,6 @@ export const verifyToken = () => {
             const uShoptoken = JSON.parse(localStorage.getItem('UShop'));
             let auth;
             if(uShoptoken){
-                console.log(uShoptoken.token)
                 if(uShoptoken){
                     const verifySellerRequest = await axios.post('/auth/verify-token',
                                                         {}, 

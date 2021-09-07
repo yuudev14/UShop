@@ -11,14 +11,17 @@ const SignupForm = (props) => {
     } = props;
     const history = useHistory();
 
-    const [signupForm, setSignupForm] = useState({
+    const formKey = {
         firstName : '',
         lastName : '',
         phoneNumber : '',
         email : '',
         password : '',
         retryPassword : '',
-    });
+
+    }
+
+    const [signupForm, setSignupForm] = useState(formKey);
 
     const errorsObject = {
         emailError: '',
@@ -61,15 +64,6 @@ const SignupForm = (props) => {
         if(checkFormErrors().length === 0){
             try {
                 await registerDispatch(signupForm);
-                setSignupForm({
-                    firstName : '',
-                    lastName : '',
-                    phoneNumber : '',
-                    email : '',
-                    password : '',
-                    retryPassword : '',
-                    shopCategory : [],
-                });
                 history.push('/');
             } catch (error) {
                 setErrors({

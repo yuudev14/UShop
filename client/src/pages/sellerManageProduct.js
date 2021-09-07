@@ -23,14 +23,15 @@ const SellerManageProduct = () => {
         const data = productDetails.data;
         setManageProductsForm({
             ...manageProductsForm,
-            category: data.category,
-            description: data.description,
-            images: data.images,
+            // category: data.category,
+            // description: data.description,
+            // images: data.images,
+            ...data,
             sampleImages: data.images,
-            price: data.price,
+            // price: data.price,
             productName: data.product_name,
-            seen: data.seen,
-            stock: data.stock,
+            // seen: data.seen,
+            // stock: data.stock,
         });
     }
 
@@ -46,7 +47,6 @@ const SellerManageProduct = () => {
             const url = 'https://api.cloudinary.com/v1_1/yutakaki/image/upload';
             try {
                 let newImages = [];
-                console.log(manageProductsForm.images)
                 manageProductsForm.images.forEach(async(img, i) => {
                     if(img.image_link.includes('data:image')){
                         const formData = new FormData();

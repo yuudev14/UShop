@@ -148,7 +148,6 @@ const getTopCategoryProduct = async(req, res) => {
             ) 
             ORDER BY sold`
         );
-        console.log(product.rows)
 
         res.send(product.rows);
         
@@ -242,7 +241,6 @@ const checkout = async(req, res) => {
             return prod
         });
 
-        console.log(updatedBuyItems);
 
         if(updatedBuyItems.every(prod => Number(prod.stock) >= Number(prod.items))){
             const ordernumber = await db.query(

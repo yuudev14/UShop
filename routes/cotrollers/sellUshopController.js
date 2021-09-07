@@ -207,8 +207,6 @@ const modifyProduct = async(req, res) => {
             description,
             stock,
         } = req.body;
-
-        console.log(newImages);
         await db.query(
             `UPDATE products
             SET product_name = $1,

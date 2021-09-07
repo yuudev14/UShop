@@ -9,7 +9,8 @@ const CategoryProducts = ({getCategoryProductsDispatch}) => {
     const {category} = useParams();
 
     useEffect(() => {
-        getCategoryProductsDispatch('popular', category);
+        console.log(category.replace(/[(%20)]g/, ' '));
+        getCategoryProductsDispatch('popular', category.replace(/[(%20)]g/, ' '));
         
     }, [])
     return (

@@ -28,7 +28,6 @@ const BuyerProductDetails = () => {
         try {
             const productDetails = await axios.get(`/ushop/get-product-info/${product_id}`,{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
             const data = productDetails.data;
-            console.log(data)
             setProductInfo({
                 ...productInfo,
                 images: data.images,

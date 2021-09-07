@@ -9,14 +9,16 @@ const SellerViewForm = (props) => {
         filterProductsDispatch
     } = props;
 
-    const [searchForm, setSearchForm] = useState({
+    const formKey = {
         productName : '',
         category : '',
         minStock : "FLOAT8 '-infinity'",
         maxStock : "FLOAT8 '+infinity'",
         minPrice : "FLOAT8 '-infinity'",
         maxPrice : "FLOAT8 '+infinity'",
-    });
+    }
+
+    const [searchForm, setSearchForm] = useState(formKey);
     const [category, setCategory] = useState([])
 
     useEffect(() => {
@@ -62,14 +64,7 @@ const SellerViewForm = (props) => {
     }
 
     const resetForm = () => {
-        setSearchForm({
-            productName : '',
-            category : '',
-            minStock : "FLOAT8 '-infinity'",
-            maxStock : "FLOAT8 '+infinity'",
-            minPrice : "FLOAT8 '-infinity'",
-            maxPrice : "FLOAT8 '+infinity'",
-        })
+        setSearchForm(formKey)
 
     }
     return (

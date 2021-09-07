@@ -33,6 +33,145 @@ INSERT INTO category (
 ) VALUES (
     'Games'
 );
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Automotive & Powersports'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Baby Products'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Beauty'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Books'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Camera & Photo'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Cell Phones & Accessories'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Collectible Coins'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Consumer Electronics'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Entertainment Collectibles'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Fine Art'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Grocery & Gourmet Food'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Health & Personal Care'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Home & Garden'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Independent Design'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Industrial & Scientific'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Music'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Musical Instruments'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Outdoors'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Personal Computers'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Pet Supplies'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Software'
+);INSERT INTO category (
+    category_name
+) VALUES (
+    'Sports'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Sports Collectibles'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Tools & Home Improvement'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Toys & Games'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Video, DVD & Blu-ray'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Video Games'
+);
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Watches'
+);
 
 CREATE TABLE shops (
     shop_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
