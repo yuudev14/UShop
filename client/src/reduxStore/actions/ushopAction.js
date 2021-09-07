@@ -60,7 +60,7 @@ export const getUsersFollowProductsAction= (filter) => {
 export const getCategoryProductsAction= (filter, category) => {
     return async(dispatch) => {
         try {
-            const products = await axios.post(`/ushop/get-${filter}-category-product/0`, {category}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
+            const products = await axios.post(`/ushop/get-${filter}-category-product/0`, {category : category.replace(/[(%20)]g/, ' ')}, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
             dispatch({
                 type : SET_USHOP_PRODUCT,
                 data : products.data
