@@ -31,7 +31,7 @@ const addProducts = async(req, res) => {
 
             for(let i in newImages){
                 await db.query(
-                    `INSERT INTO productImages
+                    `INSERT INTO product_images
                     (
                         product_id,
                         image_link
@@ -43,7 +43,7 @@ const addProducts = async(req, res) => {
             }
 
             await db.query(
-                `INSERT INTO productCategory
+                `INSERT INTO product_category
                 (
                     product_id,
                     category_id
@@ -88,12 +88,12 @@ const filterProducts = async(req, res) => {
         } = req.body;
         const products = await db.query(
             `SELECT *,
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as image 
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as image 
             from products
-            JOIN productCategory
-            ON productCategory.product_id = products.product_id
+            JOIN product_category
+            ON product_category.product_id = products.product_id
             JOIN category
-            ON category.category_id = productCategory.category_id
+            ON category.category_id = product_category.category_id
             WHERE product_name ILIKE '%${productName}%'
             AND category_name ILIKE '%${category}%'
             AND price BETWEEN ${minPrice} AND ${maxPrice} 
@@ -116,7 +116,7 @@ const getProducts = async(req, res) => {
     try {
         const products = await db.query(
             `SELECT *, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as image 
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as image 
             FROM products 
             WHERE shop_id = $1 
             ORDER BY date DESC`,
@@ -134,7 +134,7 @@ const getEmptyProducts = async(req, res) => {
     try {
         const products = await db.query(
             `SELECT *, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as image 
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as image 
             FROM products 
             WHERE shop_id = $1 
             AND stock = 0`,
@@ -170,11 +170,11 @@ const productInfo = async(req, res) => {
             [req.user, product_id]
         );
         const images = await db.query(
-            `SELECT * from productImages WHERE product_id = $1`,
+            `SELECT * from product_images WHERE product_id = $1`,
             [product_id]
         );
         const category = await db.query(
-            `SELECT category_id from productCategory WHERE product_id = $1`,
+            `SELECT category_id from product_category WHERE product_id = $1`,
             [product_id]
         );
         if(products.rowCount === 0){
@@ -226,20 +226,20 @@ const modifyProduct = async(req, res) => {
         );
 
         await db.query(
-            `DELETE FROM productImages
+            `DELETE FROM product_images
             WHERE product_id = $1`,
             [product_id]
         )
 
         await db.query(
-            `DELETE FROM productCategory
+            `DELETE FROM product_category
             WHERE product_id = $1`,
             [product_id]
         )
 
         for(let i in newImages){
             await db.query(
-                `INSERT INTO productImages
+                `INSERT INTO product_images
                 (
                     product_id,
                     image_link
@@ -251,7 +251,7 @@ const modifyProduct = async(req, res) => {
         }
 
         await db.query(
-            `INSERT INTO productCategory
+            `INSERT INTO product_category
             (
                 product_id,
                 category_id
@@ -324,8 +324,8 @@ const homeTodoInfos = async(req, res) => {
     try {
         const pendingOrder = await db.query(
             `SELECT COUNT(*) FROM products
-            JOIN orderDetails
-            ON orderDetails.product_id = products.product_id
+            JOIN order_details
+            ON order_details.product_id = products.product_id
             WHERE shop_id = $1
             AND status = 'PENDING'
             `, [req.user]
@@ -356,24 +356,24 @@ const pendingOrders = async(req, res) => {
         const pendingOrders = await db.query(
             `SELECT orders.order_number, 
                     orders.date, 
-                    orderDetails.product_id,
+                    order_details.product_id,
                     product_name,
                     (SELECT image_link
-                    FROM productImages
-                    WHERE product_id = orderDetails.product_id
+                    FROM product_images
+                    WHERE product_id = order_details.product_id
                     LIMIT 1) as image,
                     item,
                     first_name,
                     last_name,
                     email
             FROM orders
-            JOIN orderDetails
-            ON orderDetails.order_number = orders.order_number
+            JOIN order_details
+            ON order_details.order_number = orders.order_number
             JOIN products
-            ON products.product_id = orderDetails.product_id
+            ON products.product_id = order_details.product_id
             JOIN account
             ON account.user_id = orders.user_id
-            WHERE orderDetails.status = 'PENDING'
+            WHERE order_details.status = 'PENDING'
             AND shop_id = $1
             `, [req.user]
 
@@ -390,11 +390,11 @@ const allOrders = async(req, res) => {
         const orders = await db.query(
             `SELECT orders.order_number, 
                     orders.date, 
-                    orderDetails.product_id,
+                    order_details.product_id,
                     product_name,
                     (SELECT image_link
-                    FROM productImages
-                    WHERE product_id = orderDetails.product_id
+                    FROM product_images
+                    WHERE product_id = order_details.product_id
                     LIMIT 1) as image,
                     item,
                     first_name,
@@ -402,10 +402,10 @@ const allOrders = async(req, res) => {
                     email,
                     status
             FROM orders
-            JOIN orderDetails
-            ON orderDetails.order_number = orders.order_number
+            JOIN order_details
+            ON order_details.order_number = orders.order_number
             JOIN products
-            ON products.product_id = orderDetails.product_id
+            ON products.product_id = order_details.product_id
             JOIN account
             ON account.user_id = orders.user_id
             WHERE shop_id = $1
@@ -426,9 +426,9 @@ const businessInsights = async(req, res) => {
                 (SELECT COUNT(*) FROM follow 
                 WHERE shop_id=$1
                 GROUP BY shop_id) as followers,
-                (SELECT COUNT(*) FROM orderDetails
+                (SELECT COUNT(*) FROM order_details
                 JOIN products
-                ON products.product_id = orderDetails.product_id
+                ON products.product_id = order_details.product_id
                 WHERE shop_id = $1
                 GROUP BY shop_id) as orders,
                 (SELECT COUNT(*) FROM products

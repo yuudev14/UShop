@@ -4,7 +4,7 @@ const getUserFollowProducts = async(req, res, column, start) => {
         const products = await db.query(
             `SELECT
                 product_id, product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images,
                 sold,
                 price
             FROM products 
@@ -84,15 +84,15 @@ const getOrders = async(req, res) => {
         order_number.rows.forEach(async(order, i) => {
             try {
                 const products = await db.query(
-                    `SELECT orderDetails.product_id,
+                    `SELECT order_details.product_id,
                             product_name,
                             price,
                             item,
-                            (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                            (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images,
                             (SELECT shop_name from shops WHERE shop_id = products.shop_id) as shop_name
-                    FROM orderDetails
+                    FROM order_details
                     JOIN products
-                    ON products.product_id = orderDetails.product_id
+                    ON products.product_id = order_details.product_id
                     WHERE order_number = $1`,[order.order_number]
                 )
 
@@ -128,17 +128,17 @@ const toShipOrders = async(req, res) => {
         order_number.rows.forEach(async(order, i) => {
             try {
                 const products = await db.query(
-                    `SELECT orderDetails.product_id,
+                    `SELECT order_details.product_id,
                             product_name,
                             price,
                             item,
-                            (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                            (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images,
                             (SELECT shop_name from shops WHERE shop_id = products.shop_id) as shop_name
-                    FROM orderDetails
+                    FROM order_details
                     JOIN products
-                    ON products.product_id = orderDetails.product_id
+                    ON products.product_id = order_details.product_id
                     WHERE order_number = $1
-                    AND (SELECT COUNT(*) FROM orderDetails
+                    AND (SELECT COUNT(*) FROM order_details
                     WHERE order_number = $1
                     AND status = 'PENDING') > 0`,[order.order_number]
                 )

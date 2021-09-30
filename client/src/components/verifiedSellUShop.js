@@ -30,22 +30,23 @@ const VerifiedSellUShop = (props) => {
             {(auth.isAuth === false) && (
                 <Redirect to ='/auth' />
             )}
-            {(auth.isAuth === true && auth.hasShop === false) && (
+            {(auth.isAuth === true && auth.hasShop === false) ? (
                 <Redirect to ='/registerShop' />
-            )}
-            <Router>
-                <Switch>
-                    <Route exact path='/sell-UShop' component = {SellerHome}/>    
-                    <Route path='/sell-UShop/add-product' component={SellerAddProduct}/>
-                    <Route path='/sell-UShop/view-product' component={ViewProducts}/> 
-                    <Route path='/sell-UShop/product/:product_id' component={SellerProductDetails}/> 
-                    <Route path='/sell-UShop/manage-product/:product_id' component={SellerManageProduct}/>
-                    <Route path='/sell-UShop/pending-orders' component={PendingOrder}/>
-                    <Route path='/sell-UShop/all-orders' component={sellerAllOrders}/>
-                    <Route path='/sell-UShop/out-of-stock' component={SellerOutOfStockProducts}/>
+            ) : (
+                <Router>
+                    <Switch>
+                        <Route exact path='/sell-UShop' component = {SellerHome}/>    
+                        <Route path='/sell-UShop/add-product' component={SellerAddProduct}/>
+                        <Route path='/sell-UShop/view-product' component={ViewProducts}/> 
+                        <Route path='/sell-UShop/product/:product_id' component={SellerProductDetails}/> 
+                        <Route path='/sell-UShop/manage-product/:product_id' component={SellerManageProduct}/>
+                        <Route path='/sell-UShop/pending-orders' component={PendingOrder}/>
+                        <Route path='/sell-UShop/all-orders' component={sellerAllOrders}/>
+                        <Route path='/sell-UShop/out-of-stock' component={SellerOutOfStockProducts}/>
 
-                </Switch>
-            </Router>
+                    </Switch>
+                </Router>
+            )}
             
         </div>
     )

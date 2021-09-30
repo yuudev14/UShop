@@ -1,4 +1,4 @@
-CREATE DATABASE UShop;
+CREATE DATABASE "UShop";
 
 
 CREATE EXTENSION "uuid-ossp";
@@ -207,12 +207,12 @@ CREATE TABLE cart (
     items INTEGER DEFAULT 1 NOT NULL
 );
 
-CREATE TABLE productCategory (
+CREATE TABLE product_category (
     product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
     category_id uuid REFERENCES category(category_id) NOT NULL 
 );
 
-CREATE TABLE productImages (
+CREATE TABLE product_images (
     product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
     image_link VARCHAR(200) NOT NULL
 );
@@ -223,7 +223,7 @@ CREATE TABLE orders (
     date timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE orderDetails (
+CREATE TABLE order_details (
     order_number uuid REFERENCES orders(order_number),
     product_id uuid NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
     status VARCHAR(15) NOT NULL DEFAULT 'PENDING',

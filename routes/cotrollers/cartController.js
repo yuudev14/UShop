@@ -28,7 +28,7 @@ const addCart = async(req, res) => {
         }
         const product = await db.query(
             `SELECT products.product_id, product_name, price, stock, items, (
-                SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
+                SELECT image_link FROM product_images WHERE product_id = products.product_id LIMIT 1
             ) as image
             FROM products
             JOIN cart
@@ -56,7 +56,7 @@ const deleteCart = async(req, res) => {
 
         const product = await db.query(
             `SELECT products.product_id, product_name, price, stock, items, (
-                SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
+                SELECT image_link FROM product_images WHERE product_id = products.product_id LIMIT 1
             ) as image
             FROM products
             JOIN cart
@@ -74,7 +74,7 @@ const viewCartProducts = async(req, res) => {
     try {
         const product = await db.query(
             `SELECT products.product_id, product_name, price, stock, items, (
-                SELECT image_link FROM productImages WHERE product_id = products.product_id LIMIT 1
+                SELECT image_link FROM product_images WHERE product_id = products.product_id LIMIT 1
             ) as image
             FROM products
             JOIN cart

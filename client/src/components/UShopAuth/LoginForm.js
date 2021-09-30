@@ -70,7 +70,7 @@ const LoginForm = (props) => {
                 });
                 getCartProductsDispatch();
                 verifyHasShopDispatch();
-                history.push('/');
+                history.go(-1);
             } catch (error) {
                 
                 setErrors({

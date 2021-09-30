@@ -6,7 +6,7 @@ const getMostPopularProducts = async(req, res) => {
     try {
         const popularProducts = await db.query(
             `SELECT product_id, product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images  
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images  
             FROM products
             ORDER BY sold LIMIT 10`
         )
@@ -23,14 +23,14 @@ const getCategoryProducts = async(req, res, column, start, category) => {
     try {
         const products = await db.query(
             `SELECT products.product_id, product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images,
                 sold,
                 price
-            FROM productCategory
+            FROM product_category
             JOIN products
-            ON products.product_id = productCategory.product_id
+            ON products.product_id = product_category.product_id
             JOIN category
-            ON category.category_id = productCategory.category_id
+            ON category.category_id = product_category.category_id
             WHERE category_name = $2
             ORDER BY ${column} DESC
             OFFSET $1 LIMIT 10 `,
@@ -63,7 +63,7 @@ const getUshopProducts = async(req, res, column, start) => {
     try {
         const products = await db.query(
             `SELECT product_id, product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images,
                 sold,
                 price
             FROM products
@@ -94,7 +94,7 @@ const getShopsProductList = async(req, res, column, start) => {
     try {
         const products = await db.query(
             `SELECT product_id, product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images,
                 sold,
                 price
             FROM products
@@ -133,14 +133,14 @@ const getTopCategoryProduct = async(req, res) => {
             `SELECT 
                 products.product_id, 
                 products.product_name, 
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images,
-                (SELECT category_name FROM category WHERE category_id =  productCategory.category_id) as category
-            FROM productCategory
-            JOIN products ON products.product_id = productCategory.product_id
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images,
+                (SELECT category_name FROM category WHERE category_id =  product_category.category_id) as category
+            FROM product_category
+            JOIN products ON products.product_id = product_category.product_id
             WHERE category_id = (
                 SELECT category.category_id FROM (
-                    SELECT productCategory.category_id, category_name, productCategory.product_id FROM productCategory 
-                    JOIN category ON category.category_id = productCategory.category_id
+                    SELECT product_category.category_id, category_name, product_category.product_id FROM product_category 
+                    JOIN category ON category.category_id = product_category.category_id
                 ) as category
                 GROUP BY category.category_id
                 ORDER BY COUNT(*) DESC
@@ -160,8 +160,8 @@ const getPopularCategories = async(req, res) => {
     try {
         const categories = await db.query(
             `SELECT category.category_name, COUNT(*) as products FROM (
-                SELECT productCategory.category_id, category_name FROM productCategory 
-                JOIN category ON category.category_id = productCategory.category_id
+                SELECT product_category.category_id, category_name FROM product_category 
+                JOIN category ON category.category_id = product_category.category_id
             ) as category
             GROUP BY category.category_name
             ORDER BY products DESC
@@ -194,7 +194,7 @@ const getProductInfo = async(req, res) => {
         }else{
 
             const images = await db.query(
-                `SELECT image_link from productImages WHERE product_id = $1`,
+                `SELECT image_link from product_images WHERE product_id = $1`,
                 [product_id]
             )
             res.send({...products.rows[0], images : images.rows});
@@ -261,7 +261,7 @@ const checkout = async(req, res) => {
                     [Number(prod.items), prod.product_id],
                 )
                 await db.query(
-                    `INSERT INTO orderDetails (
+                    `INSERT INTO order_details (
                         order_number,
                         product_id,
                         item
@@ -396,7 +396,7 @@ const search = async(req, res) => {
         const {search} = req.body;
         const products = await db.query(
             `SELECT product_id, product_name,
-                (SELECT image_link from productImages WHERE product_id = products.product_id LIMIT 1) as images 
+                (SELECT image_link from product_images WHERE product_id = products.product_id LIMIT 1) as images 
             FROM products
             WHERE product_name ILIKE '%${search}%'`
         );

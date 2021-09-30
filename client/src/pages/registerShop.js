@@ -66,11 +66,15 @@ const RegisterShop = (props) => {
             }
         });
 
+        const label = document.querySelector('.registerShop label');
+
         if(shopInfo.images === ''){
-            document.querySelector('.registerShop label').classList.add('error')
+            label.classList.add('error');
 
         }else{
-            document.querySelector('.registerShop label').classList.remove('error')
+            if(label){
+                label.classList.remove('error')
+            }
         }
 
         
