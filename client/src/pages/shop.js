@@ -1,18 +1,15 @@
 import React, {useRef, useEffect, useState} from 'react';
 import '../styles/buyPage/shop.scss';
 import HomeProductList from '../components/home/homeProductList';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getShopProductsAction, resetProductListAction } from '../reduxStore/actions/ushopAction';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const Shop = (props) => {
-    const {
-        resetProductListDispatch,
-        getShopProductsDispatch,
-        auth
+const Shop = () => {
 
-    } = props;
+    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
 
     const [shopDetails, setShopDetails] = useState({});
     const shopAndImage = useRef();
@@ -28,10 +25,11 @@ const Shop = (props) => {
             const shopDetails = await axios.get(`/ushop/get-shop-info/${shop_name}`, {headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
             setShopDetails(shopDetails.data);
         })()
-        getShopProductsDispatch('popular', shop_name);
+        dispatch(getShopProductsAction('popular', shop_name));
 
         return() => {
-            resetProductListDispatch()
+            dispatch(resetProductListAction())
+            
 
         }
     }, []);
@@ -53,10 +51,8 @@ const Shop = (props) => {
             })
             
         } catch (error) {
-            console.log(error.response);
-            
+            console.log(error.response);    
         }
-
     }
     return (
         <div className='shop'>
@@ -73,8 +69,6 @@ const Shop = (props) => {
                     {auth.isAuth === true && (
                         <button onClick={follow_unfollow}>{!shopDetails.follows ? 'Follow' : 'Unfollow'}</button>
                     )}
-                    
-
                 </div>
                 <div className='shopInfoSummary'>
                     <div className='info'>
@@ -93,7 +87,6 @@ const Shop = (props) => {
                         <p>joined</p>
                         <p className='value'>{new Date(shopDetails.date).toLocaleDateString()}</p>
                     </div>
-
                 </div>
             </div>
             
@@ -104,24 +97,8 @@ const Shop = (props) => {
             </div>
             <h1>Products</h1>
             <HomeProductList />
-            
-            
-            
         </div>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        auth : state.auth
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        getShopProductsDispatch : (filter, shop_name) => dispatch(getShopProductsAction(filter, shop_name)),
-        resetProductListDispatch : () => dispatch(resetProductListAction())
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Shop)
+export default Shop;

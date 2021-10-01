@@ -1,23 +1,26 @@
 import React, {useRef} from 'react'
-import { connect} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { checkProductAction, deleteCartAction, updateItemNumberAction } from '../../reduxStore/actions/cartAction';
 
-const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateItemNumberDispatch, deleteCartDispatch}) => {
+const CartProduct = () => {
     const item = useRef();
     const checkbox = useRef();
+    const cartActive = useSelector(state => state.cart.filter(prod => prod.stock));
+    const cartOutOfStock = useSelector(state => state.cart.filter(prod => !prod.stock));
+    const dispatch = useDispatch();
 
 
-    const updateItem = (e, id, itemValue) => {
-        updateItemNumberDispatch(Number(e.target.value), id)
+    const updateItem = (e, id) => {
+        dispatch(updateItemNumberAction(Number(e.target.value), id))
         // e.target.value = itemValue;
     }
 
     const checkProduct = (id) => {
-        checkProductDispatch(id);
+        dispatch(checkProductAction(id));
     }
 
     const deleteCart = (id) => {
-        deleteCartDispatch(id);
+        dispatch(deleteCartAction(id));
 
     }
 
@@ -82,26 +85,8 @@ const CartProduct = ({cartActive, cartOutOfStock, checkProductDispatch, updateIt
                 </div>
 
             ) : null}
-
-            
-
-        </>
-        
+        </> 
     )
 }
 
-const mapStateToProps = state => {
-    return{
-        cartActive : state.cart.filter(prod => prod.stock),
-        cartOutOfStock : state.cart.filter(prod => !prod.stock)
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        checkProductDispatch : (id) => dispatch(checkProductAction(id)),
-        updateItemNumberDispatch : (value, id) => dispatch(updateItemNumberAction(value, id)),
-        deleteCartDispatch : (id) => dispatch(deleteCartAction(id))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartProduct)
+export default CartProduct;

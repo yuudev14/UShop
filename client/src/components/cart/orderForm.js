@@ -1,16 +1,21 @@
 import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { checkOutAction } from '../../reduxStore/actions/cartAction';
 import { useHistory } from 'react-router-dom';
 
-const OrderForm = ({cart, total, checkoutDispatch}) => {
+const OrderForm = () => {
     const history = useHistory();
+    const cart = useSelector(state => state.cart.filter(prod => prod.checked && prod.stock !== 0));
+    const total = cart.reduce((total, current) => {
+        return total + current.totalPrice
+    }, 0);
+
+    const dispatch = useDispatch();
 
     const checkout = async() => {
         try {
             if(cart.every(item => item.items > 0)){
-                const checkout = await checkoutDispatch(cart);
+                const checkout = await dispatch(checkOutAction(cart));
                 if(checkout === true){
                     history.push('/');
                 }
@@ -43,20 +48,4 @@ const OrderForm = ({cart, total, checkoutDispatch}) => {
     )
 }
 
-const mapStateToProps = state => {
-    let cart = state.cart.filter(prod => prod.checked && prod.stock !== 0)
-    return {
-        cart,
-        total : cart.reduce((total, current) => {
-            return total + current.totalPrice
-        }, 0),
-        
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        checkoutDispatch : (data) => dispatch(checkOutAction(data))
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(OrderForm)
+export default OrderForm;

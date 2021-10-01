@@ -1,32 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import '../styles/buyPage/categoryProducts.scss';
 import HomeProductList from '../components/home/homeProductList';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getCategoryProductsAction } from '../reduxStore/actions/ushopAction';
 
-const CategoryProducts = ({getCategoryProductsDispatch}) => {
+const CategoryProducts = () => {
     const {category} = useParams();
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        getCategoryProductsDispatch('popular', category);
-        
+        dispatch(getCategoryProductsAction('popular', category))
     }, [])
     return (
         <div className='categoryProducts'>
-            <HomeProductList />
-            
+            <HomeProductList /> 
         </div>
     )
 }
 
-
-const mapDispatchToProps = (dispatch) => {
-    return{
-        getCategoryProductsDispatch : (filter, category) => dispatch(getCategoryProductsAction(filter, category))
-
-    }
-
-}
-
-export default connect(null, mapDispatchToProps)(CategoryProducts)
+export default CategoryProducts;

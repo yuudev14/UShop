@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCartProductAction } from '../../reduxStore/actions/cartAction';
 import axios from 'axios';
 
-const MainNav2 = ({cart, getCartProductDispatch}) => {
+const MainNav2 = () => {
 
     const openNav1 = () => {
         document.querySelector('.nav1').classList.add('openNav1');
@@ -16,8 +16,11 @@ const MainNav2 = ({cart, getCartProductDispatch}) => {
         shops: [],
     })
 
+    const cart = useSelector(state => state.cart);
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        getCartProductDispatch();
+        dispatch(getCartProductAction());
     }, []);
 
     useEffect(() => {
@@ -95,17 +98,4 @@ const MainNav2 = ({cart, getCartProductDispatch}) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        cart : state.cart
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        getCartProductDispatch : () => dispatch(getCartProductAction())
-        
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainNav2)
+export default MainNav2

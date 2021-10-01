@@ -1,14 +1,16 @@
 import React, {useEffect} from 'react'
 import '../styles/sellerPage/sellerOrder.scss';
-import {connect} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import {sellerAllOrdersAction, resetOrdersAction} from '../reduxStore/actions/sellerAction';
 
-const SellerAllOrders = ({sellerAllOrdersDispatch, pendingOrders, resetOrdersDispatch}) => {
-    useEffect(() => {
-        sellerAllOrdersDispatch();
-        return () => {
-            resetOrdersDispatch()
+const SellerAllOrders = () => {
 
+    const pendingOrders = useSelector(state => state.sellerOrders);
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(sellerAllOrdersAction())
+        return () => {
+            dispatch(resetOrdersAction())
         }
     }, [])
     return (
@@ -28,8 +30,6 @@ const SellerAllOrders = ({sellerAllOrdersDispatch, pendingOrders, resetOrdersDis
                             <th>type</th>
                         </tr>
                     </thead>
-
-                    
                     <tbody>
                         {pendingOrders.map(order => (
                             <tr>
@@ -45,34 +45,12 @@ const SellerAllOrders = ({sellerAllOrdersDispatch, pendingOrders, resetOrdersDis
                                 <td>{order.status}</td>
                             </tr>
                         ))}
-                        
-
-
                     </tbody>
-
                 </table>
-
-            </div>
-            
-
-            
+            </div>  
         </div>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        pendingOrders : state.sellerOrders
 
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        sellerAllOrdersDispatch : () => dispatch(sellerAllOrdersAction()),
-        resetOrdersDispatch : () => dispatch(resetOrdersAction())
-
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SellerAllOrders)
+export default SellerAllOrders

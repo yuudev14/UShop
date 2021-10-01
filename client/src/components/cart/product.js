@@ -1,25 +1,25 @@
 import React, {useRef} from 'react'
-import { connect} from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { checkProductAction, deleteCartAction, updateItemNumberAction } from '../../reduxStore/actions/cartAction';
 
-const Products = ({data, checkProductDispatch, updateItemNumberDispatch, deleteCartDispatch}) => {
+const Products = ({data}) => {
     const checkbox = useRef();
     const item = useRef();
+    const dispatch = useDispatch()
     
     const updateItem = (e, id, itemValue) => {
         if(e.target.value > data.stock){
             item.current.value = data.stock
         }
-        updateItemNumberDispatch(Number(e.target.value), id)
-        // e.target.value = itemValue;
+        dispatch(updateItemNumberAction(Number(e.target.value), id))
     }
 
     const checkProduct = (id) => {
-        checkProductDispatch(id);
+        dispatch(checkProductAction(id));
     }
 
     const deleteCart = (id) => {
-        deleteCartDispatch(id);
+        dispatch(deleteCartAction(id));
 
     }
     return (
@@ -50,11 +50,5 @@ const Products = ({data, checkProductDispatch, updateItemNumberDispatch, deleteC
         </div>
     )
 }
-const mapDispatchToProps = dispatch => {
-    return {
-        checkProductDispatch : (id) => dispatch(checkProductAction(id)),
-        updateItemNumberDispatch : (value, id) => dispatch(updateItemNumberAction(value, id)),
-        deleteCartDispatch : (id) => dispatch(deleteCartAction(id))
-    }
-}
-export default connect(null, mapDispatchToProps)(Products)
+
+export default Products

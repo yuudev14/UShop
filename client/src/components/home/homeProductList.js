@@ -1,20 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react'
-import {connect} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import {Link, useParams, useLocation} from 'react-router-dom';
 import { getCategoryProductsAction, getShopProductsAction, getUsersFollowProductsAction, getUshopProductListAction, seeMoreCategoryProductsAction, seeMoreShopProductsAction, seeMoreUsersFollowProductsAction, seeMoreUshopProductListAction} from '../../reduxStore/actions/ushopAction';
 
-const HomeProductList = (props) => {
-    const {
-        productLists,
-        getUshopProductsDispatch,
-        getShopProductsDispatch,
-        getUsersFollowProductsDispatch,
-        seeMoreUsersFollowProductsDispatch,
-        seeMoreUShopProductsDispatch,
-        seeMoreShopsProductDispatch,
-        getCategoryProductsDispatch,
-        seeMoreCategoryProductsDispatch
-    } = props;
+const HomeProductList = () => {
+
 
     const [filterState, setFilterState] = useState('popular');
     const filterList = useRef();
@@ -22,19 +12,21 @@ const HomeProductList = (props) => {
     const [currentCategory, setCurrentCategory] = useState(category);
     const location = useLocation();
 
+    const productLists = useSelector(state => state.ushopProductLists)
+    const dispatch = useDispatch();
+
 
     const seeMoreProducts = () => {
         if(shop_name){
-            seeMoreShopsProductDispatch(filterState, shop_name, productLists.length)
+            dispatch(seeMoreShopProductsAction(filterState, shop_name, productLists.length))
 
         }else if(category){
-            seeMoreCategoryProductsDispatch(filterState, currentCategory, productLists.length)
+            dispatch(seeMoreCategoryProductsAction(filterState, currentCategory, productLists.length))
         }else if(location.pathname === "/profile"){
-            seeMoreUsersFollowProductsDispatch(filterState, productLists.length)
+            dispatch(seeMoreUsersFollowProductsAction(filterState, productLists.length))
 
         }else{
-            seeMoreUShopProductsDispatch(productLists.length, filterState);
-
+            dispatch(seeMoreUshopProductListAction(productLists.length, filterState));
         }
         
 
@@ -52,21 +44,21 @@ const HomeProductList = (props) => {
 
     useEffect(() => {
         setFilterState('popular')
-        getCategoryProductsDispatch('popular', currentCategory)
+        dispatch(getCategoryProductsAction('popular', currentCategory))
 
     }, [currentCategory])
 
     useEffect(() => {
         if(shop_name){
-            getShopProductsDispatch(filterState, shop_name);
+            dispatch(getShopProductsAction(filterState, shop_name));
 
         }else if(category){
-            getCategoryProductsDispatch(filterState, currentCategory)
+            dispatch(getCategoryProductsAction(filterState, currentCategory))
         }else if(location.pathname === "/profile"){
-            getUsersFollowProductsDispatch(filterState);
+            dispatch(getUsersFollowProductsAction(filterState));
 
         }else{
-            getUshopProductsDispatch(productLists.length, filterState);
+            dispatch(getUshopProductListAction(productLists.length, filterState));
         }
         [...filterList.current.children].forEach(li => {
             if(li.id === filterState){
@@ -75,9 +67,7 @@ const HomeProductList = (props) => {
             }else{
                 li.classList.remove('active');
             }
-        })
-        
-
+        })  
     }, [filterState]);
 
     return (
@@ -107,38 +97,13 @@ const HomeProductList = (props) => {
                             </div>
                         </div>
                     </Link>
-
-                ))}
-                
-                
+                ))} 
             </div>
-            <button onClick={seeMoreProducts}>see more</button>
-            
+            <button onClick={seeMoreProducts}>see more</button> 
         </div>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        productLists : state.ushopProductLists
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        getUshopProductsDispatch : (start, filter) => dispatch(getUshopProductListAction(start, filter)),
-        getShopProductsDispatch : (filter, shop_name) => dispatch(getShopProductsAction(filter, shop_name)),
-        getUsersFollowProductsDispatch : (filter) => dispatch(getUsersFollowProductsAction(filter)),
-        getCategoryProductsDispatch : (filter, category) => dispatch(getCategoryProductsAction(filter, category)),
-        seeMoreCategoryProductsDispatch : (filter, catergory, start) => dispatch(seeMoreCategoryProductsAction(filter, catergory, start)),
-        seeMoreUsersFollowProductsDispatch : (filter, start) => dispatch(seeMoreUsersFollowProductsAction(filter, start)),
-        seeMoreUShopProductsDispatch : (start, filter) => dispatch(seeMoreUshopProductListAction(start, filter)),
-        seeMoreShopsProductDispatch : (filter, shop_name, start) => dispatch(seeMoreShopProductsAction(filter, shop_name, start)),
-
-    }
-}
 
 
-
-export default connect(mapStateToProps, mapDispatchToProps)
-                (HomeProductList)
+export default HomeProductList;

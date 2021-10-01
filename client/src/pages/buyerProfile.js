@@ -2,17 +2,16 @@ import React, {useEffect} from 'react';
 import '../styles/buyPage/profile.scss';
 import OrdersProcess from '../components/buyerProfile/ordersProcess';
 import HomeProductList from '../components/home/homeProductList';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getUsersFollowProductsAction, resetProductListAction } from '../reduxStore/actions/ushopAction';
 import FollowedShops from '../components/buyerProfile/followedShops';
 
-const BuyerProfile = ({getUsersFollowProductsDispatch, resetProductListDispatch}) => {
+const BuyerProfile = () => {
+    const dispatch = useDispatch();
     useEffect(() => {
-        getUsersFollowProductsDispatch('popular');
-
+        dispatch(getUsersFollowProductsAction('popular'));
         return() => {
-            resetProductListDispatch();
-
+            dispatch(resetProductListAction());
         }
     }, [])
     return (
@@ -26,17 +25,4 @@ const BuyerProfile = ({getUsersFollowProductsDispatch, resetProductListDispatch}
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        productLists : state.ushopProductLists
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        getUsersFollowProductsDispatch : (filter) => dispatch(getUsersFollowProductsAction(filter)),
-        resetProductListDispatch : () => dispatch(resetProductListAction())
-
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(BuyerProfile)
+export default BuyerProfile;

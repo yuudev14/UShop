@@ -1,15 +1,18 @@
 import React,{ useEffect} from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { getOutOfStockProductsAction, resetSellerProductsAction } from '../reduxStore/actions/sellerAction';
 import SellerProduct from '../components/sellerViewProduct/product';
 import '../styles/sellerPage/outOfStock.scss';
 
-const SellerOutOfStockProducts = ({getOutOfStockProductsDispatch, resetSellerProductsDispatch, outOfStockProducts}) => {
+const SellerOutOfStockProducts = () => {
+
+    const outOfStockProducts = useSelector(state => state.sellerProducts);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        getOutOfStockProductsDispatch();
+        dispatch(getOutOfStockProductsAction());
         return () => {
-            resetSellerProductsDispatch()
+            dispatch(resetSellerProductsAction());
         }
     }, [])
     return (
@@ -25,17 +28,5 @@ const SellerOutOfStockProducts = ({getOutOfStockProductsDispatch, resetSellerPro
         </div>
     )
 }
-const mapStateToProps = state => {
-    return {
-        outOfStockProducts: state.sellerProducts
-    }
-}
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getOutOfStockProductsDispatch : () => dispatch(getOutOfStockProductsAction()),
-        resetSellerProductsDispatch : () => dispatch(resetSellerProductsAction())
-
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(SellerOutOfStockProducts)
+export default SellerOutOfStockProducts;

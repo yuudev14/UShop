@@ -5,18 +5,12 @@ import BusinessInsights from '../components/sellerHome/businessInsights';
 
 
 const SellerHome = () => {
-    
-
-
 
     return (
         <div className='sellerHome'>
             <Todos />
             <BusinessInsights />
-            
-            
-            
-            
+      
         </div>
     )
 }

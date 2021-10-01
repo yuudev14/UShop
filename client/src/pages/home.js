@@ -4,18 +4,19 @@ import MostPopular from '../components/home/mostPopular';
 import PopularCategory from '../components/home/popularCategory';
 import TopCategory from '../components/home/topCategory';
 import '../styles/buyPage/home.scss';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUshopProductListAction } from '../reduxStore/actions/ushopAction';
 import { resetProductListAction } from '../reduxStore/actions/ushopAction';
 
-const Home = ({getUshopProductsDispatch, resetProductListDispatch, productLists}) => {
+const Home = () => {
+
+    const productLists = useSelector(state => state.ushopProductLists);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        getUshopProductsDispatch(productLists.length, 'popular');
-
+        dispatch(getUshopProductListAction(productLists.length, 'popular'));
         return() => {
-            resetProductListDispatch()
-
+            dispatch(resetProductListAction())
         }
     }, [])
 
@@ -30,18 +31,5 @@ const Home = ({getUshopProductsDispatch, resetProductListDispatch, productLists}
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        productLists : state.ushopProductLists
-    }
-}
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getUshopProductsDispatch : (start, filter) => dispatch(getUshopProductListAction(start, filter)),
-        resetProductListDispatch : () => dispatch(resetProductListAction())
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home

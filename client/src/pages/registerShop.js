@@ -1,15 +1,13 @@
 import React, {useState} from 'react';
 import '../styles/registerShop.scss';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { registerShopAction } from '../reduxStore/actions/sellerAction';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-const RegisterShop = (props) => {
+const RegisterShop = () => {
 
-    const {
-        registerShopDispatch
-    } = props;
+    const dispatch = useDispatch()
 
     const [shopInfo, setShopInfo] = useState({
         email : '',
@@ -95,7 +93,7 @@ const RegisterShop = (props) => {
                 formData.append('file', shopInfo.images);
                 formData.append('upload_preset', preset);
                 const uploadImg = await axios.post(url, formData);
-                await registerShopDispatch({...shopInfo, images: uploadImg.data.secure_url});
+                await dispatch(registerShopAction({...shopInfo, images: uploadImg.data.secure_url}));
                 history.push('/sell-UShop') 
                 
             } catch (error) {
@@ -192,4 +190,4 @@ const mapDispatchToProps = dispatch => {
         registerShopDispatch : (data) => dispatch(registerShopAction(data))
     }
 }
-export default connect(null, mapDispatchToProps)(RegisterShop)
+export default RegisterShop;

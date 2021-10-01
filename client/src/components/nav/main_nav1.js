@@ -1,27 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../../reduxStore/actions/authAction';
 import { resetCartAction } from '../../reduxStore/actions/cartAction';
 import axios from 'axios';
 
-const MainNav1 = (props) => {
+const MainNav1 = () => {
 
-    const {
-        auth,
-        logoutDispatch,
-        resetCartDispatch,
-
-    } = props;
     const socialMedia = [
         'facebook',
         'twitter',
         'instagram'
     ]
 
+    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
 
     const logout = () => {
-        logoutDispatch();
+        dispatch(logoutAction());
     }
     const closeNav1 = () => {
         document.querySelector('.nav1').classList.remove('openNav1');
@@ -79,18 +76,4 @@ const MainNav1 = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        auth : state.auth
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        logoutDispatch : () => dispatch(logoutAction()),
-        resetCartDispatch : () => dispatch(resetCartAction())
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)
-                    (MainNav1)
+export default MainNav1;

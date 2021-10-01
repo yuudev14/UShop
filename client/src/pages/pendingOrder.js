@@ -1,14 +1,17 @@
 import React, {useEffect} from 'react'
 import '../styles/sellerPage/sellerOrder.scss';
-import {connect} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import {sellerPendingOrdersAction, resetOrdersAction} from '../reduxStore/actions/sellerAction';
 
-const PendingOrder = ({sellerPendingOrdersDispatch, pendingOrders, resetOrdersDispatch}) => {
-    useEffect(() => {
-        sellerPendingOrdersDispatch();
-        return () => {
-            resetOrdersDispatch()
+const PendingOrder = () => {
 
+    const pendingOrders = useSelector(state => state.sellerOrders);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(sellerPendingOrdersAction());
+        return () => {
+            dispatch(resetOrdersAction())
         }
     }, [])
     return (
@@ -44,34 +47,12 @@ const PendingOrder = ({sellerPendingOrdersDispatch, pendingOrders, resetOrdersDi
                                 <td className='button'><button>Deliver</button></td>
                             </tr>
                         ))}
-                        
-
-
                     </tbody>
-
                 </table>
-
-            </div>
-            
-
-            
+            </div>                  
         </div>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        pendingOrders : state.sellerOrders
 
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        sellerPendingOrdersDispatch : () => dispatch(sellerPendingOrdersAction()),
-        resetOrdersDispatch : () => dispatch(resetOrdersAction())
-
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PendingOrder)
+export default PendingOrder;
