@@ -6,6 +6,7 @@
 4. [Requirements　🙏](#requirements-)
 5. [Getting Started　🎬](#getting-started-)
 6. [Tech Stack　🤖](#tech-stack-)
+7. [Future Feature 🔮](#future-feature)
 
 # About 💁
 An ecommerse full-stack application that lets you choose what products to add in the cart for you to buy, follow shops that you are interested in and find products that are popular and hit now.
@@ -68,3 +69,6 @@ npm run dev
 4. Node.js
 5. Express.js
 6. Cloudinary
+
+# Future Feature
+In the future I want to implement Stripe API to enable buyers to pay online
