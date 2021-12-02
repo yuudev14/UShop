@@ -1,130 +1,111 @@
-import React, {useState} from 'react';
-import '../../styles/nav/sellerNav.scss';
-import { connect } from 'react-redux';
-import { loginAction, verifyHasShop } from '../../reduxStore/actions/authAction';
-import { useHistory } from 'react-router-dom';
-import { getCartProductAction } from '../../reduxStore/actions/cartAction';
+import React, { useState } from "react";
+import "../../styles/nav/sellerNav.scss";
+import {
+  loginAction,
+  verifyHasShop,
+} from "../../reduxStore/actions/authAction";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getCartProductAction } from "../../reduxStore/actions/cartAction";
 
-const LoginForm = (props) => {
+const LoginForm = () => {
+  const dispatch = useDispatch();
 
-    const {
-        loginDispatch,
-        getCartProductsDispatch,
-        verifyHasShopDispatch
+  const history = useHistory();
 
-    } = props;
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
 
-    const history = useHistory();
+  const [errors, setErrors] = useState({
+    emailError: "",
+    passwordError: "",
+    blanksError: "",
+  });
 
-    const [loginForm, setLoginForm] = useState({
-        email : '',
-        password : '',
-    })
+  const setLoginFormMethod = (e) => {
+    setLoginForm({
+      ...loginForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const putErrorBorder = (list) => {
+    document.querySelectorAll(".login_form input").forEach((input) => {
+      if (list.includes(input.name)) {
+        input.classList.add("errorInput");
+      } else {
+        input.classList.remove("errorInput");
+      }
+    });
+  };
 
-    const [errors, setErrors] = useState({
-        emailError: '',
-        passwordError : '',
-        blanksError : '',
-    })
+  const checkFormErrors = () => {
+    let formErrors = [];
+    const inputs = Object.values(loginForm).every((val) => val !== "");
+    if (!inputs) {
+      const errorInputs = Object.keys(loginForm).filter(
+        (key) => loginForm[key] === ""
+      );
+      formErrors = [...formErrors, ...errorInputs];
+    }
 
-    const setLoginFormMethod = (e) => {
+    return formErrors;
+  };
+
+  const loginSeller = async (e) => {
+    e.preventDefault();
+    putErrorBorder(checkFormErrors());
+    if (checkFormErrors().length === 0) {
+      try {
+        await dispatch(loginAction(loginForm));
         setLoginForm({
-            ...loginForm,
-            [e.target.name] : e.target.value,
-        })
+          email: "",
+          password: "",
+        });
+        dispatch(getCartProductAction());
+        dispatch(verifyHasShop());
+        history.go(-1);
+      } catch (error) {
+        setErrors({
+          emailError: "",
+          passwordError: "",
+          blanksError: "",
+          ...error,
+        });
+      }
+    } else {
+      setErrors({
+        ...errors,
+        blanksError: "fill in the blanks",
+      });
     }
-    const putErrorBorder = (list) => {
-        
-        document.querySelectorAll('.login_form input').forEach(input => {
-            if(list.includes(input.name)){
-                input.classList.add('errorInput');
-            }else{
-                input.classList.remove('errorInput');
+  };
+  return (
+    <form className="login_form" onSubmit={loginSeller}>
+      <h1>Log in</h1>
+      <p className="error">{errors.blanksError}</p>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={loginForm.email}
+        className={errors.emailError !== "" ? "errorInput2" : ""}
+        onChange={setLoginFormMethod}
+      />
+      <p className="error">{errors.emailError}</p>
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={loginForm.password}
+        className={errors.passwordError !== "" && "errorInput2"}
+        onChange={setLoginFormMethod}
+      />
+      <p className="error">{errors.passwordError}</p>
+      <input type="submit" />
+    </form>
+  );
+};
 
-            }
-        })
-    }
-
-    const checkFormErrors = () => {
-        
-        
-        let formErrors = []
-        const inputs = Object.values(loginForm).every(val => val !== '');
-        if(!inputs){
-            const errorInputs = Object.keys(loginForm).filter(key => loginForm[key] === '');
-            formErrors = [...formErrors, ...errorInputs];
-        }
-
-        return formErrors;
-    }
-
-    const loginSeller = async(e) => {
-        e.preventDefault();
-        putErrorBorder(checkFormErrors());
-        if(checkFormErrors().length === 0){
-            try {
-                await loginDispatch(loginForm);
-                setLoginForm({
-                    email : '',
-                    password : '',
-                });
-                getCartProductsDispatch();
-                verifyHasShopDispatch();
-                history.go(-1);
-            } catch (error) {
-                
-                setErrors({
-                    emailError: '',
-                    passwordError : '',
-                    blanksError : '',
-                    ...error,
-                });
-            }
-
-        }else{
-            setErrors({
-                ...errors,
-                blanksError : 'fill in the blanks',
-            });
-        }
-    }
-    return (
-        <form className='login_form' onSubmit={loginSeller}>
-            <h1>Log in</h1>
-            <p className='error'>{errors.blanksError}</p>
-            <input 
-                type='email' 
-                name='email'
-                placeholder='Email'
-                value={loginForm.email}
-                className={errors.emailError !== '' ? 'errorInput2' : ''}
-                onChange={setLoginFormMethod}/>
-            <p className='error'>{errors.emailError}</p>
-            <input 
-                type='password' 
-                name='password'
-                placeholder='Password'
-                value={loginForm.password}
-                className={errors.passwordError !== '' && 'errorInput2'}
-                onChange={setLoginFormMethod}/>
-            <p className='error'>{errors.passwordError}</p>
-            <input type='submit' />
-            
-            
-            {/* <div className='socials'>
-                <i className='fa fa-facebook'></i>
-                <i className='fa fa-google'></i>
-            </div> */}
-        </form>
-    )
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loginDispatch : (data) => dispatch(loginAction(data)),
-        getCartProductsDispatch : () => dispatch(getCartProductAction()),
-        verifyHasShopDispatch : () => dispatch(verifyHasShop())
-    }
-}
-export default connect(null, mapDispatchToProps)
-                (LoginForm)
+export default LoginForm;

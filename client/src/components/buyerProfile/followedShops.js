@@ -1,46 +1,41 @@
-import axios from 'axios'
-import React, {useEffect, useState} from 'react'
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const FollowedShops = () => {
+  const [followedShops, setFollowedShops] = useState([]);
 
-    const [followedShops, setFollowedShops] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const followedShops = await axios.get("/profile/followed-shops", {
+          headers: { token: JSON.parse(localStorage.getItem("UShop")).token },
+        });
+        setFollowedShops(followedShops.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
-    useEffect(() => {
-        (async() => {
-            try {
-                const followedShops = await axios.get('/profile/followed-shops',{headers : {token : JSON.parse(localStorage.getItem('UShop')).token}});
-                setFollowedShops(followedShops.data);
-                
-            } catch (error) {
-                console.log(error); 
-            }
-
-        })()
-    }, [])
-
-
-    return (
-        <div className='followedShops'>
-            <div className='buyerProfileOrderHeader profileHeaders'>
-                <h1>Followed Shops</h1>
-                <Link to='/followed-shops'>View All</Link>
+  return (
+    <div className="followedShops">
+      <div className="buyerProfileOrderHeader profileHeaders">
+        <h1>Followed Shops</h1>
+        <Link to="/followed-shops">View All</Link>
+      </div>
+      <div className="shopsLists">
+        {followedShops.map((shop) => (
+          <Link to={`/shop/${shop.shop_name}`} className="shop">
+            <div className="shop_logo">
+              <img src={shop.logo} alt="logo" />
             </div>
-            <div className='shopsLists'>
-                {followedShops.map(shop => (
-                    <Link to={`/shop/${shop.shop_name}`}className='shop'>
-                        <div className='shop_logo'>
-                            <img src={shop.logo} />
-                        </div>
-                        <h2>{shop.shop_name}</h2>
-                    </Link>
+            <h2>{shop.shop_name}</h2>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-                ))}
-                
-            </div>
-
-        </div>
-    )
-}
-
-export default FollowedShops
+export default FollowedShops;

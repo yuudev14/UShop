@@ -1,20 +1,17 @@
-import React from 'react'
-import '../../styles/nav/nav.scss'
-import MainNav1 from './main_nav1'
-import MainNav2 from './main_nav2'
+import React from "react";
+import "../../styles/nav/nav.scss";
+import MainNav1 from "./main_nav1";
+import MainNav2 from "./main_nav2";
 
 const MainNav = () => {
-    
-    return (
-        <header>
-            <nav className='main_nav'>
-                <MainNav1 />
-                <MainNav2 />
-                
+  return (
+    <header>
+      <nav className="main_nav">
+        <MainNav1 />
+        <MainNav2 />
+      </nav>
+    </header>
+  );
+};
 
-            </nav>
-        </header>
-    )
-}
-
-export default MainNav
+export default MainNav;
