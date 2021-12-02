@@ -6,6 +6,7 @@
 4. [Requirements　🙏](#requirements-)
 5. [Getting Started　🎬](#getting-started-)
 6. [Tech Stack　🤖](#tech-stack-)
+7. [Future Feature 🔮](#future-feature)
 
 # About 💁
 An ecommerse full-stack application that lets you choose what products to add in the cart for you to buy, follow shops that you are interested in and find products that are popular and hit now.
@@ -62,6 +63,12 @@ npm run dev
 #### 5. Let's get started!
 
 # Tech Stack 🤖  
-|<img src="https://user-images.githubusercontent.com/83794734/143388086-2f543482-4c32-4d1b-9c10-00ea95769c8c.png" alt="React image" width="100">|<img src="https://user-images.githubusercontent.com/83794734/143385316-257a292f-799f-493e-967e-d721a2771734.png" alt="Redux image" width="100">|<img src="https://user-images.githubusercontent.com/83794734/143388023-1728a310-6365-4572-8dd3-8b3e29b7c99e.png" alt="Bulma image" width="100">|<img src="https://user-images.githubusercontent.com/83794734/143400683-4ad4938b-6696-43b3-929c-95d3f4d4d7cf.png" alt="Netlify image" width="100">|
-|---|---|---|---|
-|[React](https://reactjs.org/)|[Redux](https://redux-toolkit.js.org/)|[Postgres](https://www.postgresql.org/)|[netlify](https://www.netlify.com/)|
+1. React
+2. Redux
+3. PostgreSQL
+4. Node.js
+5. Express.js
+6. Cloudinary
+
+# Future Feature
+In the future I want to implement Stripe API to enable buyers to pay online
