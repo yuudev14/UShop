@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../styles/buyPage/cart.scss";
 import HomeProductList from "../components/home/homeProductList";
 import CartProduct from "../components/cart/cartProduct";
@@ -13,8 +13,8 @@ import { checkAllCartAction } from "../reduxStore/actions/cartAction";
 
 const Cart = () => {
   const productLists = useSelector((state) => state.ushopProductLists);
-  const auth = useSelector((state) => state.cart);
-  const cart = useSelector((state) => state.auth);
+  const cart = useSelector((state) => state.cart);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const Cart = () => {
     return () => {
       dispatch(resetProductListAction());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

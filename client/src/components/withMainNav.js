@@ -8,7 +8,7 @@ import RegisterShop from "../pages/registerShop";
 import Shop from "../pages/shop";
 import UshopAuth from "../pages/ushopAuth";
 import MainNav from "./nav/main_nav";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import BuyerAllOrders from "../pages/buyerAllOrders";
 import ToShip from "../pages/toShip";

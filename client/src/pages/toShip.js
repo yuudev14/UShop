@@ -15,7 +15,7 @@ const ToShip = () => {
     return () => {
       dispatch(resetBuyerOrderAction());
     };
-  }, []);
+  }, [dispatch]);
   return (
     <div className="allOrders">
       <h1>Orders</h1>

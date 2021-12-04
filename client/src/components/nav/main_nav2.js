@@ -64,7 +64,7 @@ const MainNav2 = () => {
                 <Link
                   to={`/product/${prod.product_id}`}
                   onClick={() => setSearchInput("")}>
-                  <img src={prod.images} />
+                  <img src={prod.images} alt="product" />
                   <div className="info">
                     <h4>{prod.product_name}</h4>
                   </div>
@@ -80,7 +80,7 @@ const MainNav2 = () => {
                 <Link
                   to={`/shop/${shop.shop_name}`}
                   onClick={() => setSearchInput("")}>
-                  <img src={shop.logo} />
+                  <img src={shop.logo} alt="logo" />
                   <div className="info">
                     <h4>{shop.shop_name}</h4>
                   </div>
@@ -92,7 +92,7 @@ const MainNav2 = () => {
       </div>
 
       <Link to="/cart" className="cartIcon">
-        <i class="fa fa-shopping-cart"></i>
+        <i className="fa fa-shopping-cart"></i>
         <p>{cart.length > 0 ? cart.length : null}</p>
       </Link>
     </div>

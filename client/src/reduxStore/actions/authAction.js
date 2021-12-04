@@ -71,7 +71,7 @@ export const verifyHasShop = () => {
       let auth;
       if (uShoptoken) {
         if (uShoptoken.token) {
-          const verifySellerRequest = await axios.get("/auth/has-shop", {
+          await axios.get("/auth/has-shop", {
             headers: {
               token: uShoptoken.token,
             },
@@ -108,7 +108,7 @@ export const verifyToken = () => {
       let auth;
       if (uShoptoken) {
         if (uShoptoken) {
-          const verifySellerRequest = await axios.post(
+          await axios.post(
             "/auth/verify-token",
             {},
             {

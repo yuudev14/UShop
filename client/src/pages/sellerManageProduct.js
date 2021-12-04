@@ -40,6 +40,7 @@ const SellerManageProduct = () => {
 
   useEffect(() => {
     getProductInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const manageProduct = (e) => {

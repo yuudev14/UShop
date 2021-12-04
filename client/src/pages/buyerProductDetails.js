@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import ProductDetails from "../components/productDetail";
 import BuyerProductDetailOptions from "../components/buyerProductDetailOptions";
 import "../styles/buyPage/buyerProductDetail.scss";
@@ -41,6 +41,7 @@ const BuyerProductDetails = () => {
   };
   useEffect(() => {
     getProductInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -29,7 +29,8 @@ const PopularCategory = () => {
               i === 0
                 ? "mostPopularCategory categoryContent"
                 : "category categoryContent"
-            }>
+            }
+            key={category.category_name}>
             <h3>{category.category_name}</h3>
             <p>{category.products} products</p>
           </Link>

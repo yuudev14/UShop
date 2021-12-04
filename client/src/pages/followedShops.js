@@ -21,7 +21,7 @@ const FollowedShops = () => {
         {followedShops.map((shop) => (
           <Link to={`/shop/${shop.shop_name}`} className="shop">
             <div className="shop_logo">
-              <img src={shop.logo} />
+              <img src={shop.logo} alt="logo" />
             </div>
             <h2>{shop.shop_name}</h2>
           </Link>

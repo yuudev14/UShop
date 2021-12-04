@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { deleteProductAction } from "../../reduxStore/actions/sellerAction";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";

@@ -16,7 +16,7 @@ const SellerOutOfStockProducts = () => {
     return () => {
       dispatch(resetSellerProductsAction());
     };
-  }, []);
+  }, [dispatch]);
   return (
     <div className="sellerOutOfStockProducts">
       <h1>Out of Stock</h1>

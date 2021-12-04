@@ -34,6 +34,7 @@ const Shop = () => {
     return () => {
       dispatch(resetProductListAction());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ const Shop = () => {
         <div className="shopNameAndImg">
           <div className="background" ref={shopAndImage}></div>
           <div className="shopName">
-            <img src={shopDetails.logo} />
+            <img src={shopDetails.logo} alt="logo" />
             <h3>{shopDetails.shop_name}</h3>
           </div>
           {auth.isAuth === true && (

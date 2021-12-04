@@ -15,7 +15,7 @@ const PendingOrder = () => {
     return () => {
       dispatch(resetOrdersAction());
     };
-  }, []);
+  }, [dispatch]);
   return (
     <div className="pendingOrderContainer">
       <div className="pendingOrderList">
@@ -37,7 +37,7 @@ const PendingOrder = () => {
             {pendingOrders.map((order) => (
               <tr>
                 <td>
-                  <img src={order.image} />
+                  <img src={order.image} alt="order" />
                 </td>
                 <td>{order.product_name}</td>
                 <td>{order.order_number}</td>

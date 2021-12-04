@@ -48,7 +48,7 @@ const Seller_nav = () => {
         <ul className="sellerNavMainList" ref={sellerMainNav}>
           <i onClick={openSellerMainNav} className="fa fa-close"></i>
           {nav.map((li) => (
-            <li className="main-li">
+            <li className="main-li" key={li.li}>
               {li.li} <i className="fa fa-angle-down"></i>
               {li.dropdown.length > 0 && (
                 <ul className="seller_dropdown">

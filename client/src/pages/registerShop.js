@@ -148,7 +148,7 @@ const RegisterShop = () => {
           />
           <div className="sampleImages">
             {shopInfo.sampleImages !== "" && (
-              <img src={shopInfo.sampleImages} />
+              <img src={shopInfo.sampleImages} alt="shop" />
             )}
           </div>
         </div>
@@ -167,9 +167,4 @@ const RegisterShop = () => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    registerShopDispatch: (data) => dispatch(registerShopAction(data)),
-  };
-};
 export default RegisterShop;

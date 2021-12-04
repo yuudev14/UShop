@@ -11,6 +11,7 @@ const CategoryProducts = () => {
 
   useEffect(() => {
     dispatch(getCategoryProductsAction("popular", category));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="categoryProducts">

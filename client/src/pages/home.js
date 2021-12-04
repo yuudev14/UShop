@@ -17,6 +17,7 @@ const Home = () => {
     return () => {
       dispatch(resetProductListAction());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

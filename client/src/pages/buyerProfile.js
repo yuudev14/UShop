@@ -16,7 +16,7 @@ const BuyerProfile = () => {
     return () => {
       dispatch(resetProductListAction());
     };
-  }, []);
+  }, [dispatch]);
   return (
     <div className="buyerProfile">
       <OrdersProcess />

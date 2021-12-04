@@ -22,7 +22,7 @@ const MostPopular = () => {
       <h1>Most Popular</h1>
       <div className="productList">
         {mostPopularProducts.map((prod) => (
-          <Link to={`/product/${prod.product_id}`}>
+          <Link to={`/product/${prod.product_id}`} key={prod.product_id}>
             <div className="product">
               <div className="productImg">
                 <img src={prod.images} alt="images" />

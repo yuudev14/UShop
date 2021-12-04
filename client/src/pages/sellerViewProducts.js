@@ -17,7 +17,7 @@ const ViewProducts = () => {
     return () => {
       dispatch(resetSellerProductsAction());
     };
-  }, []);
+  }, [dispatch]);
   return (
     <div className="viewSellerProducts">
       <SellerViewForm />

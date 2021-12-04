@@ -98,7 +98,10 @@ const HomeProductList = () => {
 
       <div className="productContainer">
         {productLists.map((prod) => (
-          <Link className="product" to={`/product/${prod.product_id}`}>
+          <Link
+            className="product"
+            to={`/product/${prod.product_id}`}
+            key={prod.product_id}>
             <div className="prev-img">
               <img src={prod.images} alt="product" />
             </div>

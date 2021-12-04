@@ -35,7 +35,7 @@ const MainNav1 = () => {
       <ul>
         <p>follow us on:</p>
         {socialMedia.map((social) => (
-          <li>
+          <li key={social}>
             <i className={`fa fa-${social}`}></i>
           </li>
         ))}
@@ -48,7 +48,7 @@ const MainNav1 = () => {
           Categories
           <ul>
             {category.map((li) => (
-              <Link to={`/category/${li.category_name}`}>
+              <Link to={`/category/${li.category_name}`} key={li.category_name}>
                 <li>{li.category_name}</li>
               </Link>
             ))}
