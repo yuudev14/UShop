@@ -172,6 +172,11 @@ INSERT INTO category (
 ) VALUES (
     'Watches'
 );
+INSERT INTO category (
+    category_name
+) VALUES (
+    'Clothes'
+);
 
 CREATE TABLE shops (
     shop_id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
